@@ -1,6 +1,7 @@
 # vat-opt-out-frontend
 
-[![Build Status](https://travis-ci.org/hmrc/vat-opt-out-frontend.svg)](https://travis-ci.org/hmrc/vat-correspondence-details-frontend) [ ![Download](https://api.bintray.com/packages/hmrc/releases/vat-correspondence-details-frontend/images/download.svg) ](https://bintray.com/hmrc/releases/vat-correspondence-details-frontend/_latestVersion)
+[![Build Status](https://travis-ci.org/hmrc/vat-opt-out-frontend.svg)](https://travis-ci.org/hmrc/vat-opt-out-frontend) [ ![Download](https://api.bintray.com/packages/hmrc/releases/vat-opt-out-frontend/images/download.svg) ](https://bintray.com/hmrc/releases/vat-opt-out-frontend/_latestVersion)
+
 
 ## Summary
 
