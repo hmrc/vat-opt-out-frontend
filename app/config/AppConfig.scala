@@ -16,24 +16,32 @@
 
 package config
 
+import com.google.inject.ImplementedBy
 import javax.inject.{Inject, Singleton}
-
 import play.api.{Configuration, Environment}
 import play.api.Mode.Mode
 import uk.gov.hmrc.play.config.ServicesConfig
 
+@ImplementedBy(classOf[FrontendAppConfig])
+trait AppConfig extends ServicesConfig {
+  val contactHost: String
+  val assetsPrefix: String
+  val analyticsToken: String
+  val analyticsHost: String
+  val reportAProblemPartialUrl: String
+  val reportAProblemNonJSUrl: String
+}
+
 @Singleton
-class AppConfig @Inject()(val runModeConfiguration: Configuration, environment: Environment) extends ServicesConfig {
+class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, environment: Environment) extends AppConfig {
   override protected def mode: Mode = environment.mode
 
-  private def loadConfig(key: String) = runModeConfiguration.getString(key).getOrElse(throw new Exception(s"Missing configuration key: $key"))
+  lazy val contactHost = runModeConfiguration.getString(s"contact-frontend.host").getOrElse("")
+  lazy val contactFormServiceIdentifier = "VATC"
 
-  private val contactHost = runModeConfiguration.getString(s"contact-frontend.host").getOrElse("")
-  private val contactFormServiceIdentifier = "MyService"
-
-  lazy val assetsPrefix = loadConfig(s"assets.url") + loadConfig(s"assets.version")
-  lazy val analyticsToken = loadConfig(s"google-analytics.token")
-  lazy val analyticsHost = loadConfig(s"google-analytics.host")
+  lazy val assetsPrefix = getString(s"assets.url") + getString(s"assets.version")
+  lazy val analyticsToken = getString(s"google-analytics.token")
+  lazy val analyticsHost = getString(s"google-analytics.host")
   lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
   lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
 }

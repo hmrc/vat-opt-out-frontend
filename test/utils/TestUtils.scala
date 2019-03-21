@@ -14,28 +14,22 @@
  * limitations under the License.
  */
 
-package controllers
+package utils
 
-import play.api.http.Status
-import play.api.test.Helpers._
-import utils.TestUtils
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import play.api.inject.Injector
+import play.api.test.FakeRequest
+import uk.gov.hmrc.play.test.UnitSpec
 
+trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
 
-class HelloWorldControllerSpec extends TestUtils {
+  implicit val request = FakeRequest()
 
-  val controller = new HelloWorld(messagesApi, appConfig)
+  lazy val injector: Injector = app.injector
+  lazy val messagesApi: MessagesApi = injector.instanceOf[MessagesApi]
+  implicit lazy val messages: Messages = Messages(Lang("en-GB"), messagesApi)
 
-  "GET /" should {
-    "return 200" in {
-      val result = controller.helloWorld(request)
-      status(result) shouldBe Status.OK
-    }
+  implicit val appConfig = new mocks.MockAppConfig(app.configuration)
 
-    "return HTML" in {
-      val result = controller.helloWorld(request)
-      contentType(result) shouldBe Some("text/html")
-      charset(result) shouldBe Some("utf-8")
-    }
-
-  }
 }

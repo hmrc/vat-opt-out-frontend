@@ -34,7 +34,8 @@ def test(scope:String = "test,it"): Seq[ModuleID] = Seq(
   "org.jsoup"               %  "jsoup"                    % "1.11.3"                % scope,
   "com.typesafe.play"       %% "play-test"                % current                 % scope,
   "org.pegdown"             %  "pegdown"                  % "1.6.0"                 % scope,
-  "org.scalatestplus.play"  %% "scalatestplus-play"       % "2.0.1"                 % scope
+  "org.scalatestplus.play"  %% "scalatestplus-play"       % "2.0.1"                 % scope,
+  "uk.gov.hmrc"             %% "hmrctest"                 % "3.3.0"                 % scope
 )
 
 lazy val appDependencies:Seq[ModuleID] = compile ++ test()
@@ -45,6 +46,32 @@ def oneForkedJvmPerTest(tests: Seq[TestDefinition]): Seq[Group] = tests map {
   ))
 }
 
+lazy val coverageSettings: Seq[Setting[_]] = {
+  import scoverage.ScoverageKeys
+
+  val excludedPackages = Seq(
+    "<empty>",
+    "Reverse.*",
+    ".*standardError*.*",
+    ".*govuk_wrapper*.*",
+    ".*main_template*.*",
+    "uk.gov.hmrc.BuildInfo",
+    "app.*",
+    "views.html.templates.formatters.*",
+    "prod.*",
+    "config.*",
+    "testOnly.*",
+    "testOnlyDoNotUseInAppConf.*",
+    ".*feedback*.*")
+
+  Seq(
+    ScoverageKeys.coverageExcludedPackages := excludedPackages.mkString(";"),
+    ScoverageKeys.coverageMinimum := 90,
+    ScoverageKeys.coverageFailOnMinimum := true,
+    ScoverageKeys.coverageHighlighting := true
+  )
+}
+
 lazy val microservice = Project(appName, file("."))
   .enablePlugins(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin, SbtArtifactory)
   .settings(
@@ -53,6 +80,7 @@ lazy val microservice = Project(appName, file("."))
     PlayKeys.playDefaultPort         := 9166
   )
   .settings(publishingSettings: _*)
+  .settings(coverageSettings: _*)
   .configs(IntegrationTest)
   .settings(integrationTestSettings(): _*)
   .settings(

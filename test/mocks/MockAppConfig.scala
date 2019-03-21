@@ -14,28 +14,19 @@
  * limitations under the License.
  */
 
-package controllers
+package mocks
 
-import play.api.http.Status
-import play.api.test.Helpers._
-import utils.TestUtils
+import config.AppConfig
+import play.api.{Configuration, Mode}
+import play.api.Mode.Mode
 
+class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mode.Test) extends AppConfig {
+  override val contactHost = ""
+  override val assetsPrefix = ""
+  override val analyticsToken = ""
+  override val analyticsHost = ""
+  override val reportAProblemPartialUrl = ""
+  override val reportAProblemNonJSUrl = ""
 
-class HelloWorldControllerSpec extends TestUtils {
-
-  val controller = new HelloWorld(messagesApi, appConfig)
-
-  "GET /" should {
-    "return 200" in {
-      val result = controller.helloWorld(request)
-      status(result) shouldBe Status.OK
-    }
-
-    "return HTML" in {
-      val result = controller.helloWorld(request)
-      contentType(result) shouldBe Some("text/html")
-      charset(result) shouldBe Some("utf-8")
-    }
-
-  }
 }
+
