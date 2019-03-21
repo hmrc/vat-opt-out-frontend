@@ -1,5 +1,5 @@
 # Add all the application routes to the app.routes file
-->         /vat-opt-out-frontend              app.Routes
+->         /vat-through-software/account/opt-out              app.Routes
 ->         /                          health.Routes
 ->     	   /template                  template.Routes
 
