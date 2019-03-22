@@ -16,7 +16,6 @@
 
 package config
 
-import mocks.MockAppConfig
 import play.api.{Application, Configuration}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.Results.Ok
@@ -26,8 +25,6 @@ import play.api.test.Helpers._
 import utils.TestUtils
 
 class WhitelistFilterSpec extends TestUtils {
-
-  lazy val mockAppConfig = new MockAppConfig(app.configuration)
 
   override implicit lazy val app: Application =
     new GuiceApplicationBuilder()
@@ -57,7 +54,7 @@ class WhitelistFilterSpec extends TestUtils {
       }
 
       "redirect to shutter page" in {
-        redirectLocation(result) shouldBe Some(mockAppConfig.shutterPage)
+        redirectLocation(result) shouldBe Some(appConfig.shutterPage)
       }
     }
 
