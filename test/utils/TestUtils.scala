@@ -31,6 +31,6 @@ trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
   lazy val messagesApi: MessagesApi = injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = Messages(Lang("en-GB"), messagesApi)
 
-  implicit val appConfig: MockAppConfig = new mocks.MockAppConfig(app.configuration)
+  implicit val appConfig: MockAppConfig = new MockAppConfig(app.configuration)
 
 }

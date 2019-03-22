@@ -14,15 +14,10 @@
  * limitations under the License.
  */
 
-package config
+package services
 
-object ConfigKeys {
+import javax.inject.{Inject, Singleton}
+import uk.gov.hmrc.auth.core.{AuthConnector, AuthorisedFunctions}
 
-  val whitelistEnabled: String = "whitelist.enabled"
-  val whitelistedIps: String = "whitelist.allowedIps"
-  val whitelistExcludedPaths: String = "whitelist.excludedPaths"
-  val whitelistShutterPage: String = "whitelist.shutter-page-url"
-  val vatOptOutServiceUrl: String = "vat-opt-out-frontend.url"
-  val vatOptOutServicePath: String = "vat-opt-out-frontend.path"
-  val signInBaseUrl: String = "signIn.url"
-}
+@Singleton
+class EnrolmentsAuthService @Inject()(val authConnector: AuthConnector) extends AuthorisedFunctions
