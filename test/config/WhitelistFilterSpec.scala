@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package config.filters
+package config
 
 import mocks.MockAppConfig
-import org.scalatestplus.play.PlaySpec
-import org.scalatestplus.play.guice.GuiceOneServerPerSuite
 import play.api.{Application, Configuration}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.Results.Ok
 import play.api.mvc.{Action, Call}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import utils.TestUtils
 
-class WhitelistFilterSpec extends PlaySpec with GuiceOneServerPerSuite {
+class WhitelistFilterSpec extends TestUtils {
 
   lazy val mockAppConfig = new MockAppConfig(app.configuration)
 
@@ -54,11 +53,11 @@ class WhitelistFilterSpec extends PlaySpec with GuiceOneServerPerSuite {
       lazy val Some(result) = route(app, fakeRequest)
 
       "return status of 303" in {
-        status(result) mustBe 303
+        status(result) shouldBe 303
       }
 
       "redirect to shutter page" in {
-        redirectLocation(result) mustBe Some(mockAppConfig.shutterPage)
+        redirectLocation(result) shouldBe Some(mockAppConfig.shutterPage)
       }
     }
 
@@ -71,11 +70,11 @@ class WhitelistFilterSpec extends PlaySpec with GuiceOneServerPerSuite {
       lazy val Some(result) = route(app, fakeRequest)
 
       "return status of 200" in {
-        status(result) mustBe 200
+        status(result) shouldBe 200
       }
 
       "return success" in {
-        contentAsString(result) mustBe "success"
+        contentAsString(result) shouldBe "success"
       }
     }
   }
