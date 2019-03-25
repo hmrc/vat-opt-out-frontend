@@ -41,8 +41,8 @@ trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
   implicit val system: ActorSystem = ActorSystem("Sys")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
   implicit val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
+
   lazy val requestWithClientVRN: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest().withSession(SessionKeys.clientVrn -> "123456789")
-
   lazy val mockErrorHandler: ErrorHandler = new ErrorHandler(messagesApi, appConfig)
 }

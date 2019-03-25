@@ -39,7 +39,6 @@ trait AppConfig extends ServicesConfig {
   val whitelistedIps: Seq[String]
   val whitelistExcludedPaths: Seq[Call]
   val shutterPage: String
-  val signInContinueUrl: String
   val vatOptOutServiceUrl: String
   val vatOptOutServicePath: String
   val signInUrl: String
@@ -58,7 +57,7 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
   lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
   lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
 
-  override lazy val signInContinueUrl: String = ContinueUrl(vatOptOutServicePath).encodedUrl
+  private lazy val signInContinueUrl: String = ContinueUrl(vatOptOutServicePath).encodedUrl
   private lazy val signInBaseUrl: String = getString(Keys.signInBaseUrl)
   private lazy val signInOrigin = getString("appName")
   override lazy val signInUrl: String = s"$signInBaseUrl?continue=$signInContinueUrl&origin=$signInOrigin"

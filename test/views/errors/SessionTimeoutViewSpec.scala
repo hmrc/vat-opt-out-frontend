@@ -27,21 +27,27 @@ class SessionTimeoutViewSpec extends ViewBaseSpec {
     lazy val view = views.html.errors.sessionTimeout()
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
-    s"have the correct document title" in {
+    "have the correct document title" in {
       document.title shouldBe "Your session has timed out"
     }
 
-    s"have the correct page heading" in {
+    "have the correct page heading" in {
       elementText("#content h1") shouldBe "Your session has timed out"
     }
 
-    s"have the correct instructions on the page" in {
+    "have the correct instructions on the page" in {
       elementText("#content p") shouldBe "To manage your VAT account, you will have to sign in using your Government Gateway ID."
     }
 
-    s"have a link to the correct sign in url" in {
-      element("a:nth-of-type(2)").attr("href") shouldBe appConfig.signInContinueUrl
+    "have a link to sign in" should {
 
+      "have the correct text" in {
+        elementText("#content a") shouldBe "sign in"
+      }
+
+      "have the correct href" in {
+        element("#content a").attr("href") shouldBe appConfig.signInUrl
+      }
     }
   }
 }

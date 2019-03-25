@@ -75,7 +75,7 @@ class AuthoriseAsAgentPredicateSpec extends MockAuth {
       lazy val result = await(target(requestWithClientVRN))
 
       "return Internal Server Error (500)" in {
-        mockAgentWithoutAffinity()
+        mockAgentWithoutEnrolment()
         status(result) shouldBe Status.INTERNAL_SERVER_ERROR
       }
 
