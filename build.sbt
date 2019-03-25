@@ -32,12 +32,13 @@ val compile = Seq(
 )
 
 def test(scope:String = "test,it"): Seq[ModuleID] = Seq(
-  "org.scalatest"           %% "scalatest"                % "3.0.7"                 % scope,
-  "org.jsoup"               %  "jsoup"                    % "1.11.3"                % scope,
-  "com.typesafe.play"       %% "play-test"                % current                 % scope,
-  "org.pegdown"             %  "pegdown"                  % "1.6.0"                 % scope,
-  "org.scalatestplus.play"  %% "scalatestplus-play"       % "2.0.1"                 % scope,
-  "uk.gov.hmrc"             %% "hmrctest"                 % "3.3.0"                 % scope
+  "org.scalatest"           %% "scalatest"                   % "3.0.7"                 % scope,
+  "org.jsoup"               %  "jsoup"                       % "1.11.3"                % scope,
+  "com.typesafe.play"       %% "play-test"                   % current                 % scope,
+  "org.pegdown"             %  "pegdown"                     % "1.6.0"                 % scope,
+  "org.scalatestplus.play"  %% "scalatestplus-play"          % "2.0.1"                 % scope,
+  "uk.gov.hmrc"             %% "hmrctest"                    % "3.3.0"                 % scope,
+  "org.mockito"             %  "mockito-core"                % "2.7.17"                % scope
 )
 
 lazy val appDependencies:Seq[ModuleID] = compile ++ test()
@@ -68,7 +69,7 @@ lazy val coverageSettings: Seq[Setting[_]] = {
 
   Seq(
     ScoverageKeys.coverageExcludedPackages := excludedPackages.mkString(";"),
-    ScoverageKeys.coverageMinimum := 90,
+    ScoverageKeys.coverageMinimum := 95,
     ScoverageKeys.coverageFailOnMinimum := true,
     ScoverageKeys.coverageHighlighting := true
   )
