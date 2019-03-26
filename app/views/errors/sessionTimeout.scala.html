@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,17 +12,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package config
+@()(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig)
 
-object ConfigKeys {
+@views.html.main_template(title = messages("sessionTimeout.title"), bodyClasses = None) {
 
-  val whitelistEnabled: String = "whitelist.enabled"
-  val whitelistedIps: String = "whitelist.allowedIps"
-  val whitelistExcludedPaths: String = "whitelist.excludedPaths"
-  val whitelistShutterPage: String = "whitelist.shutter-page-url"
-  val vatOptOutServiceUrl: String = "vat-opt-out-frontend.url"
-  val vatOptOutServicePath: String = "vat-opt-out-frontend.path"
-  val signInBaseUrl: String = "signIn.url"
+  <h1>@messages("sessionTimeout.title")</h1>
+
+  <p>@messages("sessionTimeout.helpOne")
+     <a href=@appConfig.signInUrl>@messages("sessionTimeout.helpTwo")</a>
+     @messages("sessionTimeout.helpThree")
+  </p>
+
 }

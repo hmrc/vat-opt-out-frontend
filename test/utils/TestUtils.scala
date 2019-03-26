@@ -16,21 +16,33 @@
 
 package utils
 
+import akka.actor.ActorSystem
+import akka.stream.ActorMaterializer
+import common.SessionKeys
+import config.ErrorHandler
 import mocks.MockAppConfig
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.inject.Injector
+import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import uk.gov.hmrc.play.test.UnitSpec
 
-trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
+import scala.concurrent.ExecutionContext
 
-  implicit val request = FakeRequest()
+trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
 
   lazy val injector: Injector = app.injector
   lazy val messagesApi: MessagesApi = injector.instanceOf[MessagesApi]
+
   implicit lazy val messages: Messages = Messages(Lang("en-GB"), messagesApi)
+  implicit val ec: ExecutionContext = injector.instanceOf[ExecutionContext]
+  implicit val appConfig: MockAppConfig = new MockAppConfig(app.configuration)
+  implicit val system: ActorSystem = ActorSystem("Sys")
+  implicit val materializer: ActorMaterializer = ActorMaterializer()
+  implicit val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
 
-  implicit val appConfig: MockAppConfig = new mocks.MockAppConfig(app.configuration)
-
+  lazy val requestWithClientVRN: FakeRequest[AnyContentAsEmpty.type] =
+    FakeRequest().withSession(SessionKeys.clientVrn -> "123456789")
+  lazy val mockErrorHandler: ErrorHandler = new ErrorHandler(messagesApi, appConfig)
 }

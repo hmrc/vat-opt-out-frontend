@@ -27,16 +27,18 @@ val compile = Seq(
   "uk.gov.hmrc"             %% "govuk-template"           % "5.30.0-play-25",
   "uk.gov.hmrc"             %% "play-ui"                  % "7.33.0-play-25",
   "uk.gov.hmrc"             %% "play-whitelist-filter"    % "2.0.0",
+  "uk.gov.hmrc"             %% "auth-client"              % "2.17.0-play-25",
   "uk.gov.hmrc"             %% "bootstrap-play-25"        % "4.9.0"
 )
 
 def test(scope:String = "test,it"): Seq[ModuleID] = Seq(
-  "org.scalatest"           %% "scalatest"                % "3.0.7"                 % scope,
-  "org.jsoup"               %  "jsoup"                    % "1.11.3"                % scope,
-  "com.typesafe.play"       %% "play-test"                % current                 % scope,
-  "org.pegdown"             %  "pegdown"                  % "1.6.0"                 % scope,
-  "org.scalatestplus.play"  %% "scalatestplus-play"       % "2.0.1"                 % scope,
-  "uk.gov.hmrc"             %% "hmrctest"                 % "3.3.0"                 % scope
+  "org.scalatest"           %% "scalatest"                   % "3.0.7"                 % scope,
+  "org.jsoup"               %  "jsoup"                       % "1.11.3"                % scope,
+  "com.typesafe.play"       %% "play-test"                   % current                 % scope,
+  "org.pegdown"             %  "pegdown"                     % "1.6.0"                 % scope,
+  "org.scalatestplus.play"  %% "scalatestplus-play"          % "2.0.1"                 % scope,
+  "uk.gov.hmrc"             %% "hmrctest"                    % "3.3.0"                 % scope,
+  "org.mockito"             %  "mockito-core"                % "2.7.17"                % scope
 )
 
 lazy val appDependencies:Seq[ModuleID] = compile ++ test()
@@ -67,7 +69,7 @@ lazy val coverageSettings: Seq[Setting[_]] = {
 
   Seq(
     ScoverageKeys.coverageExcludedPackages := excludedPackages.mkString(";"),
-    ScoverageKeys.coverageMinimum := 90,
+    ScoverageKeys.coverageMinimum := 95,
     ScoverageKeys.coverageFailOnMinimum := true,
     ScoverageKeys.coverageHighlighting := true
   )

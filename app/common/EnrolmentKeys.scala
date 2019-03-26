@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package config
+package common
 
-object ConfigKeys {
-
-  val whitelistEnabled: String = "whitelist.enabled"
-  val whitelistedIps: String = "whitelist.allowedIps"
-  val whitelistExcludedPaths: String = "whitelist.excludedPaths"
-  val whitelistShutterPage: String = "whitelist.shutter-page-url"
-  val vatOptOutServiceUrl: String = "vat-opt-out-frontend.url"
-  val vatOptOutServicePath: String = "vat-opt-out-frontend.path"
-  val signInBaseUrl: String = "signIn.url"
+object EnrolmentKeys {
+  val vatEnrolmentId: String = "HMRC-MTD-VAT"
+  val vatIdentifierId: String = "VRN"
+  val agentEnrolmentId: String = "HMRC-AS-AGENT"
+  val agentIdentifierId: String = "AgentReferenceNumber"
+  val agentAffinityGroup: String = "Agent"
+  val mtdVatDelegatedAuthRule: String = "mtd-vat-auth"
 }
