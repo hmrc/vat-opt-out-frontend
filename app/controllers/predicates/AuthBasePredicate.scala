@@ -17,10 +17,10 @@
 package controllers.predicates
 
 import common.EnrolmentKeys
-import controllers.BaseController
+import controllers.ControllerBase
 import uk.gov.hmrc.auth.core.AffinityGroup
 
-trait AuthBasePredicate extends BaseController {
+trait AuthBasePredicate extends ControllerBase {
 
   def isAgent(group: AffinityGroup): Boolean = group.toString.contains(EnrolmentKeys.agentAffinityGroup)
 

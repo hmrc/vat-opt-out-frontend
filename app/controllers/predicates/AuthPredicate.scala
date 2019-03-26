@@ -62,7 +62,7 @@ class AuthPredicate @Inject()(enrolmentsAuthService: EnrolmentsAuthService,
     }
   }
 
-  private[AuthPredicate] def checkAgentEnrolment[A](enrolments: Enrolments, block: User[A] => Future[Result])(implicit request: Request[A]) =
+  private def checkAgentEnrolment[A](enrolments: Enrolments, block: User[A] => Future[Result])(implicit request: Request[A]) =
     if (enrolments.enrolments.exists(_.key == EnrolmentKeys.agentEnrolmentId)) {
       Logger.debug("[AuthPredicate][checkAgentEnrolment] - Authenticating as agent")
       authenticateAsAgentWithClient.invokeBlock(request, block)
@@ -74,7 +74,7 @@ class AuthPredicate @Inject()(enrolmentsAuthService: EnrolmentsAuthService,
       Future.successful(errorHandler.showInternalServerError)
     }
 
-  private[AuthPredicate] def checkVatEnrolment[A](enrolments: Enrolments, block: User[A] => Future[Result])(implicit request: Request[A]) =
+  private def checkVatEnrolment[A](enrolments: Enrolments, block: User[A] => Future[Result])(implicit request: Request[A]) =
     if (enrolments.enrolments.exists(_.key == EnrolmentKeys.vatEnrolmentId)) {
       Logger.debug("[AuthPredicate][checkVatEnrolment] - Authenticated as principle")
       block(User(enrolments))

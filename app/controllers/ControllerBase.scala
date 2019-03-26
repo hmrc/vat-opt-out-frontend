@@ -19,4 +19,4 @@ package controllers
 import play.api.i18n.I18nSupport
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
-trait BaseController extends FrontendController with I18nSupport
+trait ControllerBase extends FrontendController with I18nSupport
