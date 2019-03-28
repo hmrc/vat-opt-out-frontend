@@ -1,3 +1,4 @@
 # microservice specific routes
 
+GET        /                        controllers.OptOutStartController.show()
 GET        /hello-world             controllers.HelloWorld.helloWorld

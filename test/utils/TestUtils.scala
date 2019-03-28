@@ -33,8 +33,8 @@ import scala.concurrent.ExecutionContext
 trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
 
   lazy val injector: Injector = app.injector
-  lazy val messagesApi: MessagesApi = injector.instanceOf[MessagesApi]
 
+  implicit lazy val messagesApi: MessagesApi = injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = Messages(Lang("en-GB"), messagesApi)
   implicit val ec: ExecutionContext = injector.instanceOf[ExecutionContext]
   implicit val appConfig: MockAppConfig = new MockAppConfig(app.configuration)

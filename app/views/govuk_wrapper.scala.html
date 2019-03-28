@@ -41,7 +41,7 @@
 
 @insideHeader = {
     @uiLayouts.header_nav(
-      navTitle = Some("vat-opt-out-frontend"),
+      navTitle = Some(messages("base.bta")),
       navTitleLink = None,
       showBetaLink = false,
       navLinks = Some(headerNavLinks))
@@ -61,9 +61,18 @@
 @footerTop = {}
 @footerLinks = {}
 
+@phaseBanner = {
+  <div class="beta-banner">
+    <p>
+      <strong id="phase" class="phase-tag">@messages("betaBanner.phaseName")</strong>
+      <span>@messages("betaBanner.newService") <a id="beta-banner-feedback" href="#">@messages("betaBanner.feedback")</a> @messages("betaBanner.feedbackImprove")</span>
+    </p>
+  </div>
+}
+
 @serviceInfo = {
     @uiLayouts.serviceInfo(
-      betaBanner = HtmlFormat.empty,
+      betaBanner = phaseBanner,
       includeGridWrapper = false,
       serviceInfoContent = Some(serviceInfoContent))
 }

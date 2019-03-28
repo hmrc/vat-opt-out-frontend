@@ -1,4 +1,19 @@
+base.back = Back
+base.continue = Continue
+base.bta = Business tax account
+
+betaBanner.phaseName = BETA
+betaBanner.newService = This is a new service – your
+betaBanner.feedback = feedback
+betaBanner.feedbackImprove = will help us to improve it.
+
 sessionTimeout.title = Your session has timed out
 sessionTimeout.helpOne = To manage your VAT account, you will have to
 sessionTimeout.helpTwo = sign in
 sessionTimeout.helpThree = using your Government Gateway ID.
+
+optOutStart.title = Opt out of Making Tax Digital
+optOutStart.chooseToOptOut = If you choose to opt out, you will:
+optOutStart.bullet1 = not be deregistering from VAT
+optOutStart.bullet2 = have to submit your VAT Returns using a different service
+optOutStart.bullet3 = have to join again if your taxable turnover goes above the VAT threshold
