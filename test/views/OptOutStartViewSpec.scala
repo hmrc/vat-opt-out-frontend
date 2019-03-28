@@ -57,7 +57,6 @@ class OptOutStartViewSpec extends ViewBaseSpec {
       }
 
       "have the correct href" in {
-        // TODO update test once the next page is implemented
         element(".button").attr("href") shouldBe "#"
       }
     }

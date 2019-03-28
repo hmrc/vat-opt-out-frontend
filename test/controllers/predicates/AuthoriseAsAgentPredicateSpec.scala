@@ -32,55 +32,71 @@ class AuthoriseAsAgentPredicateSpec extends MockAuth {
 
   "AuthoriseAsAgentWithClient" when {
 
-    "the agent is authorised with a Client VRN in session" should {
+    "there is a client VRN in session" when {
 
-      "return OK (200)" in {
-        mockAgentAuthorised()
-        val result = target(requestWithClientVRN)
-        status(result) shouldBe Status.OK
-      }
-    }
+      "the agent is authorised" should {
 
-    "the agent is not authenticated" should {
-
-      lazy val result = target(requestWithClientVRN)
-
-      "return Unauthorised (401)" in {
-        mockMissingBearerToken()
-        status(result) shouldBe Status.UNAUTHORIZED
+        "return OK (200)" in {
+          mockAgentAuthorised()
+          val result = target(requestWithClientVRN)
+          status(result) shouldBe Status.OK
+        }
       }
 
-      "render the Session Timeout page" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe "Your session has timed out"
-      }
-    }
+      "the agent is not authenticated" should {
 
-    "the agent is not authorised" should {
+        lazy val result = target(requestWithClientVRN)
 
-      lazy val result = target(requestWithClientVRN)
+        "return Unauthorised (401)" in {
+          mockMissingBearerToken()
+          status(result) shouldBe Status.UNAUTHORIZED
+        }
 
-      "return Internal Server Error (500)" in {
-        mockUnauthorised()
-        status(result) shouldBe Status.INTERNAL_SERVER_ERROR
-      }
-
-      "render the Standard Error page" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe "Sorry, we are experiencing technical difficulties - 500"
+        "render the Session Timeout page" in {
+          Jsoup.parse(bodyOf(result)).title shouldBe "Your session has timed out"
+        }
       }
 
-    }
+      "the agent is not authorised" should {
 
-    "the agent has no enrolments" should {
+        lazy val result = target(requestWithClientVRN)
 
-      lazy val result = await(target(requestWithClientVRN))
+        "return Internal Server Error (500)" in {
+          mockUnauthorised()
+          status(result) shouldBe Status.INTERNAL_SERVER_ERROR
+        }
 
-      "return Internal Server Error (500)" in {
-        mockAgentWithoutEnrolment()
-        status(result) shouldBe Status.INTERNAL_SERVER_ERROR
+        "render the Standard Error page" in {
+          Jsoup.parse(bodyOf(result)).title shouldBe "Sorry, we are experiencing technical difficulties - 500"
+        }
       }
 
-      "render the Internal Server Error page" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe "Sorry, we are experiencing technical difficulties - 500"
+      "the agent has no enrolments" should {
+
+        lazy val result = await(target(requestWithClientVRN))
+
+        "return Internal Server Error (500)" in {
+          mockAgentWithoutEnrolment()
+          status(result) shouldBe Status.INTERNAL_SERVER_ERROR
+        }
+
+        "render the Internal Server Error page" in {
+          Jsoup.parse(bodyOf(result)).title shouldBe "Sorry, we are experiencing technical difficulties - 500"
+        }
+      }
+
+      "the agent has no affinity group" should {
+
+        lazy val result = await(target(requestWithClientVRN))
+
+        "return Internal Server Error (500)" in {
+          mockAgentWithoutAffinity()
+          status(result) shouldBe Status.INTERNAL_SERVER_ERROR
+        }
+
+        "render the Internal Server Error page" in {
+          Jsoup.parse(bodyOf(result)).title shouldBe "Sorry, we are experiencing technical difficulties - 500"
+        }
       }
     }
 
