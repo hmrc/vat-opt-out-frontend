@@ -27,7 +27,6 @@ import play.api.mvc.Call
 import uk.gov.hmrc.play.binders.ContinueUrl
 import uk.gov.hmrc.play.config.ServicesConfig
 
-@ImplementedBy(classOf[FrontendAppConfig])
 trait AppConfig extends ServicesConfig {
   val contactHost: String
   val assetsPrefix: String
@@ -42,6 +41,7 @@ trait AppConfig extends ServicesConfig {
   val vatOptOutServiceUrl: String
   val vatOptOutServicePath: String
   val signInUrl: String
+  val manageVatUrl: String
 }
 
 @Singleton
@@ -74,4 +74,6 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
   override val vatOptOutServiceUrl: String = getString(Keys.vatOptOutServiceUrl)
   override val vatOptOutServicePath: String =
     vatOptOutServiceUrl + getString(Keys.vatOptOutServicePath)
+
+  override val manageVatUrl: String = getString(Keys.manageVatServiceUrl)
 }

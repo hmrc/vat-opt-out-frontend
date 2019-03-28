@@ -14,16 +14,28 @@
  * limitations under the License.
  */
 
-package config
+package controllers
 
-object ConfigKeys {
+import play.api.http.Status
+import play.api.test.Helpers._
+import utils.MockAuth
 
-  val whitelistEnabled: String = "whitelist.enabled"
-  val whitelistedIps: String = "whitelist.allowedIps"
-  val whitelistExcludedPaths: String = "whitelist.excludedPaths"
-  val whitelistShutterPage: String = "whitelist.shutter-page-url"
-  val vatOptOutServiceUrl: String = "vat-opt-out-frontend.url"
-  val vatOptOutServicePath: String = "vat-opt-out-frontend.path"
-  val signInBaseUrl: String = "signIn.url"
-  val manageVatServiceUrl: String = "manage-vat-subscription-frontend.url"
+class OptOutStartControllerSpec extends MockAuth {
+
+  val controller = new OptOutStartController(mockAuthPredicate)
+
+  ".show()" should {
+
+    mockIndividualAuthorised()
+    lazy val result = controller.show()(request)
+
+    "return 200" in {
+      status(result) shouldBe Status.OK
+    }
+
+    "return HTML" in {
+      contentType(result) shouldBe Some("text/html")
+      charset(result) shouldBe Some("utf-8")
+    }
+  }
 }

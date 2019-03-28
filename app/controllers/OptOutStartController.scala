@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-package config
+package controllers
 
-object ConfigKeys {
+import config.AppConfig
+import controllers.predicates.AuthPredicate
+import javax.inject.Inject
+import play.api.i18n.MessagesApi
+import play.api.mvc.{Action, AnyContent}
 
-  val whitelistEnabled: String = "whitelist.enabled"
-  val whitelistedIps: String = "whitelist.allowedIps"
-  val whitelistExcludedPaths: String = "whitelist.excludedPaths"
-  val whitelistShutterPage: String = "whitelist.shutter-page-url"
-  val vatOptOutServiceUrl: String = "vat-opt-out-frontend.url"
-  val vatOptOutServicePath: String = "vat-opt-out-frontend.path"
-  val signInBaseUrl: String = "signIn.url"
-  val manageVatServiceUrl: String = "manage-vat-subscription-frontend.url"
+import scala.concurrent.Future
+
+class OptOutStartController @Inject()(authenticate: AuthPredicate)
+                                     (implicit val appConfig: AppConfig,
+                                      val messagesApi: MessagesApi) extends ControllerBase {
+
+  def show(): Action[AnyContent] = authenticate.async { implicit request =>
+    Future.successful(Ok(views.html.optOutStart()))
+  }
 }

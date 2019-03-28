@@ -16,14 +16,13 @@
 
 package config
 
-object ConfigKeys {
+import com.google.inject.AbstractModule
+import services.EnrolmentsAuthService
+import uk.gov.hmrc.auth.core.AuthorisedFunctions
 
-  val whitelistEnabled: String = "whitelist.enabled"
-  val whitelistedIps: String = "whitelist.allowedIps"
-  val whitelistExcludedPaths: String = "whitelist.excludedPaths"
-  val whitelistShutterPage: String = "whitelist.shutter-page-url"
-  val vatOptOutServiceUrl: String = "vat-opt-out-frontend.url"
-  val vatOptOutServicePath: String = "vat-opt-out-frontend.path"
-  val signInBaseUrl: String = "signIn.url"
-  val manageVatServiceUrl: String = "manage-vat-subscription-frontend.url"
+class DIModule extends AbstractModule {
+  def configure(): Unit = {
+    bind(classOf[AppConfig]).to(classOf[FrontendAppConfig]).asEagerSingleton()
+    bind(classOf[AuthorisedFunctions]).to(classOf[EnrolmentsAuthService]).asEagerSingleton()
+  }
 }
