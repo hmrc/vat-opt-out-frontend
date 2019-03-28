@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,18 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@()(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig)
+package assets
 
-@main_template(title = messages("cannotOptOut.title")) {
+import models.ErrorModel
+import play.api.http.Status.INTERNAL_SERVER_ERROR
 
-<a class="link-back" href="@routes.TurnoverThresholdController.show().url">@messages("base.back")</a>
-
-<h1>@messages("cannotOptOut.title")</h1>
-
-<p>@messages("cannotOptOut.explanation")</p>
-
-<a class="button" type="submit" href="@appConfig.manageVatUrl">@messages("cannotOptOut.return")</a>
-
+object BaseTestConstants {
+  val testVrn = "123456789"
+  val errorModel = ErrorModel(INTERNAL_SERVER_ERROR, "Fail")
 }

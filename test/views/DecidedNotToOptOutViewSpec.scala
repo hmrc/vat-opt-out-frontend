@@ -52,7 +52,7 @@ class DecidedNotToOptOutViewSpec extends ViewBaseSpec {
       }
 
       "has the correct href" in {
-        element(".link-back").attr("href") shouldBe "#"
+        element(".link-back").attr("href") shouldBe controllers.routes.ConfirmOptOutController.show().url
       }
     }
   }

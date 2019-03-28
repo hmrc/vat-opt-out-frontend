@@ -38,7 +38,8 @@ def test(scope:String = "test,it"): Seq[ModuleID] = Seq(
   "org.pegdown"             %  "pegdown"                     % "1.6.0"                 % scope,
   "org.scalatestplus.play"  %% "scalatestplus-play"          % "2.0.1"                 % scope,
   "uk.gov.hmrc"             %% "hmrctest"                    % "3.6.0-play-25"         % scope,
-  "org.mockito"             %  "mockito-core"                % "2.7.17"                % scope
+  "org.mockito"             %  "mockito-core"                % "2.7.17"                % scope,
+  "com.github.tomakehurst"  %  "wiremock"                    % "2.22.0"                % scope
 )
 
 lazy val appDependencies:Seq[ModuleID] = compile ++ test()

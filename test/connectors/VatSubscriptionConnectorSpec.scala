@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,18 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@()(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig)
+package connectors
 
-@main_template(title = messages("cannotOptOut.title")) {
+import org.scalatestplus.mockito.MockitoSugar
+import uk.gov.hmrc.play.bootstrap.http.HttpClient
+import utils.TestUtils
 
-<a class="link-back" href="@routes.TurnoverThresholdController.show().url">@messages("base.back")</a>
+class VatSubscriptionConnectorSpec extends TestUtils with MockitoSugar {
 
-<h1>@messages("cannotOptOut.title")</h1>
+  val connector = new VatSubscriptionConnector(mock[HttpClient], appConfig)
 
-<p>@messages("cannotOptOut.explanation")</p>
+  "VatSubscriptionConnector" should {
 
-<a class="button" type="submit" href="@appConfig.manageVatUrl">@messages("cannotOptOut.return")</a>
-
+    "generate the correct url for getCustomerInfo" in {
+      connector.getCustomerInfoUrl("123456789") shouldBe "vat-subscription/vat-subscription/123456789/full-information"
+    }
+  }
 }

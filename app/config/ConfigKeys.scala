@@ -26,4 +26,7 @@ object ConfigKeys {
   val vatOptOutServicePath: String = "vat-opt-out-frontend.path"
   val signInBaseUrl: String = "signIn.url"
   val manageVatServiceUrl: String = "manage-vat-subscription-frontend.url"
+  val thresholdPreviousYearsUrl: String = "thresholdPreviousYearsUrl"
+  val vatSubscription: String = "vat-subscription"
+
 }

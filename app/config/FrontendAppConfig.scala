@@ -19,7 +19,6 @@ package config
 import java.util.Base64
 
 import config.{ConfigKeys => Keys}
-import com.google.inject.ImplementedBy
 import javax.inject.{Inject, Singleton}
 import play.api.{Configuration, Environment}
 import play.api.Mode.Mode
@@ -42,6 +41,8 @@ trait AppConfig extends ServicesConfig {
   val vatOptOutServicePath: String
   val signInUrl: String
   val manageVatUrl: String
+  val thresholdPreviousYearsUrl: String
+  val vatSubscriptionHost: String
 }
 
 @Singleton
@@ -76,4 +77,7 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
     vatOptOutServiceUrl + getString(Keys.vatOptOutServicePath)
 
   override val manageVatUrl: String = getString(Keys.manageVatServiceUrl)
+  override val thresholdPreviousYearsUrl: String = getString(Keys.thresholdPreviousYearsUrl)
+
+  override val vatSubscriptionHost: String = baseUrl(Keys.vatSubscription)
 }
