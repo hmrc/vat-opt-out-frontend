@@ -35,3 +35,6 @@ cannotOptOut.return = Return to change of business details
 
 confirmOptOut.title = Are you sure you want to opt out from Making Tax Digital for VAT?
 confirmOptOut.error.empty = Select yes if you want to opt out from Making Tax Digital for VAT
+
+decidedNotToOptOut.title = You have decided not to opt out of Making Tax Digital
+decidedNotToOptOut.return = Return to change of business details
