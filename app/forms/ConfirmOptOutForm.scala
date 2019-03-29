@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
-package common
+package forms
 
-object SessionKeys {
-  val clientVrn: String = "CLIENT_VRN"
-  val confirmOptOut: String = "vatOptOutConfirm"
+import common.Constants._
+import play.api.data.Form
+import play.api.data.Forms._
+
+object ConfirmOptOutForm {
+
+  val confirmOptOutForm = Form(
+    confirmOptOut -> text.verifying("confirmOptOut.error.empty", !_.isEmpty)
+  )
 }

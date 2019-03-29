@@ -14,9 +14,23 @@
  * limitations under the License.
  */
 
-package common
+package controllers
 
-object SessionKeys {
-  val clientVrn: String = "CLIENT_VRN"
-  val confirmOptOut: String = "vatOptOutConfirm"
+import play.api.http.Status
+import play.api.mvc.{Action, AnyContent}
+import utils.MockAuth
+
+trait ControllerBaseSpec extends MockAuth {
+
+  def unauthenticatedCheck(controllerAction: Action[AnyContent]): Unit = {
+
+    "the user is not authenticated" should {
+
+      "return 401 (Unauthorised)" in {
+        mockMissingBearerToken()
+        val result = controllerAction(request)
+        status(result) shouldBe Status.UNAUTHORIZED
+      }
+    }
+  }
 }

@@ -1,6 +1,9 @@
+base.bta = Business tax account
+base.yes = Yes
+base.no = No
+base.error.heading = There is a problem
 base.back = Back
 base.continue = Continue
-base.bta = Business tax account
 
 betaBanner.phaseName = BETA
 betaBanner.newService = This is a new service – your
@@ -28,3 +31,6 @@ confirmation.finish = Finish
 cannotOptOut.title = The business cannot opt out of Making Tax Digital for VAT
 cannotOptOut.explanation = This is because the business’s taxable turnover is, or has been, over the VAT threshold.
 cannotOptOut.return = Return to change of business details
+
+confirmOptOut.error.empty = select an option
+confirmOptOut.title = Are you sure you want to opt out from Making Tax Digital for VAT?
