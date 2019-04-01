@@ -31,7 +31,7 @@ class OptOutStartViewSpec extends ViewBaseSpec {
     }
 
     "have the correct heading" in {
-      elementText("h1") shouldBe "Opt out of Making Tax Digital"
+      elementText("h1") shouldBe "Opt out of Making Tax Digital for VAT"
     }
 
     "have the correct paragraph" in {
@@ -39,7 +39,7 @@ class OptOutStartViewSpec extends ViewBaseSpec {
     }
 
     "have the correct first bullet point" in {
-      elementText("li:nth-of-type(1)") shouldBe "not be deregistering from VAT"
+      elementText("li:nth-of-type(1)") shouldBe "not be cancelling your VAT registration"
     }
 
     "have the correct second bullet point" in {

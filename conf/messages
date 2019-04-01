@@ -13,7 +13,8 @@ sessionTimeout.helpTwo = sign in
 sessionTimeout.helpThree = using your Government Gateway ID.
 
 optOutStart.title = Opt out of Making Tax Digital
+optOutStart.heading = Opt out of Making Tax Digital for VAT
 optOutStart.chooseToOptOut = If you choose to opt out, you will:
-optOutStart.bullet1 = not be deregistering from VAT
+optOutStart.bullet1 = not be cancelling your VAT registration
 optOutStart.bullet2 = have to submit your VAT Returns using a different service
 optOutStart.bullet3 = have to join again if your taxable turnover goes above the VAT threshold
