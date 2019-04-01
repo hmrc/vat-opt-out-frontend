@@ -17,38 +17,54 @@
 package controllers
 
 import common.SessionKeys
-import org.scalatest.BeforeAndAfterAll
 import play.api.http.Status
 import play.api.test.Helpers._
 import common.Constants._
 import org.jsoup.Jsoup
+import utils.MockAuth
 
-class ConfirmOptOutControllerSpec extends ControllerBaseSpec with BeforeAndAfterAll {
+class ConfirmOptOutControllerSpec extends MockAuth {
 
   val testYesRadioSelection: String = "yes"
   val testNoRadioSelection: String = "no"
 
   def controller: ConfirmOptOutController = new ConfirmOptOutController(
     messagesApi,
-    mockAuthPredicate,
-    appConfig
-  )
+    mockAuthPredicate
+  )(appConfig)
 
-  "calling the show action" should {
+  "calling the show action" when {
 
-    mockAgentAuthorised()
+    "there is no answer to the opt out confirmation in session" should {
+      mockAgentAuthorised()
 
-    lazy val result = controller.show()(requestWithClientVRN)
+      lazy val result = controller.show()(requestWithClientVRN)
 
-    "return 200" in {
-      status(result) shouldBe Status.OK
+      "return 200" in {
+        status(result) shouldBe Status.OK
+      }
+
+      "return HTML" in {
+        contentType(result) shouldBe Some("text/html")
+        charset(result) shouldBe Some("utf-8")
+      }
+
     }
 
-    "return HTML" in {
-      contentType(result) shouldBe Some("text/html")
-      charset(result) shouldBe Some("utf-8")
-    }
+    "there is a yes answer to the opt out confirmation in session" should {
+      mockIndividualAuthorised()
 
+      lazy val result = controller.show()(request.withSession(SessionKeys.confirmOptOut -> optionYes))
+
+      "return 200" in {
+        status(result) shouldBe Status.OK
+      }
+
+      "return HTML" in {
+        contentType(result) shouldBe Some("text/html")
+        charset(result) shouldBe Some("utf-8")
+      }
+    }
   }
 
   "calling the submit action" when {
@@ -96,7 +112,7 @@ class ConfirmOptOutControllerSpec extends ControllerBaseSpec with BeforeAndAfter
 
       lazy val result = controller.submit()(requestWithClientVRN)
 
-      "display an error page" in {
+      "return a 400 BAD_REQUEST" in {
 
         status(result) shouldBe Status.BAD_REQUEST
 

@@ -31,7 +31,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
     val subtext = "fieldset > p"
     val backLink = "#content > article > a"
     val form = "form"
-    val continueButton = "button"
+    val confirmButton = "button"
     val errorSummaryHeading = "#error-summary-heading"
     val errorSummaryLink = "#confirmOptOut-error-summary"
     val radioOptionYes = "#confirmOptOut-yes"
@@ -70,8 +70,8 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
         element(Selectors.radioOptionNo).attr("value") shouldBe "no"
       }
 
-      "have the continue button" in {
-        elementText(Selectors.continueButton) shouldBe "Continue"
+      "have the confirm button" in {
+        elementText(Selectors.confirmButton) shouldBe "Confirm"
       }
     }
 
@@ -114,7 +114,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
       }
 
       "have the continue button" in {
-        elementText(Selectors.continueButton) shouldBe "Continue"
+        elementText(Selectors.confirmButton) shouldBe "Continue"
       }
 
     }
@@ -158,7 +158,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
       }
 
       "have the continue button" in {
-        elementText(Selectors.continueButton) shouldBe "Continue"
+        elementText(Selectors.confirmButton) shouldBe "Confirm"
       }
 
     }

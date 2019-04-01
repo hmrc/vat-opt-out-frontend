@@ -22,15 +22,14 @@ import controllers.predicates.AuthPredicate
 import javax.inject.{Inject, Singleton}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc._
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import forms.ConfirmOptOutForm._
 
 import scala.concurrent.Future
 
 @Singleton
 class ConfirmOptOutController @Inject()(val messagesApi: MessagesApi,
-                                        val authenticate: AuthPredicate,
-                                     implicit val appConfig: AppConfig) extends FrontendController with I18nSupport {
+                                        val authenticate: AuthPredicate)
+                                       (implicit val appConfig: AppConfig) extends ControllerBase with I18nSupport {
 
   def show(): Action[AnyContent] = authenticate.async { implicit request =>
 
