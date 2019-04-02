@@ -43,7 +43,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
 
     "the user doesn't have a radio option selected" should {
 
-      lazy val view: Html = views.html.confirmOptOut(confirmOptOutForm)(request, messages, appConfig)
+      lazy val view: Html = views.html.confirmOptOut(confirmOptOutForm)
       lazy implicit val document: Document = Jsoup.parse(view.body)
 
       "have the correct document title" in {
@@ -78,7 +78,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
     "the user has already selected the no radio button" should {
 
       lazy val view: Html = views.html.confirmOptOut(confirmOptOutForm.bind(
-        Map("confirmOptOut" -> "no")))(request, messages, appConfig)
+        Map("confirmOptOut" -> "no")))
       lazy implicit val document: Document = Jsoup.parse(view.body)
 
       "have the correct document title" in {
@@ -114,7 +114,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
       }
 
       "have the continue button" in {
-        elementText(Selectors.confirmButton) shouldBe "Continue"
+        elementText(Selectors.confirmButton) shouldBe "Confirm"
       }
 
     }
@@ -122,7 +122,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
     "the user has already selected the yes radio button" should {
 
       lazy val view: Html = views.html.confirmOptOut(confirmOptOutForm.bind(
-        Map("confirmOptOut" -> "yes")))(request, messages, appConfig)
+        Map("confirmOptOut" -> "yes")))
       lazy implicit val document: Document = Jsoup.parse(view.body)
 
       "have the correct document title" in {
@@ -164,7 +164,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
     }
 
     "the form is posted with no option selected" should {
-      lazy val view = views.html.confirmOptOut(confirmOptOutForm.bind(Map("" -> "")))(request, messages, appConfig)
+      lazy val view = views.html.confirmOptOut(confirmOptOutForm.bind(Map("" -> "")))
       lazy implicit val document: Document = Jsoup.parse(view.body)
 
       "display the error summary" in {

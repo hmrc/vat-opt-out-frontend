@@ -29,7 +29,7 @@ import scala.concurrent.Future
 @Singleton
 class ConfirmOptOutController @Inject()(val messagesApi: MessagesApi,
                                         val authenticate: AuthPredicate)
-                                       (implicit val appConfig: AppConfig) extends ControllerBase with I18nSupport {
+                                       (implicit val appConfig: AppConfig) extends ControllerBase {
 
   def show(): Action[AnyContent] = authenticate.async { implicit request =>
 

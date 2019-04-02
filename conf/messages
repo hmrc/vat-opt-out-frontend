@@ -34,4 +34,4 @@ cannotOptOut.explanation = This is because the business’s taxable turnover is,
 cannotOptOut.return = Return to change of business details
 
 confirmOptOut.title = Are you sure you want to opt out from Making Tax Digital for VAT?
-confirmOptOut.error.empty = select yes if you want to opt out from Making Tax Digital for VAT
+confirmOptOut.error.empty = Select yes if you want to opt out from Making Tax Digital for VAT
