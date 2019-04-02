@@ -2,4 +2,5 @@
 
 GET        /                        controllers.OptOutStartController.show()
 GET        /opt-out-confirmation    controllers.ConfirmationController.show()
+GET        /cannot-opt-out          controllers.CannotOptOutController.show()
 GET        /hello-world             controllers.HelloWorld.helloWorld

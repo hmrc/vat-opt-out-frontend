@@ -19,45 +19,34 @@ package views
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-class OptOutStartViewSpec extends ViewBaseSpec {
+class CannotOptOutViewSpec extends ViewBaseSpec {
 
-  "The opt out start journey page" should {
+  "The cannot opt-out page" should {
 
-    lazy val view = views.html.optOutStart()
+    lazy val view = views.html.cannotOptOut()
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
-    "have the correct document title" in {
-      document.title shouldBe "Opt out of Making Tax Digital"
+    "have the correct title" in {
+      document.title shouldBe "The business cannot opt out of Making Tax Digital for VAT"
     }
 
     "have the correct heading" in {
-      elementText("h1") shouldBe "Opt out of Making Tax Digital for VAT"
+      elementText("h1") shouldBe "The business cannot opt out of Making Tax Digital for VAT"
     }
 
     "have the correct paragraph" in {
-      elementText("#content p") shouldBe "If you choose to opt out, you will:"
+      elementText("#content p") shouldBe
+        "This is because the business’s taxable turnover is, or has been, over the VAT threshold."
     }
 
-    "have the correct first bullet point" in {
-      elementText("li:nth-of-type(1)") shouldBe "not be cancelling your VAT registration"
-    }
-
-    "have the correct second bullet point" in {
-      elementText("li:nth-of-type(2)") shouldBe "have to submit your VAT Returns using a different service"
-    }
-
-    "have the correct third bullet point" in {
-      elementText("li:nth-of-type(3)") shouldBe "have to join again if your taxable turnover goes above the VAT threshold"
-    }
-
-    "have a continue button" which {
+    "have a button" which {
 
       "has the correct text" in {
-        elementText(".button") shouldBe "Continue"
+        elementText(".button") shouldBe "Return to change of business details"
       }
 
       "has the correct href" in {
-        element(".button").attr("href") shouldBe "#"
+        element(".button").attr("href") shouldBe appConfig.manageVatUrl
       }
     }
 
@@ -68,7 +57,7 @@ class OptOutStartViewSpec extends ViewBaseSpec {
       }
 
       "has the correct href" in {
-        element(".link-back").attr("href") shouldBe appConfig.manageVatUrl
+        element(".link-back").attr("href") shouldBe "#"
       }
     }
   }
