@@ -27,4 +27,5 @@ object ConfigKeys {
   val signInBaseUrl: String = "signIn.url"
   val manageVatServiceUrl: String = "manage-vat-subscription-frontend.url"
   val vatSubscription: String = "vat-subscription"
+  val contactPreferences: String = "contact-preferences"
 }

@@ -43,6 +43,7 @@ trait AppConfig extends ServicesConfig {
   val signInUrl: String
   val manageVatUrl: String
   val vatSubscriptionHost: String
+  val contactPreferencesHost: String
 }
 
 @Singleton
@@ -77,6 +78,6 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
     vatOptOutServiceUrl + getString(Keys.vatOptOutServicePath)
 
   override val manageVatUrl: String = getString(Keys.manageVatServiceUrl)
-
   override val vatSubscriptionHost: String = baseUrl(Keys.vatSubscription)
+  override val contactPreferencesHost: String = baseUrl(Keys.contactPreferences)
 }
