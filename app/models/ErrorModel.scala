@@ -14,17 +14,6 @@
  * limitations under the License.
  */
 
-package config
+package models
 
-object ConfigKeys {
-
-  val whitelistEnabled: String = "whitelist.enabled"
-  val whitelistedIps: String = "whitelist.allowedIps"
-  val whitelistExcludedPaths: String = "whitelist.excludedPaths"
-  val whitelistShutterPage: String = "whitelist.shutter-page-url"
-  val vatOptOutServiceUrl: String = "vat-opt-out-frontend.url"
-  val vatOptOutServicePath: String = "vat-opt-out-frontend.path"
-  val signInBaseUrl: String = "signIn.url"
-  val manageVatServiceUrl: String = "manage-vat-subscription-frontend.url"
-  val vatSubscription: String = "vat-subscription"
-}
+case class ErrorModel(status: Int, body: String)

@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-package config
+package services
 
-object ConfigKeys {
+import connectors.VatSubscriptionConnector
+import connectors.httpParsers.VatSubscriptionHttpParser.VatSubscriptionResponse
+import javax.inject.{Inject, Singleton}
+import uk.gov.hmrc.http.HeaderCarrier
 
-  val whitelistEnabled: String = "whitelist.enabled"
-  val whitelistedIps: String = "whitelist.allowedIps"
-  val whitelistExcludedPaths: String = "whitelist.excludedPaths"
-  val whitelistShutterPage: String = "whitelist.shutter-page-url"
-  val vatOptOutServiceUrl: String = "vat-opt-out-frontend.url"
-  val vatOptOutServicePath: String = "vat-opt-out-frontend.path"
-  val signInBaseUrl: String = "signIn.url"
-  val manageVatServiceUrl: String = "manage-vat-subscription-frontend.url"
-  val vatSubscription: String = "vat-subscription"
+import scala.concurrent.{ExecutionContext, Future}
+
+@Singleton
+class VatSubscriptionService @Inject()(connector: VatSubscriptionConnector) {
+
+  def getCustomerInfo(vrn: String)
+                     (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[VatSubscriptionResponse] =
+    connector.getCustomerInfo(vrn)
 }

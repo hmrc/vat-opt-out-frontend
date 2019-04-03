@@ -26,6 +26,7 @@ import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.inject.Injector
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.ExecutionContext
@@ -36,6 +37,7 @@ trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
 
   implicit lazy val messagesApi: MessagesApi = injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = Messages(Lang("en-GB"), messagesApi)
+  implicit val hc: HeaderCarrier = HeaderCarrier()
   implicit val ec: ExecutionContext = injector.instanceOf[ExecutionContext]
   implicit val appConfig: MockAppConfig = new MockAppConfig(app.configuration)
   implicit val system: ActorSystem = ActorSystem("Sys")

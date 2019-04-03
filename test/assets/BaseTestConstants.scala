@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package config
+package assets
 
-object ConfigKeys {
+import models.ErrorModel
+import play.api.http.Status.INTERNAL_SERVER_ERROR
 
-  val whitelistEnabled: String = "whitelist.enabled"
-  val whitelistedIps: String = "whitelist.allowedIps"
-  val whitelistExcludedPaths: String = "whitelist.excludedPaths"
-  val whitelistShutterPage: String = "whitelist.shutter-page-url"
-  val vatOptOutServiceUrl: String = "vat-opt-out-frontend.url"
-  val vatOptOutServicePath: String = "vat-opt-out-frontend.path"
-  val signInBaseUrl: String = "signIn.url"
-  val manageVatServiceUrl: String = "manage-vat-subscription-frontend.url"
-  val vatSubscription: String = "vat-subscription"
+object BaseTestConstants {
+  val testVrn = "123456789"
+  val errorModel = ErrorModel(INTERNAL_SERVER_ERROR, "Fail")
 }

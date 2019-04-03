@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-package config
+package connectors
 
-object ConfigKeys {
+import org.scalatestplus.mockito.MockitoSugar
+import uk.gov.hmrc.play.bootstrap.http.HttpClient
+import utils.TestUtils
 
-  val whitelistEnabled: String = "whitelist.enabled"
-  val whitelistedIps: String = "whitelist.allowedIps"
-  val whitelistExcludedPaths: String = "whitelist.excludedPaths"
-  val whitelistShutterPage: String = "whitelist.shutter-page-url"
-  val vatOptOutServiceUrl: String = "vat-opt-out-frontend.url"
-  val vatOptOutServicePath: String = "vat-opt-out-frontend.path"
-  val signInBaseUrl: String = "signIn.url"
-  val manageVatServiceUrl: String = "manage-vat-subscription-frontend.url"
-  val vatSubscription: String = "vat-subscription"
+class VatSubscriptionConnectorSpec extends TestUtils with MockitoSugar {
+
+  val connector = new VatSubscriptionConnector(mock[HttpClient], appConfig)
+
+  "VatSubscriptionConnector" should {
+
+    "generate the correct url for getCustomerInfo" in {
+      connector.getCustomerInfoUrl("123456789") shouldBe "vat-subscription/vat-subscription/123456789/full-information"
+    }
+  }
 }
