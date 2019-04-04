@@ -28,4 +28,5 @@ object ConfigKeys {
   val manageVatServiceUrl: String = "manage-vat-subscription-frontend.url"
   val thresholdPreviousYearsUrl: String = "thresholdPreviousYearsUrl"
   val vatSubscription: String = "vat-subscription"
+  val contactPreferences: String = "contact-preferences"
 }
