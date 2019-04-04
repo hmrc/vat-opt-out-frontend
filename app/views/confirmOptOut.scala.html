@@ -23,7 +23,7 @@
 
 @main_template(title = messages("confirmOptOut.title"), bodyClasses = None) {
 
-    <a class="link-back" href='@controllers.routes.OptOutStartController.show'>@messages("base.back")</a>
+    <a class="link-back" href='@routes.TurnoverThresholdController.show().url'>@messages("base.back")</a>
 
     @errorSummary(messages("base.error.heading"), confirmOptOutForm, forceDivToAppear = false)
 

@@ -38,3 +38,7 @@ confirmOptOut.error.empty = Select yes if you want to opt out from Making Tax Di
 
 decidedNotToOptOut.title = You have decided not to opt out of Making Tax Digital
 decidedNotToOptOut.return = Return to change of business details
+
+turnoverThreshold.error.empty = Select yes if the business’s taxable turnover is above £85,000
+turnoverThreshold.title = Was the business’s taxable turnover above £85,000 since 1st April 2019?
+turnoverThreshold.link = View the VAT threshold for previous tax years (opens in a new tab)
