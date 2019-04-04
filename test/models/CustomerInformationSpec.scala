@@ -27,7 +27,7 @@ class CustomerInformationSpec extends TestUtils {
     "successfully parse from JSON" when {
 
       "all expected fields are present" in {
-        customerInfoJsonMax.as[CustomerInformation] shouldBe customerInfoModelTradeName
+        customerInfoJsonAll.as[CustomerInformation] shouldBe customerInfoModelTradeName
       }
 
       "there is only an organisation name present" in {
@@ -39,7 +39,11 @@ class CustomerInformationSpec extends TestUtils {
       }
 
       "there are no names present" in {
-        Json.obj().as[CustomerInformation] shouldBe customerInfoModelEmpty
+        customerInfoJsonNoName.as[CustomerInformation] shouldBe customerInfoModelEmpty
+      }
+
+      "there is a pending Mandation Status" in {
+        customerInfoJsonPending.as[CustomerInformation] shouldBe customerInfoModelPending
       }
     }
 

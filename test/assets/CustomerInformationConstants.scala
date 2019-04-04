@@ -16,33 +16,57 @@
 
 package assets
 
-import models.CustomerInformation
+import models.{CustomerInformation, MTDfBMandated}
 import play.api.libs.json.{JsObject, Json}
+
 object CustomerInformationConstants {
 
-  val customerInfoJsonMax: JsObject = Json.obj(
+  val customerInfoJsonAll: JsObject = Json.obj(
     "tradingName" -> "ChoC Services",
     "organisationName" -> "ChoC Services Ltd",
     "firstName" -> "Chocolate",
-    "lastName" -> "Services"
+    "lastName" -> "Services",
+    "mandationStatus" -> "MTDfB Mandated"
   )
 
   val customerInfoJsonOrg: JsObject = Json.obj(
-    "organisationName" -> "ChoC Services Ltd"
+    "organisationName" -> "ChoC Services Ltd",
+    "mandationStatus" -> "MTDfB Mandated"
   )
 
   val customerInfoJsonInd: JsObject = Json.obj(
     "firstName" -> "Chocolate",
-    "lastName" -> "Services"
+    "lastName" -> "Services",
+    "mandationStatus" -> "MTDfB Mandated"
   )
 
+  val customerInfoJsonNoName: JsObject = Json.obj(
+    "mandationStatus" -> "MTDfB Mandated"
+  )
+
+  val customerInfoJsonPending: JsObject = customerInfoJsonAll ++ Json.obj(
+    "pendingChanges" -> Json.obj(
+      "mandationStatus" -> "Non MTDfB"
+    )
+  )
 
   val customerInfoJsonInvalid: JsObject = Json.obj(
-    "tradingName" -> true
+    "tradingName" -> true,
+    "mandationStatus" -> "MTDfB Mandated"
   )
 
-  val customerInfoModelTradeName = CustomerInformation(Some("ChoC Services"))
-  val customerInfoModelOrgName= CustomerInformation(Some("ChoC Services Ltd"))
-  val customerInfoModelIndName = CustomerInformation(Some("Chocolate Services"))
-  val customerInfoModelEmpty = CustomerInformation(None)
+  val customerInfoModelTradeName =
+    CustomerInformation(Some("ChoC Services"), MTDfBMandated, inflightMandationStatus = false)
+
+  val customerInfoModelOrgName =
+    CustomerInformation(Some("ChoC Services Ltd"),  MTDfBMandated, inflightMandationStatus = false)
+
+  val customerInfoModelIndName =
+    CustomerInformation(Some("Chocolate Services"),  MTDfBMandated, inflightMandationStatus = false)
+
+  val customerInfoModelEmpty =
+    CustomerInformation(None,  MTDfBMandated, inflightMandationStatus = false)
+
+  val customerInfoModelPending =
+    CustomerInformation(Some("ChoC Services"), MTDfBMandated, inflightMandationStatus = true)
 }
