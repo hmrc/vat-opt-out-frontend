@@ -57,7 +57,7 @@ class CannotOptOutViewSpec extends ViewBaseSpec {
       }
 
       "has the correct href" in {
-        element(".link-back").attr("href") shouldBe "#"
+        element(".link-back").attr("href") shouldBe controllers.routes.TurnoverThresholdController.show().url
       }
     }
   }

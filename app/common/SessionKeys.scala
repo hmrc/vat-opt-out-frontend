@@ -19,4 +19,5 @@ package common
 object SessionKeys {
   val clientVrn: String = "CLIENT_VRN"
   val confirmOptOut: String = "vatOptOutConfirm"
+  val turnoverThreshold: String = "vatOptOutTurnoverThreshold"
 }

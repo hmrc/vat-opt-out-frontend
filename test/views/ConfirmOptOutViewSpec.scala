@@ -51,7 +51,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
       }
 
       "have a back link which takes the user to the opt out start page" in {
-        element(Selectors.backLink).attr("href") should endWith("/vat-through-software/account/opt-out")
+        element(Selectors.backLink).attr("href") shouldBe controllers.routes.TurnoverThresholdController.show().url
       }
 
       "have the correct page heading" in {
@@ -86,7 +86,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
       }
 
       "have a back link which takes the user to the opt out start page" in {
-        element(Selectors.backLink).attr("href") should endWith("/vat-through-software/account/opt-out")
+        element(Selectors.backLink).attr("href") shouldBe controllers.routes.TurnoverThresholdController.show().url
       }
 
       "have the correct page heading" in {
@@ -130,7 +130,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
       }
 
       "have a back link which takes the user to the opt out start page" in {
-        element(Selectors.backLink).attr("href") should endWith("/vat-through-software/account/opt-out")
+        element(Selectors.backLink).attr("href")shouldBe controllers.routes.TurnoverThresholdController.show().url
       }
 
       "have the correct page heading" in {

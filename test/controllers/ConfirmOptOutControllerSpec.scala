@@ -79,13 +79,13 @@ class ConfirmOptOutControllerSpec extends MockAuth {
 
         session(result).get(SessionKeys.confirmOptOut) shouldBe Some(testYesRadioSelection)
       }
-      //TODO: Update this test when confirmation page is in
+
       "redirect to the opt out confirmation page" in {
 
         status(result) shouldBe Status.SEE_OTHER
 
         redirectLocation(result) shouldBe
-          Some(controllers.routes.ConfirmOptOutController.show().url)
+          Some(controllers.routes.ConfirmationController.show().url)
       }
     }
 
@@ -98,13 +98,12 @@ class ConfirmOptOutControllerSpec extends MockAuth {
         session(result).get(SessionKeys.confirmOptOut) shouldBe Some(testNoRadioSelection)
       }
 
-      //TODO: Update this test when decided not to opt out page is in
       "redirect to the you have decided not to opt out page" in {
 
         status(result) shouldBe Status.SEE_OTHER
 
         redirectLocation(result) shouldBe
-          Some(controllers.routes.ConfirmOptOutController.show().url)
+          Some(controllers.routes.DecidedNotToOptOutController.show().url)
       }
     }
 

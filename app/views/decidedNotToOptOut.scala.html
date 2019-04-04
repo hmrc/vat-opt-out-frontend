@@ -18,8 +18,7 @@
 
 @main_template(title = messages("decidedNotToOptOut.title")) {
 
-@* TODO // add back link *@
-<a class="link-back" href="#">@messages("base.back")</a>
+<a class="link-back" href="@routes.ConfirmOptOutController.show().url">@messages("base.back")</a>
 
 <h1>@messages("decidedNotToOptOut.title")</h1>
 

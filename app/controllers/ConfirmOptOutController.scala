@@ -50,13 +50,11 @@ class ConfirmOptOutController @Inject()(val messagesApi: MessagesApi,
         Constants.confirmOptOut, "confirmOptOut.error.empty"))),
       {
         case formData@Constants.optionYes =>
-          //TODO: Redirect to confirmation page and do post etc
-          Redirect(controllers.routes.ConfirmOptOutController.show())
+          Redirect(controllers.routes.ConfirmationController.show())
             .addingToSession(SessionKeys.confirmOptOut -> formData)
 
         case formData@Constants.optionNo =>
-          //TODO: Redirect to you have chosen not to opt out page
-          Redirect(controllers.routes.ConfirmOptOutController.show())
+          Redirect(controllers.routes.DecidedNotToOptOutController.show())
             .addingToSession(SessionKeys.confirmOptOut -> formData)
       }
     )
