@@ -39,4 +39,3 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override val thresholdPreviousYearsUrl: String = "/some-link"
   override val vatSubscriptionHost: String = "vat-subscription"
 }
-
