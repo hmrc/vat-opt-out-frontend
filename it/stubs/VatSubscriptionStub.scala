@@ -27,7 +27,7 @@ object VatSubscriptionStub extends WireMockMethods {
 
   def stubCustomerInfo: StubMapping = {
     when(method = GET, uri = getCustomerInfoUri)
-      .thenReturn(status = OK, body = customerInfoJsonMax)
+      .thenReturn(status = OK, body = customerInfoJsonAll)
   }
 
   def stubCustomerInfoError: StubMapping = {
@@ -35,10 +35,11 @@ object VatSubscriptionStub extends WireMockMethods {
       .thenReturn(status = INTERNAL_SERVER_ERROR, body = Json.obj("fail" -> "nope"))
   }
 
-  val customerInfoJsonMax: JsObject = Json.obj(
+  val customerInfoJsonAll: JsObject = Json.obj(
     "tradingName" -> "ChoC Services",
     "organisationName" -> "ChoC Services Ltd",
     "firstName" -> "Chocolate",
-    "lastName" -> "Services"
+    "lastName" -> "Services",
+    "mandationStatus" -> "MTDfB Mandated"
   )
 }

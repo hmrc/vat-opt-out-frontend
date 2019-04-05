@@ -17,7 +17,6 @@
 package models
 
 import assets.CustomerInformationConstants._
-import play.api.libs.json.Json
 import utils.TestUtils
 
 class CustomerInformationSpec extends TestUtils {
@@ -27,7 +26,7 @@ class CustomerInformationSpec extends TestUtils {
     "successfully parse from JSON" when {
 
       "all expected fields are present" in {
-        customerInfoJsonMax.as[CustomerInformation] shouldBe customerInfoModelTradeName
+        customerInfoJsonAll.as[CustomerInformation] shouldBe customerInfoModelTradeName
       }
 
       "there is only an organisation name present" in {
@@ -38,15 +37,38 @@ class CustomerInformationSpec extends TestUtils {
         customerInfoJsonInd.as[CustomerInformation] shouldBe customerInfoModelIndName
       }
 
-      "there are no names present" in {
-        Json.obj().as[CustomerInformation] shouldBe customerInfoModelEmpty
+      "there are no names present" when {
+
+        "there is a mandation status of MTDfB Mandatory" in {
+          customerInfoJsonNoName(MTDfBMandated.value).as[CustomerInformation] shouldBe customerInfoModelNoName(MTDfBMandated)
+        }
+
+        "there is a mandation status of MTDfB Voluntary" in {
+          customerInfoJsonNoName(MTDfBVoluntary.value).as[CustomerInformation] shouldBe customerInfoModelNoName(MTDfBVoluntary)
+        }
+
+        "there is a mandation status of Non MTDfB" in {
+          customerInfoJsonNoName(NonMTDfB.value).as[CustomerInformation] shouldBe customerInfoModelNoName(NonMTDfB)
+        }
+
+        "there is a mandation status of Non Digital" in {
+          customerInfoJsonNoName(NonDigital.value).as[CustomerInformation] shouldBe customerInfoModelNoName(NonDigital)
+        }
+      }
+
+      "there is a pending mandation status" in {
+        customerInfoJsonPending.as[CustomerInformation] shouldBe customerInfoModelPending
       }
     }
 
     "fail to parse from JSON" when {
 
-      "the JSON is invalid" in {
+      "the JSON is in an invalid format" in {
         intercept[Exception](customerInfoJsonInvalid.as[CustomerInformation])
+      }
+
+      "there is a mandation status that is not recognised" in {
+        intercept[Exception](customerInfoJsonNoName("VATDEC Mandatory").as[CustomerInformation])
       }
     }
   }
