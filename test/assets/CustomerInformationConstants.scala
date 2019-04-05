@@ -16,7 +16,7 @@
 
 package assets
 
-import models.{CustomerInformation, MTDfBMandated}
+import models.{CustomerInformation, MTDfBMandated, MandationStatus}
 import play.api.libs.json.{JsObject, Json}
 
 object CustomerInformationConstants {
@@ -40,8 +40,8 @@ object CustomerInformationConstants {
     "mandationStatus" -> "MTDfB Mandated"
   )
 
-  val customerInfoJsonNoName: JsObject = Json.obj(
-    "mandationStatus" -> "MTDfB Mandated"
+  def customerInfoJsonNoName(mandationStatus: String): JsObject = Json.obj(
+    "mandationStatus" -> mandationStatus
   )
 
   val customerInfoJsonPending: JsObject = customerInfoJsonAll ++ Json.obj(
@@ -64,8 +64,8 @@ object CustomerInformationConstants {
   val customerInfoModelIndName =
     CustomerInformation(Some("Chocolate Services"),  MTDfBMandated, inflightMandationStatus = false)
 
-  val customerInfoModelEmpty =
-    CustomerInformation(None,  MTDfBMandated, inflightMandationStatus = false)
+  def customerInfoModelNoName(mandationStatus: MandationStatus): CustomerInformation =
+    CustomerInformation(None,  mandationStatus, inflightMandationStatus = false)
 
   val customerInfoModelPending =
     CustomerInformation(Some("ChoC Services"), MTDfBMandated, inflightMandationStatus = true)
