@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 
-package common
+package models.viewModels
 
-object Constants {
-  val optionNo: String = "no"
-  val optionYes: String = "yes"
-  val confirmOptOut: String = "confirmOptOut"
-  val preferenceDigital = "Digital"
-  val preferencePaper = "Paper"
-  val preferenceFail = "Fail"
-}
+case class ConfirmationPreference(isTransactor: Boolean,
+                                  preferenceType: String,
+                                  businessName: Option[String],
+                                  transactorEmail: Option[String])

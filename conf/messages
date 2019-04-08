@@ -23,11 +23,31 @@ optOutStart.bullet1 = not be cancelling your VAT registration
 optOutStart.bullet2 = have to submit your VAT Returns using a different service
 optOutStart.bullet3 = have to join again if your taxable turnover goes above the VAT threshold
 
+
 confirmation.title = Request to opt out of Making Tax Digital for VAT received
 confirmation.subheading = What happens next
-confirmation.weWillSend = We will send you an email within 2 working days with an update, followed by a letter to your principal place of business. You can also go to your HMRC secure messages to find out if your request has been accepted.
 confirmation.contactDetails = Make sure your contact details are up to date.
 confirmation.finish = Finish
+
+# business name inserted between the below
+confirmation.business.contact =  We will also contact
+confirmation.business.update = with an update.
+
+#agent paper
+confirmation.agentPaperSend = We will send a confirmation letter to the agency address within 15 working days.
+
+# agent digital. Agent email inserted between the below
+confirmation.agentDigitalSend = We will send an email to
+confirmation.agentDigitalwithin = within 2 working days telling you whether or not the request has been accepted.
+
+# client paper
+confirmation.clientPaperSend = We will send a letter to your principal place of business with an update within 15 working days.
+
+# client digital
+confirmation.clientDigitalSend = We will send you an email within 2 working days with an update, followed by a letter to your principal place of business. You can also go to your HMRC secure messages to find out if your request has been accepted.
+
+# client fail
+confirmation.clientDigitalFail =  We will send you an update within 15 working days.
 
 cannotOptOut.title = The business cannot opt out of Making Tax Digital for VAT
 cannotOptOut.explanation = This is because the business’s taxable turnover is, or has been, over the VAT threshold.

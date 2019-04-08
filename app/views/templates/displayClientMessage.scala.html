@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,15 +12,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package common
+@import common.Constants.{preferenceDigital, preferencePaper, preferenceFail}
+@(preferenceType: String)(implicit messages: Messages)
 
-object Constants {
-  val optionNo: String = "no"
-  val optionYes: String = "yes"
-  val confirmOptOut: String = "confirmOptOut"
-  val preferenceDigital = "Digital"
-  val preferencePaper = "Paper"
-  val preferenceFail = "Fail"
+@preferenceType match {
+ case `preferenceDigital` => {
+  <p>@messages("confirmation.clientDigitalSend")</p>
+  <p>@messages("confirmation.contactDetails")</p>
+ }
+ case `preferencePaper` =>  {
+  <p>@messages("confirmation.clientPaperSend")</p>
+  <p>@messages("confirmation.contactDetails")</p>
+ }
+ case `preferenceFail` =>  {
+  <p>@messages("confirmation.clientDigitalFail")</p>
+  <p>@messages("confirmation.contactDetails")</p>
+ }
+
 }

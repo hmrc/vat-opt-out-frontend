@@ -31,7 +31,7 @@ class ConfirmOptOutControllerSpec extends MockAuth {
   def controller: ConfirmOptOutController = new ConfirmOptOutController(
     messagesApi,
     mockAuthPredicate
-  )(appConfig)
+  )(appConfig, ec)
 
   "calling the show action" when {
 

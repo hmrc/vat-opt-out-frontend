@@ -37,9 +37,9 @@ class ContactPreferencesConnector @Inject()(http: HttpClient,
                            (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[ContactPreferencesResponse] = {
 
     http.GET[ContactPreferencesResponse](getContactPreferencesUrl(vrn)).map {
-      case customerInfo@Right(_) =>
+      case contactPreferences@Right(_) =>
         Logger.debug(s"[ContactPreferencesConnector][getContactPreferences] successfully received contact preferences response")
-        customerInfo
+        contactPreferences
       case httpError@Left(error) =>
         Logger.warn("[ContactPreferencesConnector][getContactPreferences] received error - " + error.body)
         httpError

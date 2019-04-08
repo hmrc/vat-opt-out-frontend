@@ -24,12 +24,12 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc._
 import forms.ConfirmOptOutForm._
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class ConfirmOptOutController @Inject()(val messagesApi: MessagesApi,
                                         val authenticate: AuthPredicate)
-                                       (implicit val appConfig: AppConfig) extends ControllerBase {
+                                       (implicit val appConfig: AppConfig, val ec: ExecutionContext) extends ControllerBase {
 
   def show(): Action[AnyContent] = authenticate.async { implicit request =>
 
