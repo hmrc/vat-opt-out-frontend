@@ -18,7 +18,7 @@ package connectors
 
 import connectors.httpParsers.VatSubscriptionHttpParser.VatSubscriptionResponse
 import helpers.IntegrationBaseSpec
-import models.{CustomerInformation, ErrorModel}
+import models.{CustomerInformation, ErrorModel, MTDfBMandated}
 import play.api.http.Status.INTERNAL_SERVER_ERROR
 import stubs.VatSubscriptionStub
 
@@ -35,7 +35,7 @@ class VatSubscriptionConnectorISpec extends IntegrationBaseSpec {
       "return a CustomerInformation model" in new Test {
         VatSubscriptionStub.stubCustomerInfo
 
-        val expected = Right(CustomerInformation(Some("ChoC Services")))
+        val expected = Right(CustomerInformation(Some("ChoC Services"), MTDfBMandated, inflightMandationStatus = false))
         val result: VatSubscriptionResponse = await(connector.getCustomerInfo("123456789"))
 
         result shouldBe expected

@@ -37,7 +37,7 @@ class VatSubscriptionHttpParserSpec extends TestUtils {
       "valid JSON is returned" should {
 
         "return a CustomerInformation model" in {
-          val response = HttpResponse(Status.OK, Some(customerInfoJsonMax))
+          val response = HttpResponse(Status.OK, Some(customerInfoJsonAll))
           val result = vatSubscriptionResult(response)
           result shouldBe Right(customerInfoModelTradeName)
         }
