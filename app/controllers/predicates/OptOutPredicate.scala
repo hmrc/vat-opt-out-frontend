@@ -17,8 +17,8 @@
 package controllers.predicates
 
 import common.SessionKeys.{businessName, inflightMandationStatus, mandationStatus}
-import config.{AppConfig, ErrorHandler}
-import javax.inject.Inject
+import config.ErrorHandler
+import javax.inject.{Inject, Singleton}
 import models.{NonMTDfB, User}
 import play.api.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -34,7 +34,6 @@ import scala.concurrent.{ExecutionContext, Future}
 class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
                                 val errorHandler: ErrorHandler,
                                 val messagesApi: MessagesApi,
-                                implicit val appConfig: AppConfig,
                                 implicit val ec: ExecutionContext)
   extends ActionRefiner[User, User] with I18nSupport {
 
