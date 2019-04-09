@@ -20,4 +20,7 @@ object SessionKeys {
   val clientVrn: String = "CLIENT_VRN"
   val confirmOptOut: String = "vatOptOutConfirm"
   val turnoverThreshold: String = "vatOptOutTurnoverThreshold"
+  val businessName: String = "businessName"
+  val mandationStatus: String = "mandationStatus"
+  val inflightMandationStatus: String = "inflightMandationStatus"
 }
