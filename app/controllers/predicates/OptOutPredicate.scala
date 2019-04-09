@@ -16,18 +16,20 @@
 
 package controllers.predicates
 
+import common.SessionKeys.{businessName, inflightMandationStatus, mandationStatus}
 import config.{AppConfig, ErrorHandler}
 import javax.inject.Inject
 import models.{NonMTDfB, User}
 import play.api.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{ActionRefiner, Request, Result}
+import play.api.mvc.Results.Redirect
+import play.api.mvc.{ActionRefiner, Result}
 import services.VatSubscriptionService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.HeaderCarrierConverter
-import play.api.mvc.Results.{Ok, Redirect}
+
 import scala.concurrent.{ExecutionContext, Future}
-import common.SessionKeys.{businessName, inflightMandationStatus, mandationStatus}
+
 @Singleton
 class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
                                 val errorHandler: ErrorHandler,
@@ -41,15 +43,19 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
     implicit val req: User[A] = request
 
-    req.session.get() match {
+    val getSessionAttribute: String => Option[String] = req.session.get
 
+    (getSessionAttribute(businessName), getSessionAttribute(inflightMandationStatus), getSessionAttribute(mandationStatus)) match {
+      case (_, _, Some(NonMTDfB.value)) =>
+        Future.successful(Left(errorHandler.showInternalServerError))
+      case (_, Some("true"), _) =>
+        //TODO error page provided by BTAT-5727
+        Future.successful(Left(errorHandler.showInternalServerError))
+      case (_, Some("false"), _) =>
+        Future.successful(Right(req))
+      case _ =>
+        getCustomerInfoCall(req.vrn)
     }
-//    req.session.get(inFlightContactDetailsChangeKey) match {
-//      case Some("true") => Future.successful(Left(Ok(views.html.errors.ppobChangePending())))
-//      case Some("false") => Future.successful(Right(req))
-//      case Some(_) => Future.successful(Left(errorHandler.showInternalServerError))
-//      case None => getCustomerInfoCall(req.vrn)
-//    }
   }
 
   private def getCustomerInfoCall[A](vrn: String)(implicit hc: HeaderCarrier,
@@ -58,12 +64,17 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
       case Right(customerInfo) =>
         (customerInfo.businessName, customerInfo.inflightMandationStatus, customerInfo.mandationStatus) match {
           case (_, _, NonMTDfB) =>
+            Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
+              "Mandation status is NonMTDfB. Rendering standard error page.")
             //TODO error page provided by BTAT-5727
-            request
             Left(errorHandler.showInternalServerError.addingToSession(mandationStatus -> NonMTDfB.value))
           case (_, true, _) =>
+            Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
+              "Mandation status is inflight. Rendering standard error page.")
             Left(errorHandler.showInternalServerError.addingToSession(inflightMandationStatus -> "true"))
           case (maybeBussName, false, mandStatus) =>
+            Logger.debug("[OptOutPredicate][getCustomerInfoCall] -"
+              + "Mandation status is not in flight and not NonMTDfB. Redirecting user to the start of the journey.")
             Left(Redirect(controllers.routes.OptOutStartController.show().url)
               .addingToSession(
                 businessName -> maybeBussName.getOrElse(""),
