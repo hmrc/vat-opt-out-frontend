@@ -46,9 +46,9 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
 
     (getSessionAttribute(businessName), getSessionAttribute(inflightMandationStatus), getSessionAttribute(mandationStatus)) match {
       case (_, _, Some(NonMTDfB.value)) =>
+        //TODO error page provided by BTAT-5714
         Future.successful(Left(errorHandler.showInternalServerError))
       case (_, Some("true"), _) =>
-        //TODO error page provided by BTAT-5727
         Future.successful(Left(errorHandler.showInternalServerError))
       case (_, Some("false"), _) =>
         Future.successful(Right(req))
@@ -65,7 +65,7 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
           case (_, _, NonMTDfB) =>
             Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
               "Mandation status is NonMTDfB. Rendering standard error page.")
-            //TODO error page provided by BTAT-5727
+            //TODO error page provided by BTAT-5714
             Left(errorHandler.showInternalServerError.addingToSession(mandationStatus -> NonMTDfB.value))
           case (_, true, _) =>
             Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
