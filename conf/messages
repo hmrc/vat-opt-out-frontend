@@ -35,6 +35,7 @@ cannotOptOut.return = Return to change of business details
 
 alreadyOptedOut.title = You have already opted out of Making Tax Digital for VAT
 alreadyOptedOut.explanation = You do not need to use compatible software to submit your VAT Returns to HMRC.
+
 confirmOptOut.title = Are you sure you want to opt out from Making Tax Digital for VAT?
 confirmOptOut.error.empty = Select yes if you want to opt out from Making Tax Digital for VAT
 
