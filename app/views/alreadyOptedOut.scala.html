@@ -16,17 +16,11 @@
 
 @()(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig)
 
-@main_template(title = messages("confirmation.title")) {
+@views.html.main_template(title = messages("alreadyOptedOut.title"), bodyClasses = None) {
+    <a class="link-back" href="@appConfig.manageVatSubscriptionServicePath">@messages("base.back")</a>
 
-<div class="govuk-box-highlight">
-  <h1 class="heading-xlarge">@messages("confirmation.title")</h1>
-</div>
+    <h1>@messages("alreadyOptedOut.title")</h1>
 
-<h2>@messages("confirmation.subheading")</h2>
-
-<p>@messages("confirmation.weWillSend")</p>
-<p>@messages("confirmation.contactDetails")</p>
-
-<a class="button" type="submit" href="@appConfig.manageVatSubscriptionServicePath">@messages("confirmation.finish")</a>
+    <p>@messages("alreadyOptedOut.explanation")</p>
 
 }
