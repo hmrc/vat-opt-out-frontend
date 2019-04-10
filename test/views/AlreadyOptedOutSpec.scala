@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package views.errors
+package views
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import views.ViewBaseSpec
 
 class AlreadyOptedOutSpec extends ViewBaseSpec{
 
@@ -28,7 +27,7 @@ class AlreadyOptedOutSpec extends ViewBaseSpec{
 
   "Rendering the error template page" should {
 
-    lazy val view = views.html.errors.alreadyOptedOut()
+    lazy val view = views.html.alreadyOptedOut()
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {
@@ -50,7 +49,7 @@ class AlreadyOptedOutSpec extends ViewBaseSpec{
       }
 
       "has the correct href" in {
-        element(".link-back").attr("href") shouldBe "/change-business-details"
+        element(".link-back").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
       }
     }
 
