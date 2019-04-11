@@ -104,14 +104,12 @@ class AuthoriseAsAgentPredicateSpec extends MockAuth {
 
       lazy val result = await(target(request))
 
-      "return Internal Server Error (500)" in {
+      "return redirect (303) to the agent client lookup service" in {
         mockAgentAuthorised()
-        status(result) shouldBe Status.INTERNAL_SERVER_ERROR
+        status(result) shouldBe Status.SEE_OTHER
+        result.header.headers.get("Location") shouldBe Some("/agent-client-lookup")
       }
 
-      "render the Internal Server Error page" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe "Sorry, we are experiencing technical difficulties - 500"
-      }
     }
   }
 }
