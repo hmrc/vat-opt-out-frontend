@@ -14,9 +14,13 @@
  * limitations under the License.
  *@
 
-@import config.AppConfig
-@()(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@()(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig)
 
-@main_template(title = "Hello from vat-opt-out-frontend", bodyClasses = None) {
-    <h1>Hello from vat-opt-out-frontend !</h1>
+@views.html.main_template(title = messages("alreadyOptedOut.title"), bodyClasses = None) {
+    <a class="link-back" href="@appConfig.manageVatSubscriptionServicePath">@messages("base.back")</a>
+
+    <h1>@messages("alreadyOptedOut.title")</h1>
+
+    <p>@messages("alreadyOptedOut.explanation")</p>
+
 }

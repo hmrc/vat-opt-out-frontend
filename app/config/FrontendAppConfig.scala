@@ -42,7 +42,8 @@ trait AppConfig extends ServicesConfig {
   val agentClientLookupServiceUrl: String
   val agentClientLookupServicePath: String
   val signInUrl: String
-  val manageVatUrl: String
+  val manageVatSubscriptionServiceUrl: String
+  val manageVatSubscriptionServicePath: String
   val thresholdPreviousYearsUrl: String
   val vatSubscriptionHost: String
   val contactPreferencesHost: String
@@ -79,7 +80,6 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
   override val vatOptOutServicePath: String =
     vatOptOutServiceUrl + getString(Keys.vatOptOutServicePath)
 
-
   override val agentClientLookupServiceUrl: String = getString(Keys.agentClientLookupUrl)
   override val agentClientLookupServicePath: String = agentClientLookupHandoff(controllers.routes.OptOutStartController.show().url)
 
@@ -90,7 +90,9 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
       s"/client-vat-number?redirectUrl=${ContinueUrl(vatOptOutServiceUrl + redirectUrl).encodedUrl}"
   }
 
-  override val manageVatUrl: String = getString(Keys.manageVatServiceUrl)
+  override val manageVatSubscriptionServiceUrl: String = getString(Keys.manageVatSubscriptionServiceUrl)
+  override val manageVatSubscriptionServicePath: String =
+    manageVatSubscriptionServiceUrl + getString(Keys.manageVatSubscriptionServicePath)
 
   override val thresholdPreviousYearsUrl: String = getString(Keys.thresholdPreviousYearsUrl)
   override val vatSubscriptionHost: String = baseUrl(Keys.vatSubscription)

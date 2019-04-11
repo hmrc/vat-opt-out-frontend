@@ -68,7 +68,7 @@ class OptOutStartViewSpec extends ViewBaseSpec {
       }
 
       "has the correct href" in {
-        element(".link-back").attr("href") shouldBe appConfig.manageVatUrl
+        element(".link-back").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
       }
     }
   }
