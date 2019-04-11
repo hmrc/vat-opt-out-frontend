@@ -61,21 +61,11 @@
 @footerTop = {}
 @footerLinks = {}
 
-@*/**@
-@* @phaseBanner = {*@
-    @*<div class="beta-banner">*@
-        @*<p>*@
-            @*<strong id="phase" class="phase-tag">@messages("banner.phaseName")</strong>*@
-            @*<span>@messages("banner.newService") <a id="beta-banner-feedback" href="@controllers.feedback.routes.FeedbackController.show()">@messages("banner.feedback")</a> @messages("banner.feedbackImprove")</span>*@
-        @*</p>*@
-    @*</div>*@
-@*}*@
-@**/*@
 @phaseBanner = {
   <div class="beta-banner">
     <p>
       <strong id="phase" class="phase-tag">@messages("betaBanner.phaseName")</strong>
-      <span>@messages("betaBanner.newService") <a id="beta-banner-feedback" href="#">@messages("betaBanner.feedback")</a> @messages("betaBanner.feedbackImprove")</span>
+      <span>@messages("betaBanner.newService") <a id="beta-banner-feedback" href="@controllers.feedback.routes.FeedbackController.show()">@messages("betaBanner.feedback")</a> @messages("betaBanner.feedbackImprove")</span>
     </p>
   </div>
 }
