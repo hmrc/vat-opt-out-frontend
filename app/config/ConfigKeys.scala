@@ -24,6 +24,8 @@ object ConfigKeys {
   val whitelistShutterPage: String = "whitelist.shutter-page-url"
   val vatOptOutServiceUrl: String = "vat-opt-out-frontend.url"
   val vatOptOutServicePath: String = "vat-opt-out-frontend.path"
+  val agentClientLookupUrl: String = "vat-agent-client-lookup-frontend.url"
+  val agentClientLookupPath: String = "vat-agent-client-lookup-frontend.path"
   val signInBaseUrl: String = "signIn.url"
   val manageVatSubscriptionServiceUrl: String = "manage-vat-subscription-frontend.url"
   val manageVatSubscriptionServicePath: String = "manage-vat-subscription-frontend.path"

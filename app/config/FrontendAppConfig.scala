@@ -39,6 +39,8 @@ trait AppConfig extends ServicesConfig {
   val shutterPage: String
   val vatOptOutServiceUrl: String
   val vatOptOutServicePath: String
+  val agentClientLookupServiceUrl: String
+  val agentClientLookupServicePath: String
   val signInUrl: String
   val manageVatSubscriptionServiceUrl: String
   val manageVatSubscriptionServicePath: String
@@ -77,6 +79,16 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
   override val vatOptOutServiceUrl: String = getString(Keys.vatOptOutServiceUrl)
   override val vatOptOutServicePath: String =
     vatOptOutServiceUrl + getString(Keys.vatOptOutServicePath)
+
+  override val agentClientLookupServiceUrl: String = getString(Keys.agentClientLookupUrl)
+  override val agentClientLookupServicePath: String = agentClientLookupHandoff(controllers.routes.OptOutStartController.show().url)
+
+
+
+  def agentClientLookupHandoff(redirectUrl: String): String = {
+    agentClientLookupServiceUrl + getString(Keys.agentClientLookupPath) +
+      s"/client-vat-number?redirectUrl=${ContinueUrl(vatOptOutServiceUrl + redirectUrl).encodedUrl}"
+  }
 
   override val manageVatSubscriptionServiceUrl: String = getString(Keys.manageVatSubscriptionServiceUrl)
   override val manageVatSubscriptionServicePath: String =
