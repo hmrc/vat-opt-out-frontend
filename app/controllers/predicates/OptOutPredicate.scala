@@ -17,12 +17,12 @@
 package controllers.predicates
 
 import common.SessionKeys.{businessName, inflightMandationStatus, mandationStatus}
-import config.ErrorHandler
+import config.{AppConfig, ErrorHandler}
 import javax.inject.{Inject, Singleton}
 import models.{NonMTDfB, User}
 import play.api.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.Results.Redirect
+import play.api.mvc.Results.{Ok, Redirect}
 import play.api.mvc.{ActionRefiner, Result}
 import services.VatSubscriptionService
 import uk.gov.hmrc.http.HeaderCarrier
@@ -34,6 +34,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
                                 val errorHandler: ErrorHandler,
                                 val messagesApi: MessagesApi,
+                                implicit val appConfig: AppConfig,
                                 implicit val ec: ExecutionContext)
   extends ActionRefiner[User, User] with I18nSupport {
 
@@ -46,8 +47,7 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
 
     (getSessionAttribute(businessName), getSessionAttribute(inflightMandationStatus), getSessionAttribute(mandationStatus)) match {
       case (_, _, Some(NonMTDfB.value)) =>
-        //TODO error page provided by BTAT-5714
-        Future.successful(Left(errorHandler.showInternalServerError))
+        Future.successful(Left(Ok(views.html.alreadyOptedOut())))
       case (_, Some("true"), _) =>
         Future.successful(Left(errorHandler.showInternalServerError))
       case (_, Some("false"), _) =>
@@ -64,9 +64,8 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
         (customerInfo.businessName, customerInfo.inflightMandationStatus, customerInfo.mandationStatus) match {
           case (_, _, NonMTDfB) =>
             Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
-              "Mandation status is NonMTDfB. Rendering standard error page.")
-            //TODO error page provided by BTAT-5714
-            Left(errorHandler.showInternalServerError.addingToSession(mandationStatus -> NonMTDfB.value))
+              "Mandation status is NonMTDfB. Rendering already opted out error page.")
+            Left(Ok(views.html.alreadyOptedOut()))
           case (_, true, _) =>
             Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
               "Mandation status is inflight. Rendering standard error page.")

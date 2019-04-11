@@ -42,6 +42,7 @@ class OptOutPredicateSpec extends MockAuth {
     mockVatSubscriptionService,
     mockErrorHandler,
     messagesApi,
+    appConfig,
     ec
   )
 
@@ -96,12 +97,12 @@ class OptOutPredicateSpec extends MockAuth {
         lazy val result = await(optOutPredicate.refine(userWithSession(false, NonMTDfB, "Harold Wren Ltd"))).left.get
         lazy val document = Jsoup.parse(bodyOf(result))
 
-        "return 500" in {
-          status(result) shouldBe Status.INTERNAL_SERVER_ERROR
+        "return 200" in {
+          status(result) shouldBe Status.OK
         }
 
-        "show the generic error page" in {
-          document.title shouldBe "Sorry, we are experiencing technical difficulties - 500"
+        "show the already opted out page" in {
+          document.title shouldBe "You have already opted out of Making Tax Digital for VAT"
         }
 
         "not call the VatSubscriptionService" in {
@@ -158,12 +159,12 @@ class OptOutPredicateSpec extends MockAuth {
         }
         lazy val document = Jsoup.parse(bodyOf(result))
 
-        "return 500" in {
-          status(result) shouldBe Status.INTERNAL_SERVER_ERROR
+        "return 200" in {
+          status(result) shouldBe Status.OK
         }
 
-        "show the generic error page" in {
-          document.title shouldBe "Sorry, we are experiencing technical difficulties - 500"
+        "show the already opted out page" in {
+          document.title shouldBe "You have already opted out of Making Tax Digital for VAT"
         }
 
         "call the VatSubscriptionService" in {
