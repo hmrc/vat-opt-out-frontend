@@ -47,13 +47,14 @@ trait AppConfig extends ServicesConfig {
   val thresholdPreviousYearsUrl: String
   val vatSubscriptionHost: String
   val contactPreferencesHost: String
+  val feedbackFormPartialUrl: String
 }
 
 @Singleton
 class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, environment: Environment) extends AppConfig {
   override protected def mode: Mode = environment.mode
 
-  lazy val contactHost: String = runModeConfiguration.getString(s"contact-frontend.host").getOrElse("")
+  lazy val contactHost: String = getString(s"contact-frontend.url")
   lazy val contactFormServiceIdentifier = "VATC"
 
   lazy val assetsPrefix: String = getString(s"assets.url") + getString(s"assets.version")
@@ -97,4 +98,6 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
   override val thresholdPreviousYearsUrl: String = getString(Keys.thresholdPreviousYearsUrl)
   override val vatSubscriptionHost: String = baseUrl(Keys.vatSubscription)
   override val contactPreferencesHost: String = baseUrl(Keys.contactPreferences)
+
+  override lazy val feedbackFormPartialUrl: String = s"$contactHost/contact/beta-feedback/form"
 }
