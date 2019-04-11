@@ -60,6 +60,7 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
   lazy val assetsPrefix: String = getString(s"assets.url") + getString(s"assets.version")
   lazy val analyticsToken: String = getString(s"google-analytics.token")
   lazy val analyticsHost: String = getString(s"google-analytics.host")
+
   lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
   lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
 
@@ -83,8 +84,6 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
 
   override val agentClientLookupServiceUrl: String = getString(Keys.agentClientLookupUrl)
   override val agentClientLookupServicePath: String = agentClientLookupHandoff(controllers.routes.OptOutStartController.show().url)
-
-
 
   def agentClientLookupHandoff(redirectUrl: String): String = {
     agentClientLookupServiceUrl + getString(Keys.agentClientLookupPath) +
