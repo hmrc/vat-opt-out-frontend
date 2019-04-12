@@ -22,21 +22,28 @@ import play.api.libs.json.{JsObject, Json}
 object CustomerInformationConstants {
 
   val customerInfoJsonAll: JsObject = Json.obj(
-    "tradingName" -> "ChoC Services",
-    "organisationName" -> "ChoC Services Ltd",
-    "firstName" -> "Chocolate",
-    "lastName" -> "Services",
-    "mandationStatus" -> "MTDfB Mandated"
+    "mandationStatus" -> "MTDfB Mandated",
+    "mandationStatus" -> "MTDfB Mandated",
+    "customerDetails" -> Json.obj(
+      "tradingName" -> "ChoC Services",
+      "organisationName" -> "ChoC Services Ltd",
+      "firstName" -> "Chocolate",
+      "lastName" -> "Services"
+    )
   )
 
   val customerInfoJsonOrg: JsObject = Json.obj(
-    "organisationName" -> "ChoC Services Ltd",
+    "customerDetails" ->  Json.obj(
+    "organisationName" -> "ChoC Services Ltd"
+    ),
     "mandationStatus" -> "MTDfB Mandated"
   )
 
   val customerInfoJsonInd: JsObject = Json.obj(
+    "customerDetails" ->  Json.obj(
     "firstName" -> "Chocolate",
-    "lastName" -> "Services",
+    "lastName" -> "Services"
+    ),
     "mandationStatus" -> "MTDfB Mandated"
   )
 
@@ -51,8 +58,8 @@ object CustomerInformationConstants {
   )
 
   val customerInfoJsonInvalid: JsObject = Json.obj(
-    "tradingName" -> true,
-    "mandationStatus" -> "MTDfB Mandated"
+
+    "mandationStatusInvalid" -> "MTDfB Mandated"
   )
 
   val customerInfoModelTradeName =

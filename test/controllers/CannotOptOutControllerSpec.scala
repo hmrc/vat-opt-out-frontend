@@ -22,12 +22,12 @@ import utils.MockAuth
 
 class CannotOptOutControllerSpec extends MockAuth {
 
-  val controller = new CannotOptOutController(mockAuthPredicate)
+  val controller = new CannotOptOutController(mockAuthPredicate, mockOptOutPredicate)
 
-  ".show()" should {
+  ".show() for an individual fulfilling predicate sessions checks" should {
 
     mockIndividualAuthorised()
-    lazy val result = controller.show()(request)
+    lazy val result = controller.show()(requestWithClientVRNMandation)
 
     "return 200" in {
       status(result) shouldBe Status.OK
@@ -38,4 +38,21 @@ class CannotOptOutControllerSpec extends MockAuth {
       charset(result) shouldBe Some("utf-8")
     }
   }
+
+  ".show() for an agent fulfilling predicate sessions checks" should {
+
+    mockAgentAuthorised()
+    lazy val result = controller.show()(requestWithClientVRNMandation)
+
+    "return 200" in {
+      status(result) shouldBe Status.OK
+    }
+
+    "return HTML" in {
+      contentType(result) shouldBe Some("text/html")
+      charset(result) shouldBe Some("utf-8")
+    }
+  }
+
+
 }

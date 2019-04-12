@@ -28,7 +28,8 @@ object VatSubscriptionHttpParser {
   implicit object VatSubscriptionReads extends HttpReads[VatSubscriptionResponse] {
     override def read(method: String, url: String, response: HttpResponse): VatSubscriptionResponse = {
       response.status match {
-        case OK => response.json.validate[CustomerInformation].fold(
+        case OK =>
+          response.json.validate[CustomerInformation].fold(
           invalid => {
             Logger.warn(s"[VatSubscriptionHttpParser][read] - Invalid JSON: $invalid")
             Left(ErrorModel(INTERNAL_SERVER_ERROR, "The endpoint returned invalid JSON."))

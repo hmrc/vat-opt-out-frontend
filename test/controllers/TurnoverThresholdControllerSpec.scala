@@ -25,13 +25,12 @@ import common.Constants.{optionYes, optionNo}
 class TurnoverThresholdControllerSpec extends MockAuth {
 
 
-  val controller = new TurnoverThresholdController(mockAuthPredicate)
+  val controller = new TurnoverThresholdController(mockAuthPredicate, mockOptOutPredicate)
 
   ".show() with no turnover value in session" should {
 
     mockIndividualAuthorised()
-    lazy val result = controller.show()(request)
-
+    lazy val result = controller.show()(requestWithClientVRNMandation)
 
     "return 200" in {
       status(result) shouldBe Status.OK
@@ -46,7 +45,7 @@ class TurnoverThresholdControllerSpec extends MockAuth {
   ".show() with a turnover value in session" should {
 
     mockIndividualAuthorised()
-    lazy val result = controller.show()(request.withSession(common.SessionKeys.turnoverThreshold -> optionYes))
+    lazy val result = controller.show()(requestWithClientVRNMandation.withSession(common.SessionKeys.turnoverThreshold -> optionYes))
 
     "return 200" in {
       status(result) shouldBe Status.OK
@@ -64,8 +63,7 @@ class TurnoverThresholdControllerSpec extends MockAuth {
 
       "the form is successfully submitted with option yes" should {
 
-        lazy val result = controller.submit(request
-          .withFormUrlEncodedBody("threshold" -> optionYes))
+        lazy val result = controller.submit(requestWithClientVRNMandation.withFormUrlEncodedBody("threshold" -> optionYes))
 
         "redirect to the correct view" in {
           status(result) shouldBe Status.SEE_OTHER
@@ -79,8 +77,7 @@ class TurnoverThresholdControllerSpec extends MockAuth {
 
       "the form is successfully submitted with option no" should {
 
-        lazy val result = controller.submit(request
-          .withFormUrlEncodedBody("threshold" -> optionNo))
+        lazy val result = controller.submit(requestWithClientVRNMandation.withFormUrlEncodedBody("threshold" -> optionNo))
 
         "redirect to the correct view" in {
           status(result) shouldBe Status.SEE_OTHER
@@ -94,8 +91,7 @@ class TurnoverThresholdControllerSpec extends MockAuth {
 
       "the form is successfully submitted with no option selected" should {
 
-        lazy val result = controller.submit(request
-          .withFormUrlEncodedBody("threshold" -> ""))
+        lazy val result = controller.submit(requestWithClientVRNMandation.withFormUrlEncodedBody("threshold" -> ""))
 
         "return to the view with a bad request" in {
           status(result) shouldBe Status.BAD_REQUEST
