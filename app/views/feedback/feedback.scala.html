@@ -19,7 +19,7 @@
 @import config.AppConfig
 
 @(partialUrl: String, formBody: Option[Html])(implicit request: Request[_], formPartialRetriever: FormPartialRetriever,
-  partialRetriever: CachedStaticHtmlPartialRetriever, messages: Messages, appConfig: AppConfig)
+        messages: Messages, appConfig: AppConfig)
 
 
 @views.html.main_template(title = messages("feedback.title"), bodyClasses = None, mainClass = None) {

@@ -28,6 +28,7 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override val analyticsHost = ""
   override val reportAProblemPartialUrl = ""
   override val reportAProblemNonJSUrl = ""
+  override val feedbackFormPartialUrl: String = ""
   override val whitelistEnabled: Boolean = false
   override val whitelistedIps: Seq[String] = Seq("")
   override val whitelistExcludedPaths: Seq[Call] = Nil
