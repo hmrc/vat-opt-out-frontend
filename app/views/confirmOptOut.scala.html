@@ -21,7 +21,7 @@
 
 @(confirmOptOutForm: Form[String])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@main_template(title = messages("confirmOptOut.title"), bodyClasses = None) {
+@main_template(title = messages("confirmOptOut.title"), bodyClasses = None, feedbackRedirect = Some(routes.ConfirmOptOutController.show().url)) {
 
     <a class="link-back" href='@routes.TurnoverThresholdController.show().url'>@messages("base.back")</a>
 

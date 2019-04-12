@@ -21,7 +21,7 @@
 
 @(turnoverThresholdForm: Form[String])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@main_template(messages("turnoverThreshold.title")) {
+@main_template(messages("turnoverThreshold.title"), feedbackRedirect = Some(routes.TurnoverThresholdController.show().url)) {
 
 <a class="link-back" href='@routes.OptOutStartController.show'>@messages("base.back")</a>
 

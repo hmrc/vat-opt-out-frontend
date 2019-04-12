@@ -28,7 +28,6 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override val analyticsHost = ""
   override val reportAProblemPartialUrl = ""
   override val reportAProblemNonJSUrl = ""
-  override val feedbackFormPartialUrl: String = ""
   override val whitelistEnabled: Boolean = false
   override val whitelistedIps: Seq[String] = Seq("")
   override val whitelistExcludedPaths: Seq[Call] = Nil
@@ -43,4 +42,5 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override val contactPreferencesHost: String = "/test-contact-preferences-host"
   override val agentClientLookupServiceUrl: String = ""
   override val agentClientLookupServicePath: String = "/agent-client-lookup"
+  override def feedbackUrl(redirect: String): String = s"feedback/$redirect"
 }
