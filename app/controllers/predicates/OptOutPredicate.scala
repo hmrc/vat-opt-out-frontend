@@ -65,7 +65,7 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
           case (_, _, NonMTDfB) =>
             Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
               "Mandation status is NonMTDfB. Rendering already opted out error page.")
-            Left(Ok(views.html.alreadyOptedOut()))
+            Left(Ok(views.html.alreadyOptedOut()).addingToSession(mandationStatus -> NonMTDfB.value))
           case (_, true, _) =>
             Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
               "Mandation status is inflight. Rendering standard error page.")

@@ -36,10 +36,12 @@ object VatSubscriptionStub extends WireMockMethods {
   }
 
   val customerInfoJsonAll: JsObject = Json.obj(
+    "customerDetails" -> Json.obj(
     "tradingName" -> "ChoC Services",
     "organisationName" -> "ChoC Services Ltd",
     "firstName" -> "Chocolate",
-    "lastName" -> "Services",
+    "lastName" -> "Services"
+     ),
     "mandationStatus" -> "MTDfB Mandated"
   )
 }

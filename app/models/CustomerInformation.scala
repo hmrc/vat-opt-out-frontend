@@ -44,10 +44,10 @@ object CustomerInformation {
   }
 
   implicit val reads: Reads[CustomerInformation] = (
-    (JsPath \ "tradingName").readNullable[String] and
-    (JsPath \ "organisationName").readNullable[String] and
-    (JsPath \ "firstName").readNullable[String] and
-    (JsPath \ "lastName").readNullable[String] and
+    (JsPath \ "customerDetails" \ "tradingName").readNullable[String].orElse(Reads.pure(None)) and
+    (JsPath \ "customerDetails" \"organisationName").readNullable[String].orElse(Reads.pure(None)) and
+    (JsPath \ "customerDetails" \"firstName").readNullable[String].orElse(Reads.pure(None)) and
+    (JsPath \ "customerDetails" \"lastName").readNullable[String].orElse(Reads.pure(None)) and
     (JsPath \ "mandationStatus").read[MandationStatus] and
     (JsPath \ "pendingChanges" \ "mandationStatus").readNullable[String].orElse(Reads.pure(None))
   )(construct _)
