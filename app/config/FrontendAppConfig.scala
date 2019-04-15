@@ -82,12 +82,10 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
 
   override val agentClientLookupServiceUrl: String = getString(Keys.agentClientLookupUrl)
   override val agentClientLookupServicePath: String = agentClientLookupHandoff(controllers.routes.OptOutStartController.show().url)
-
-
-
+  
   def agentClientLookupHandoff(redirectUrl: String): String = {
     agentClientLookupServiceUrl + getString(Keys.agentClientLookupPath) +
-      s"/client-vat-number?redirectUrl=${ContinueUrl(vatOptOutServiceUrl + redirectUrl).encodedUrl}"
+      s"/client-vat-number?redirectUrl=${ContinueUrl(vatOptOutServicePath + redirectUrl).encodedUrl}"
   }
 
   override val manageVatSubscriptionServiceUrl: String = getString(Keys.manageVatSubscriptionServiceUrl)
