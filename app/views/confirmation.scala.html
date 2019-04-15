@@ -16,7 +16,7 @@
 
 @()(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig)
 
-@main_template(title = messages("confirmation.title")) {
+@main_template(title = messages("confirmation.title"), feedbackRedirect = Some(controllers.routes.ConfirmationController.show().url)) {
 
 <div class="govuk-box-highlight">
   <h1 class="heading-xlarge">@messages("confirmation.title")</h1>

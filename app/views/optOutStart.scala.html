@@ -16,7 +16,7 @@
 
 @()(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig)
 
-@main_template(title = messages("optOutStart.title")) {
+@main_template(title = messages("optOutStart.title"), feedbackRedirect = Some(routes.OptOutStartController.show().url)) {
 
 <a class="link-back" href='@appConfig.manageVatSubscriptionServicePath'>@messages("base.back")</a>
 

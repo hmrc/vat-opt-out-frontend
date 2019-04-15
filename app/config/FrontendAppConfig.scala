@@ -47,18 +47,20 @@ trait AppConfig extends ServicesConfig {
   val thresholdPreviousYearsUrl: String
   val vatSubscriptionHost: String
   val contactPreferencesHost: String
+  def feedbackUrl(redirect: String): String
 }
 
 @Singleton
 class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, environment: Environment) extends AppConfig {
   override protected def mode: Mode = environment.mode
 
-  lazy val contactHost: String = runModeConfiguration.getString(s"contact-frontend.host").getOrElse("")
+  lazy val contactHost: String = getString(s"contact-frontend.url")
   lazy val contactFormServiceIdentifier = "VATC"
 
   lazy val assetsPrefix: String = getString(s"assets.url") + getString(s"assets.version")
   lazy val analyticsToken: String = getString(s"google-analytics.token")
   lazy val analyticsHost: String = getString(s"google-analytics.host")
+
   lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
   lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
 
@@ -82,7 +84,7 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
 
   override val agentClientLookupServiceUrl: String = getString(Keys.agentClientLookupUrl)
   override val agentClientLookupServicePath: String = agentClientLookupHandoff(controllers.routes.OptOutStartController.show().url)
-  
+
   def agentClientLookupHandoff(redirectUrl: String): String = {
     agentClientLookupServiceUrl + getString(Keys.agentClientLookupPath) +
       s"/client-vat-number?redirectUrl=${ContinueUrl(vatOptOutServicePath + redirectUrl).encodedUrl}"
@@ -95,4 +97,7 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
   override val thresholdPreviousYearsUrl: String = getString(Keys.thresholdPreviousYearsUrl)
   override val vatSubscriptionHost: String = baseUrl(Keys.vatSubscription)
   override val contactPreferencesHost: String = baseUrl(Keys.contactPreferences)
+
+  override def feedbackUrl(redirect: String): String = s"$contactHost/contact/beta-feedback?service=$contactFormServiceIdentifier" +
+    s"&backUrl=${ContinueUrl(redirect).encodedUrl}"
 }

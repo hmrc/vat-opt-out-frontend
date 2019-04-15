@@ -12,5 +12,3 @@ POST       /turnover-threshold      controllers.TurnoverThresholdController.subm
 
 GET        /confirm-opt-out         controllers.ConfirmOptOutController.show
 POST       /confirm-opt-out         controllers.ConfirmOptOutController.submit()
-
-

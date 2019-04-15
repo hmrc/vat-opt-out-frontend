@@ -24,7 +24,9 @@
   contentHeader: Option[Html] = None,
   mainContent: Html = HtmlFormat.empty,
   serviceInfoContent: Html = HtmlFormat.empty,
-  scriptElem: Option[Html] = None)(implicit request: Request[_], messages: Messages)
+  scriptElem: Option[Html] = None,
+  afterFeedbackRedirect: String
+)(implicit request: Request[_], messages: Messages)
 
 @import layouts.{govuk_template => hmrcGovUkTemplate}
 @import uk.gov.hmrc.play.views.html.{layouts => uiLayouts}
@@ -65,7 +67,7 @@
   <div class="beta-banner">
     <p>
       <strong id="phase" class="phase-tag">@messages("betaBanner.phaseName")</strong>
-      <span>@messages("betaBanner.newService") <a id="beta-banner-feedback" href="#">@messages("betaBanner.feedback")</a> @messages("betaBanner.feedbackImprove")</span>
+      <span>@messages("betaBanner.newService") <a id="beta-banner-feedback" href="@appConfig.feedbackUrl(afterFeedbackRedirect))">@messages("betaBanner.feedback")</a> @messages("betaBanner.feedbackImprove")</span>
     </p>
   </div>
 }
