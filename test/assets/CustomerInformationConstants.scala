@@ -23,7 +23,6 @@ object CustomerInformationConstants {
 
   val customerInfoJsonAll: JsObject = Json.obj(
     "mandationStatus" -> "MTDfB Mandated",
-    "mandationStatus" -> "MTDfB Mandated",
     "customerDetails" -> Json.obj(
       "tradingName" -> "ChoC Services",
       "organisationName" -> "ChoC Services Ltd",
