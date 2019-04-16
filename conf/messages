@@ -40,6 +40,9 @@ confirmation.agentPaperSend = We will send a confirmation letter to the agency a
 confirmation.agentDigitalSend = We will send an email to
 confirmation.agentDigitalwithin = within 2 working days telling you whether or not the request has been accepted.
 
+# agent no business name
+confirmation.noBusinessName = your client
+
 # client paper
 confirmation.clientPaperSend = We will send a letter to your principal place of business with an update within 15 working days.
 
@@ -52,6 +55,9 @@ confirmation.clientDigitalFail =  We will send you an update within 15 working d
 cannotOptOut.title = The business cannot opt out of Making Tax Digital for VAT
 cannotOptOut.explanation = This is because the business’s taxable turnover is, or has been, over the VAT threshold.
 cannotOptOut.return = Return to change of business details
+
+alreadyOptedOut.title = You have already opted out of Making Tax Digital for VAT
+alreadyOptedOut.explanation = You do not need to use compatible software to submit your VAT Returns to HMRC.
 
 confirmOptOut.title = Are you sure you want to opt out from Making Tax Digital for VAT?
 confirmOptOut.error.empty = Select yes if you want to opt out from Making Tax Digital for VAT

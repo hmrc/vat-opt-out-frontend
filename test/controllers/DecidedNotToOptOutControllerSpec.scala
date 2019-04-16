@@ -22,14 +22,29 @@ import utils.MockAuth
 
 class DecidedNotToOptOutControllerSpec extends MockAuth {
 
-  val controller = new DecidedNotToOptOutController(mockAuthPredicate)
+  val controller = new DecidedNotToOptOutController(mockAuthPredicate, mockOptOutPredicate)
 
-  ".show()" should {
+  ".show() for an individual fulfilling predicate sessions checks" should {
 
-    mockIndividualAuthorised()
-    lazy val result = controller.show()(request)
+    lazy val result = controller.show()(requestPredicatedClient)
 
     "return 200" in {
+      mockIndividualAuthorised()
+      status(result) shouldBe Status.OK
+    }
+
+    "return HTML" in {
+      contentType(result) shouldBe Some("text/html")
+      charset(result) shouldBe Some("utf-8")
+    }
+  }
+
+  ".show() for an agent fulfilling predicate sessions checks" should {
+
+    lazy val result = controller.show()(requestPredicatedAgentDigital)
+
+    "return 200" in {
+      mockAgentAuthorised()
       status(result) shouldBe Status.OK
     }
 

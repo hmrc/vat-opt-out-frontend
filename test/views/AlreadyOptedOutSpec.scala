@@ -19,30 +19,27 @@ package views
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-class DecidedNotToOptOutViewSpec extends ViewBaseSpec {
+class AlreadyOptedOutSpec extends ViewBaseSpec{
 
-  "The decided not to opt out view spec" should {
+  val title = "You have already opted out of Making Tax Digital for VAT"
+  val heading = "You have already opted out of Making Tax Digital for VAT"
+  val content = "You do not need to use compatible software to submit your VAT Returns to HMRC."
 
-    lazy val view = views.html.decidedNotToOptOut()
+  "Rendering the error template page" should {
+
+    lazy val view = views.html.alreadyOptedOut()
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
-    "have the correct title" in {
-      document.title shouldBe "You have decided not to opt out of Making Tax Digital"
+    "have the correct document title" in {
+      document.title shouldBe title
     }
 
-    "have the correct heading" in {
-      elementText("h1") shouldBe "You have decided not to opt out of Making Tax Digital"
+    "have the correct page heading" in {
+      elementText("#content h1") shouldBe heading
     }
 
-    "have a button" which {
-
-      "has the correct text" in {
-        elementText(".button") shouldBe "Return to change of business details"
-      }
-
-      "has the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
-      }
+    "have the correct explanation on the page" in {
+      elementText("#content p") shouldBe content
     }
 
     "have a back link" which {
@@ -52,8 +49,9 @@ class DecidedNotToOptOutViewSpec extends ViewBaseSpec {
       }
 
       "has the correct href" in {
-        element(".link-back").attr("href") shouldBe controllers.routes.ConfirmOptOutController.show().url
+        element(".link-back").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
       }
     }
+
   }
 }

@@ -29,18 +29,18 @@ class ConfirmOptOutControllerSpec extends MockAuth {
   val testNoRadioSelection: String = "no"
 
   def controller: ConfirmOptOutController = new ConfirmOptOutController(
-    messagesApi,
-    mockAuthPredicate
-  )(appConfig, ec)
+    mockAuthPredicate,
+    mockOptOutPredicate
+  )
 
   "calling the show action" when {
 
     "there is no answer to the opt out confirmation in session" should {
-      mockAgentAuthorised()
 
-      lazy val result = controller.show()(requestWithClientVRN)
+      lazy val result = controller.show()(requestPredicatedClient)
 
       "return 200" in {
+        mockAgentAuthorised()
         status(result) shouldBe Status.OK
       }
 
@@ -52,11 +52,11 @@ class ConfirmOptOutControllerSpec extends MockAuth {
     }
 
     "there is a yes answer to the opt out confirmation in session" should {
-      mockIndividualAuthorised()
 
-      lazy val result = controller.show()(request.withSession(SessionKeys.confirmOptOut -> optionYes))
+      lazy val result = controller.show()(requestPredicatedClient.withSession(SessionKeys.confirmOptOut -> optionYes))
 
       "return 200" in {
+        mockIndividualAuthorised()
         status(result) shouldBe Status.OK
       }
 
@@ -69,7 +69,7 @@ class ConfirmOptOutControllerSpec extends MockAuth {
 
   "calling the submit action" when {
 
-    lazy val testRequest = requestWithClientVRN.withFormUrlEncodedBody("confirmOptOut" -> optionYes)
+    lazy val testRequest = requestPredicatedClient.withFormUrlEncodedBody("confirmOptOut" -> optionYes)
 
     "the user selects yes and submits" should {
 
@@ -91,7 +91,7 @@ class ConfirmOptOutControllerSpec extends MockAuth {
 
     "the user selects no and submits" should {
 
-      lazy val result = controller.submit()(requestWithClientVRN.withFormUrlEncodedBody("confirmOptOut" -> optionNo))
+      lazy val result = controller.submit()(requestPredicatedClient.withFormUrlEncodedBody("confirmOptOut" -> optionNo))
 
       "add the no answer to session" in {
 
@@ -109,7 +109,7 @@ class ConfirmOptOutControllerSpec extends MockAuth {
 
     "the user doesn't select an option and submits" should {
 
-      lazy val result = controller.submit()(requestWithClientVRN)
+      lazy val result = controller.submit()(requestPredicatedClient)
 
       "return a 400 BAD_REQUEST" in {
 

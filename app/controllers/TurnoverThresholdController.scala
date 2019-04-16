@@ -23,16 +23,16 @@ import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, Request}
 import forms.TurnoverThresholdForm._
 import common.SessionKeys.turnoverThreshold
-import controllers.predicates.AuthPredicate
+import controllers.predicates.{AuthPredicate, OptOutPredicate}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class TurnoverThresholdController @Inject()(authenticate: AuthPredicate)
+class TurnoverThresholdController @Inject()(authenticate: AuthPredicate, val optOutPredicate: OptOutPredicate)
                                            (implicit val appConfig: AppConfig,
-                                            val messagesApi: MessagesApi) extends ControllerBase {
+                                            val messagesApi: MessagesApi, val ec: ExecutionContext) extends ControllerBase {
 
-  val show: Action[AnyContent] = authenticate.async { implicit request =>
+  val show: Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit request =>
     extractSessionThreshold(request) match {
       case Some(turnoverOption) =>
         Future.successful(Ok(views.html.turnoverThreshold(turnoverThresholdForm.fill(turnoverOption))))
@@ -41,7 +41,7 @@ class TurnoverThresholdController @Inject()(authenticate: AuthPredicate)
     }
   }
 
-  def submit: Action[AnyContent] = authenticate { implicit request =>
+  def submit: Action[AnyContent] = (authenticate andThen optOutPredicate) { implicit request =>
     turnoverThresholdForm.bindFromRequest().fold(
       error => {
         BadRequest(views.html.turnoverThreshold(error.discardingErrors.withError("threshold", "turnoverThreshold.error.empty")))

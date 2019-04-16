@@ -16,19 +16,19 @@
 
 package controllers
 
-import controllers.predicates.AuthPredicate
+import controllers.predicates.{AuthPredicate, OptOutPredicate}
 import config.AppConfig
 import javax.inject.Inject
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-class CannotOptOutController @Inject()(authenticate: AuthPredicate)
+class CannotOptOutController @Inject()(authenticate: AuthPredicate, val optOutPredicate: OptOutPredicate)
                                       (implicit val appConfig: AppConfig,
-                                       val messagesApi: MessagesApi) extends ControllerBase {
+                                       val messagesApi: MessagesApi, val ec: ExecutionContext) extends ControllerBase {
 
-  def show(): Action[AnyContent] = authenticate.async { implicit request =>
+  def show(): Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit request =>
     Future.successful(Ok(views.html.cannotOptOut()))
   }
 }

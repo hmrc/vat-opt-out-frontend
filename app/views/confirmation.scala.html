@@ -30,13 +30,13 @@
 
 @if(confirmationPreference.isTransactor) {
      @displayTransactorMessage(confirmationPreference.preferenceType, confirmationPreference.transactorEmail.getOrElse(""),
-         confirmationPreference.businessName.getOrElse(""))
+         confirmationPreference.businessName.getOrElse(messages("confirmation.noBusinessName")))
   } else {
      @displayClientMessage(confirmationPreference.preferenceType)
 }
 
 
 
-<a class="button" type="submit" href="@appConfig.manageVatUrl">@messages("confirmation.finish")</a>
+<a class="button" type="submit" href="@appConfig.manageVatSubscriptionServiceUrl">@messages("confirmation.finish")</a>
 
 }

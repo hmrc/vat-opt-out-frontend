@@ -16,12 +16,12 @@
 
 package utils
 
-import controllers.predicates.{AuthPredicate, AuthoriseAsAgentWithClient}
+import controllers.predicates.{AuthPredicate, AuthoriseAsAgentWithClient, OptOutPredicate}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.mockito.stubbing.OngoingStubbing
 import org.scalatestplus.mockito.MockitoSugar
-import services.EnrolmentsAuthService
+import services.{EnrolmentsAuthService, VatSubscriptionService}
 import uk.gov.hmrc.auth.core.retrieve.{Retrieval, ~}
 import uk.gov.hmrc.auth.core._
 
@@ -31,6 +31,8 @@ trait MockAuth extends TestUtils with MockitoSugar {
 
   val mockAuthConnector: AuthConnector = mock[AuthConnector]
   val mockEnrolmentsAuthService: EnrolmentsAuthService = new EnrolmentsAuthService(mockAuthConnector)
+
+  val mockVatSubscriptionService: VatSubscriptionService = mock[VatSubscriptionService]
 
   val mockAuthAsAgentWithClient = new AuthoriseAsAgentWithClient(
     mockEnrolmentsAuthService,
@@ -47,6 +49,13 @@ trait MockAuth extends TestUtils with MockitoSugar {
     mockAuthAsAgentWithClient,
     appConfig,
     ec
+  )
+
+  val mockOptOutPredicate = new OptOutPredicate(
+    mockVatSubscriptionService,
+    mockErrorHandler,
+    messagesApi,
+    appConfig, ec
   )
 
   def setupAuthResponse(authResult: Future[~[Option[AffinityGroup], Enrolments]]): OngoingStubbing[Future[~[Option[AffinityGroup], Enrolments]]] = {

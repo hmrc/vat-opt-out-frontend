@@ -18,20 +18,22 @@ package controllers
 
 import common.{Constants, SessionKeys}
 import config.AppConfig
-import controllers.predicates.AuthPredicate
+import controllers.predicates.{AuthPredicate, OptOutPredicate}
 import javax.inject.{Inject, Singleton}
-import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.i18n.MessagesApi
 import play.api.mvc._
 import forms.ConfirmOptOutForm._
+import services.ContactPreferencesService
 
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class ConfirmOptOutController @Inject()(val messagesApi: MessagesApi,
-                                        val authenticate: AuthPredicate)
-                                       (implicit val appConfig: AppConfig, val ec: ExecutionContext) extends ControllerBase {
+class ConfirmOptOutController @Inject()(val authenticate: AuthPredicate,
+                                        val optOutPredicate: OptOutPredicate)
+                                       (implicit val appConfig: AppConfig,
+                                        val messagesApi: MessagesApi, val ec: ExecutionContext) extends ControllerBase {
 
-  def show(): Action[AnyContent] = authenticate.async { implicit request =>
+  def show(): Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit request =>
 
     val confirmOptOut = request.session.get(SessionKeys.confirmOptOut)
 
@@ -44,7 +46,7 @@ class ConfirmOptOutController @Inject()(val messagesApi: MessagesApi,
 
   }
 
-  def submit: Action[AnyContent] = authenticate { implicit user =>
+  def submit: Action[AnyContent] = (authenticate andThen optOutPredicate) { implicit user =>
     confirmOptOutForm.bindFromRequest().fold(
       error => BadRequest(views.html.confirmOptOut(error.discardingErrors.withError(
         Constants.confirmOptOut, "confirmOptOut.error.empty"))),
@@ -60,3 +62,4 @@ class ConfirmOptOutController @Inject()(val messagesApi: MessagesApi,
     )
   }
 }
+

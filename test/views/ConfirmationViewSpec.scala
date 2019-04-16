@@ -56,7 +56,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       }
 
       "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatUrl
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServiceUrl
       }
     }
   }
@@ -94,7 +94,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       }
 
       "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatUrl
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServiceUrl
       }
     }
   }
@@ -131,7 +131,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       }
 
       "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatUrl
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServiceUrl
       }
     }
   }
@@ -169,11 +169,48 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       }
 
       "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatUrl
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServiceUrl
       }
     }
   }
 
+  "The confirmation page for a transactor with digital preference but no business name" should {
+
+    lazy val view = views.html.confirmation(agentPreferencesDigitalNoBusinessName)
+    lazy implicit val document: Document = Jsoup.parse(view.body)
+
+    "have the correct title" in {
+      document.title shouldBe "Request to opt out of Making Tax Digital for VAT received"
+    }
+
+    "have the correct heading" in {
+      elementText("h1") shouldBe "Request to opt out of Making Tax Digital for VAT received"
+    }
+
+    "have the correct subheading" in {
+      elementText("h2") shouldBe "What happens next"
+    }
+
+    "have the correct first paragraph" in {
+      elementText("#content p:nth-of-type(1)") shouldBe "We will send an email to test@test.com " +
+        "within 2 working days telling you whether or not the request has been accepted."
+    }
+
+    "have the correct second paragraph" in {
+      elementText("#content p:nth-of-type(2)") shouldBe "We will also contact your client with an update."
+    }
+
+    "have a button which" should {
+
+      "have the correct text" in {
+        elementText(".button") shouldBe "Finish"
+      }
+
+      "have the correct href" in {
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServiceUrl
+      }
+    }
+  }
 
   "The confirmation page for a transactor with paper preference" should {
 
@@ -193,8 +230,6 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     }
 
     "have the correct first paragraph" in {
-      println("ggggggg")
-      println(elementText("#content p:nth-of-type(1)"))
       elementText("#content p:nth-of-type(1)") shouldBe "We will send a confirmation letter to the agency address within 15 working days."
     }
 
@@ -209,10 +244,46 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       }
 
       "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatUrl
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServiceUrl
+      }
+    }
+  }
+
+  "The confirmation page for a transactor with paper preference but no business name" should {
+
+    lazy val view = views.html.confirmation(agentPreferencesPaperNoBusinessName)
+    lazy implicit val document: Document = Jsoup.parse(view.body)
+
+    "have the correct title" in {
+      document.title shouldBe "Request to opt out of Making Tax Digital for VAT received"
+    }
+
+    "have the correct heading" in {
+      elementText("h1") shouldBe "Request to opt out of Making Tax Digital for VAT received"
+    }
+
+    "have the correct subheading" in {
+      elementText("h2") shouldBe "What happens next"
+    }
+
+    "have the correct first paragraph" in {
+      elementText("#content p:nth-of-type(1)") shouldBe "We will send a confirmation letter to the agency address within 15 working days."
+    }
+
+    "have the correct second paragraph" in {
+      elementText("#content p:nth-of-type(2)") shouldBe "We will also contact your client with an update."
+    }
+
+    "have a button which" should {
+
+      "have the correct text" in {
+        elementText(".button") shouldBe "Finish"
+      }
+
+      "have the correct href" in {
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServiceUrl
       }
     }
   }
 
 }
-

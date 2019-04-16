@@ -35,8 +35,11 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override val vatOptOutServiceUrl = ""
   override val vatOptOutServicePath = ""
   override val signInUrl = "/sign-in-url"
-  override val manageVatUrl: String = "/manage-vat"
+  override val manageVatSubscriptionServiceUrl: String = ""
+  override val manageVatSubscriptionServicePath: String = "/change-business-details"
   override val thresholdPreviousYearsUrl: String = "/some-link"
   override val vatSubscriptionHost: String = "vat-subscription"
   override val contactPreferencesHost: String = "/test-contact-preferences-host"
+  override val agentClientLookupServiceUrl: String = ""
+  override val agentClientLookupServicePath: String = "/agent-client-lookup"
 }

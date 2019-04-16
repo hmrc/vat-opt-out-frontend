@@ -46,7 +46,7 @@ class CannotOptOutViewSpec extends ViewBaseSpec {
       }
 
       "has the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatUrl
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
       }
     }
 
