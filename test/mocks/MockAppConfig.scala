@@ -42,5 +42,8 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override val contactPreferencesHost: String = "/test-contact-preferences-host"
   override val agentClientLookupServiceUrl: String = ""
   override val agentClientLookupServicePath: String = "/agent-client-lookup"
+
+  override val host: String = "localhost:9166"
+
   override def feedbackUrl(redirect: String): String = s"feedback/$redirect"
 }

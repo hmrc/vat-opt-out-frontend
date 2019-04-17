@@ -47,6 +47,7 @@ trait AppConfig extends ServicesConfig {
   val thresholdPreviousYearsUrl: String
   val vatSubscriptionHost: String
   val contactPreferencesHost: String
+  val host: String
   def feedbackUrl(redirect: String): String
 }
 
@@ -98,6 +99,9 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
   override val vatSubscriptionHost: String = baseUrl(Keys.vatSubscription)
   override val contactPreferencesHost: String = baseUrl(Keys.contactPreferences)
 
+
+  override val host: String = getString(Keys.host)
+
   override def feedbackUrl(redirect: String): String = s"$contactHost/contact/beta-feedback?service=$contactFormServiceIdentifier" +
-    s"&backUrl=${ContinueUrl(redirect).encodedUrl}"
+    s"&backUrl=${ContinueUrl(host + redirect).encodedUrl}"
 }
