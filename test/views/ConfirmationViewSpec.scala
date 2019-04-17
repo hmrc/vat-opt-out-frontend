@@ -56,7 +56,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       }
 
       "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServiceUrl
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
       }
     }
   }
@@ -94,7 +94,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       }
 
       "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServiceUrl
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
       }
     }
   }
@@ -131,7 +131,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       }
 
       "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServiceUrl
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
       }
     }
   }
@@ -169,7 +169,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       }
 
       "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServiceUrl
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
       }
     }
   }
@@ -207,7 +207,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       }
 
       "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServiceUrl
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
       }
     }
   }
@@ -244,7 +244,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       }
 
       "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServiceUrl
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
       }
     }
   }
@@ -281,7 +281,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       }
 
       "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServiceUrl
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
       }
     }
   }
