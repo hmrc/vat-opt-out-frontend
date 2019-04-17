@@ -103,5 +103,5 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
   override val host: String = getString(Keys.host)
 
   override def feedbackUrl(redirect: String): String = s"$contactHost/contact/beta-feedback?service=$contactFormServiceIdentifier" +
-    s"&backUrl=${ContinueUrl(redirect).encodedUrl}"
+    s"&backUrl=${ContinueUrl(host + redirect).encodedUrl}"
 }
