@@ -32,4 +32,5 @@ object ConfigKeys {
   val thresholdPreviousYearsUrl: String = "thresholdPreviousYearsUrl"
   val vatSubscription: String = "vat-subscription"
   val contactPreferences: String = "contact-preferences"
+  val host: String = "host"
 }
