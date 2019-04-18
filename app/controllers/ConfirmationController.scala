@@ -23,7 +23,6 @@ import controllers.predicates.{AuthPredicate, OptOutPredicate}
 import javax.inject.Inject
 import models.ContactPreferences
 import models.viewModels.ConfirmationPreference
-import play.api.Logger
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, Request}
 import services.ContactPreferencesService

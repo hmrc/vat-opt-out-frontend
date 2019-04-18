@@ -14,17 +14,16 @@
  * limitations under the License.
  *@
 
-@import common.Constants.{preferenceDigital, preferencePaper, preferenceFail}
+@import common.Constants.{preferenceDigital, preferencePaper}
 @(preferenceType: String, email: String, businessName: String)(implicit messages: Messages)
 
 @preferenceType match {
  case `preferenceDigital` =>  {
-   <p>@messages("confirmation.agentDigitalSend") <span class="bold">@email</span> @messages("confirmation.agentDigitalwithin")</p>
-   <p class="forn-grpoup">@messages("confirmation.business.contact") <span class="bold">@businessName</span> @messages("confirmation.business.update")</p>
+   <p>@messages("confirmation.agentDigitalSend") <span class="bold">@email</span> @messages("confirmation.agentDigitalWithin")</p>
  }
-
  case `preferencePaper` =>  {
    <p>@messages("confirmation.agentPaperSend")</p>
-   <p class="forn-grpoup">@messages("confirmation.business.contact") <span class="bold">@businessName</span> @messages("confirmation.business.update")</p>
  }
 }
+
+<p class="form-group">@messages("confirmation.business.contact") <span class="bold">@businessName</span> @messages("confirmation.business.update")</p>

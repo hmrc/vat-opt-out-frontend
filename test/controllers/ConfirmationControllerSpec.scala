@@ -26,7 +26,7 @@ import play.api.mvc.Result
 
 import scala.concurrent.Future
 
-class ConfirmationControllerSpec extends MockAuth with MockContactPreferencesService with TestUtils {
+class ConfirmationControllerSpec extends MockAuth with MockContactPreferencesService {
 
   def controller: ConfirmationController = new ConfirmationController(
     mockAuthPredicate, mockOptOutPredicate,

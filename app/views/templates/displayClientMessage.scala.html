@@ -20,15 +20,13 @@
 @preferenceType match {
  case `preferenceDigital` => {
   <p>@messages("confirmation.clientDigitalSend")</p>
-  <p>@messages("confirmation.contactDetails")</p>
  }
  case `preferencePaper` =>  {
   <p>@messages("confirmation.clientPaperSend")</p>
-  <p>@messages("confirmation.contactDetails")</p>
  }
  case `preferenceFail` =>  {
   <p>@messages("confirmation.clientDigitalFail")</p>
-  <p>@messages("confirmation.contactDetails")</p>
  }
-
 }
+
+<p>@messages("confirmation.contactDetails")</p>

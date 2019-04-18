@@ -38,7 +38,7 @@ confirmation.agentPaperSend = We will send a confirmation letter to the agency a
 
 # agent digital. Agent email inserted between the below
 confirmation.agentDigitalSend = We will send an email to
-confirmation.agentDigitalwithin = within 2 working days telling you whether or not the request has been accepted.
+confirmation.agentDigitalWithin = within 2 working days telling you whether or not the request has been accepted.
 
 # agent no business name
 confirmation.noBusinessName = your client
