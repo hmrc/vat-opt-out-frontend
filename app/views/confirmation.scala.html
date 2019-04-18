@@ -14,7 +14,11 @@
  * limitations under the License.
  *@
 
-@()(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig)
+@import models.viewModels.ConfirmationPreference
+@import views.html.templates.displayClientMessage
+@import views.html.templates.displayTransactorMessage
+
+@(confirmationPreference: ConfirmationPreference)(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig)
 
 @main_template(title = messages("confirmation.title"), feedbackRedirect = Some(controllers.routes.ConfirmationController.show().url)) {
 
@@ -24,8 +28,14 @@
 
 <h2>@messages("confirmation.subheading")</h2>
 
-<p>@messages("confirmation.weWillSend")</p>
-<p>@messages("confirmation.contactDetails")</p>
+@if(confirmationPreference.isTransactor) {
+     @displayTransactorMessage(confirmationPreference.preferenceType, confirmationPreference.transactorEmail.getOrElse(""),
+         confirmationPreference.businessName.getOrElse(messages("confirmation.noBusinessName")))
+  } else {
+     @displayClientMessage(confirmationPreference.preferenceType)
+}
+
+
 
 <a class="button" type="submit" href="@appConfig.manageVatSubscriptionServicePath">@messages("confirmation.finish")</a>
 

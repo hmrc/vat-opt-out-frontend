@@ -26,10 +26,10 @@ class OptOutStartControllerSpec extends MockAuth {
 
   ".show() for an individual fulfilling predicate sessions checks" should {
 
-    mockIndividualAuthorised()
-    lazy val result = controller.show()(requestWithClientVRNMandation)
+    lazy val result = controller.show()(requestPredicatedClient)
 
     "return 200" in {
+      mockIndividualAuthorised()
       status(result) shouldBe Status.OK
     }
 
@@ -39,13 +39,12 @@ class OptOutStartControllerSpec extends MockAuth {
     }
   }
 
-
   ".show() for an agent fulfilling predicate sessions checks" should {
 
-    mockAgentAuthorised()
-    lazy val result = controller.show()(requestWithClientVRNMandation)
+    lazy val result = controller.show()(requestPredicatedAgentDigital)
 
     "return 200" in {
+      mockAgentAuthorised()
       status(result) shouldBe Status.OK
     }
 

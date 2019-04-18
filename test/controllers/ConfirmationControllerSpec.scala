@@ -16,20 +16,29 @@
 
 package controllers
 
+import mocks.MockContactPreferencesService
 import play.api.http.Status
 import play.api.test.Helpers._
-import utils.MockAuth
+import utils.{MockAuth, TestUtils}
+import models.{ContactPreferences, ErrorModel}
+import common.Constants.{preferenceDigital, preferencePaper}
+import play.api.mvc.Result
 
-class ConfirmationControllerSpec extends MockAuth {
+import scala.concurrent.Future
 
-  val controller = new ConfirmationController(mockAuthPredicate, mockOptOutPredicate)
+class ConfirmationControllerSpec extends MockAuth with MockContactPreferencesService {
 
-  ".show() for an individual fulfilling predicate sessions checks" should {
+  def controller: ConfirmationController = new ConfirmationController(
+    mockAuthPredicate, mockOptOutPredicate,
+    mockContactPreferencesService
+  )
 
-    mockIndividualAuthorised()
-    lazy val result = controller.show()(requestWithClientVRNMandation)
+  ".show() for a transactor with digital preference but no business name in session" should {
+
+    lazy val result = controller.show()(requestMandatedClientVRNNoBusinessName)
 
     "return 200" in {
+      mockAgentAuthorised()
       status(result) shouldBe Status.OK
     }
 
@@ -39,12 +48,75 @@ class ConfirmationControllerSpec extends MockAuth {
     }
   }
 
-  ".show() for an agent fulfilling predicate sessions checks" should {
+  ".show() for a transactor with digital preference (verified email in session)" should {
 
-    mockAgentAuthorised()
-    lazy val result = controller.show()(requestWithClientVRNMandation)
+    lazy val result = controller.show()(requestPredicatedAgentDigital)
 
     "return 200" in {
+      mockAgentAuthorised()
+      status(result) shouldBe Status.OK
+    }
+
+    "return HTML" in {
+      contentType(result) shouldBe Some("text/html")
+      charset(result) shouldBe Some("utf-8")
+    }
+  }
+
+  ".show() for an transactor with paper preference (no verified email in session)" should {
+
+    lazy val result = controller.show()(requestPredicatedAgentPaper)
+
+    "return 200" in {
+      mockAgentAuthorised()
+      status(result) shouldBe Status.OK
+    }
+
+    "return HTML" in {
+      contentType(result) shouldBe Some("text/html")
+      charset(result) shouldBe Some("utf-8")
+    }
+  }
+
+  ".show() for an individual with digital preference" should {
+
+    lazy val result = controller.show()(requestPredicatedClient)
+
+    "return 200" in {
+      mockIndividualAuthorised()
+      mockGetContactPreferences("123456789")(Future(Right(ContactPreferences(preferenceDigital))))
+      status(result) shouldBe Status.OK
+    }
+
+    "return HTML" in {
+      contentType(result) shouldBe Some("text/html")
+      charset(result) shouldBe Some("utf-8")
+    }
+  }
+
+  ".show() for an individual with paper preference" should {
+
+    lazy val result = controller.show()(requestPredicatedClient)
+
+    "return 200" in {
+      mockIndividualAuthorised()
+      mockGetContactPreferences("123456789")(Future(Right(ContactPreferences(preferencePaper))))
+      status(result) shouldBe Status.OK
+    }
+
+    "return HTML" in {
+      contentType(result) shouldBe Some("text/html")
+      charset(result) shouldBe Some("utf-8")
+    }
+  }
+
+  ".show() for an individual where preference could not be retrieved from service" should {
+
+    lazy val result: Future[Result] = controller.show()(requestPredicatedClient)
+
+    "return 200" in {
+      mockIndividualAuthorised()
+      mockGetContactPreferences("123456789")(Future(Left(ErrorModel(NOT_FOUND, "Couldn't find a user with VRN provided"))))
       status(result) shouldBe Status.OK
     }
 

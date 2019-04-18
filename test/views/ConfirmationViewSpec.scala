@@ -18,12 +18,13 @@ package views
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import assets.ContactPreferencesConstants._
 
 class ConfirmationViewSpec extends ViewBaseSpec {
 
-  "The confirmation page" should {
+  "The confirmation page for a client with digital preference" should {
 
-    lazy val view = views.html.confirmation()
+    lazy val view = views.html.confirmation(clientPreferencesDigital)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct title" in {
@@ -59,4 +60,230 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       }
     }
   }
+
+  "The confirmation page for a client with paper preference" should {
+
+    lazy val view = views.html.confirmation(clientPreferencesPaper)
+    lazy implicit val document: Document = Jsoup.parse(view.body)
+
+    "have the correct title" in {
+      document.title shouldBe "Request to opt out of Making Tax Digital for VAT received"
+    }
+
+    "have the correct heading" in {
+      elementText("h1") shouldBe "Request to opt out of Making Tax Digital for VAT received"
+    }
+
+    "have the correct subheading" in {
+      elementText("h2") shouldBe "What happens next"
+    }
+
+    "have the correct first paragraph" in {
+      elementText("#content p:nth-of-type(1)") shouldBe "We will send a letter to your principal place of business with an " +
+        "update within 15 working days."
+    }
+
+    "have the correct second paragraph" in {
+      elementText("#content p:nth-of-type(2)") shouldBe "Make sure your contact details are up to date."
+    }
+
+    "have a button which" should {
+
+      "have the correct text" in {
+        elementText(".button") shouldBe "Finish"
+      }
+
+      "have the correct href" in {
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
+      }
+    }
+  }
+
+  "The confirmation page for a client where the preference could not be obtained" should {
+
+    lazy val view = views.html.confirmation(clientPreferencesFail)
+    lazy implicit val document: Document = Jsoup.parse(view.body)
+
+    "have the correct title" in {
+      document.title shouldBe "Request to opt out of Making Tax Digital for VAT received"
+    }
+
+    "have the correct heading" in {
+      elementText("h1") shouldBe "Request to opt out of Making Tax Digital for VAT received"
+    }
+
+    "have the correct subheading" in {
+      elementText("h2") shouldBe "What happens next"
+    }
+
+    "have the correct first paragraph" in {
+      elementText("#content p:nth-of-type(1)") shouldBe "We will send you an update within 15 working days."
+    }
+
+    "have the correct second paragraph" in {
+      elementText("#content p:nth-of-type(2)") shouldBe "Make sure your contact details are up to date."
+    }
+
+    "have a button which" should {
+
+      "have the correct text" in {
+        elementText(".button") shouldBe "Finish"
+      }
+
+      "have the correct href" in {
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
+      }
+    }
+  }
+
+  "The confirmation page for a transactor with digital preference" should {
+
+    lazy val view = views.html.confirmation(agentPreferencesDigital)
+    lazy implicit val document: Document = Jsoup.parse(view.body)
+
+    "have the correct title" in {
+      document.title shouldBe "Request to opt out of Making Tax Digital for VAT received"
+    }
+
+    "have the correct heading" in {
+      elementText("h1") shouldBe "Request to opt out of Making Tax Digital for VAT received"
+    }
+
+    "have the correct subheading" in {
+      elementText("h2") shouldBe "What happens next"
+    }
+
+    "have the correct first paragraph" in {
+      elementText("#content p:nth-of-type(1)") shouldBe "We will send an email to test@test.com " +
+        "within 2 working days telling you whether or not the request has been accepted."
+    }
+
+    "have the correct second paragraph" in {
+      elementText("#content p:nth-of-type(2)") shouldBe "We will also contact Acme ltd with an update."
+    }
+
+    "have a button which" should {
+
+      "have the correct text" in {
+        elementText(".button") shouldBe "Finish"
+      }
+
+      "have the correct href" in {
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
+      }
+    }
+  }
+
+  "The confirmation page for a transactor with digital preference but no business name" should {
+
+    lazy val view = views.html.confirmation(agentPreferencesDigitalNoBusinessName)
+    lazy implicit val document: Document = Jsoup.parse(view.body)
+
+    "have the correct title" in {
+      document.title shouldBe "Request to opt out of Making Tax Digital for VAT received"
+    }
+
+    "have the correct heading" in {
+      elementText("h1") shouldBe "Request to opt out of Making Tax Digital for VAT received"
+    }
+
+    "have the correct subheading" in {
+      elementText("h2") shouldBe "What happens next"
+    }
+
+    "have the correct first paragraph" in {
+      elementText("#content p:nth-of-type(1)") shouldBe "We will send an email to test@test.com " +
+        "within 2 working days telling you whether or not the request has been accepted."
+    }
+
+    "have the correct second paragraph" in {
+      elementText("#content p:nth-of-type(2)") shouldBe "We will also contact your client with an update."
+    }
+
+    "have a button which" should {
+
+      "have the correct text" in {
+        elementText(".button") shouldBe "Finish"
+      }
+
+      "have the correct href" in {
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
+      }
+    }
+  }
+
+  "The confirmation page for a transactor with paper preference" should {
+
+    lazy val view = views.html.confirmation(agentPreferencesPaper)
+    lazy implicit val document: Document = Jsoup.parse(view.body)
+
+    "have the correct title" in {
+      document.title shouldBe "Request to opt out of Making Tax Digital for VAT received"
+    }
+
+    "have the correct heading" in {
+      elementText("h1") shouldBe "Request to opt out of Making Tax Digital for VAT received"
+    }
+
+    "have the correct subheading" in {
+      elementText("h2") shouldBe "What happens next"
+    }
+
+    "have the correct first paragraph" in {
+      elementText("#content p:nth-of-type(1)") shouldBe "We will send a confirmation letter to the agency address within 15 working days."
+    }
+
+    "have the correct second paragraph" in {
+      elementText("#content p:nth-of-type(2)") shouldBe "We will also contact Acme ltd with an update."
+    }
+
+    "have a button which" should {
+
+      "have the correct text" in {
+        elementText(".button") shouldBe "Finish"
+      }
+
+      "have the correct href" in {
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
+      }
+    }
+  }
+
+  "The confirmation page for a transactor with paper preference but no business name" should {
+
+    lazy val view = views.html.confirmation(agentPreferencesPaperNoBusinessName)
+    lazy implicit val document: Document = Jsoup.parse(view.body)
+
+    "have the correct title" in {
+      document.title shouldBe "Request to opt out of Making Tax Digital for VAT received"
+    }
+
+    "have the correct heading" in {
+      elementText("h1") shouldBe "Request to opt out of Making Tax Digital for VAT received"
+    }
+
+    "have the correct subheading" in {
+      elementText("h2") shouldBe "What happens next"
+    }
+
+    "have the correct first paragraph" in {
+      elementText("#content p:nth-of-type(1)") shouldBe "We will send a confirmation letter to the agency address within 15 working days."
+    }
+
+    "have the correct second paragraph" in {
+      elementText("#content p:nth-of-type(2)") shouldBe "We will also contact your client with an update."
+    }
+
+    "have a button which" should {
+
+      "have the correct text" in {
+        elementText(".button") shouldBe "Finish"
+      }
+
+      "have the correct href" in {
+        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
+      }
+    }
+  }
+
 }

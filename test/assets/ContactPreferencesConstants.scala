@@ -16,7 +16,9 @@
 
 package assets
 
+import common.Constants
 import models.ContactPreferences
+import models.viewModels.ConfirmationPreference
 import play.api.libs.json.{JsObject, Json}
 
 object ContactPreferencesConstants {
@@ -30,4 +32,12 @@ object ContactPreferencesConstants {
   )
 
   val contactPreferenceModelDigital = ContactPreferences("Digital")
+
+  val agentPreferencesPaper = ConfirmationPreference(isTransactor = true, Constants.preferencePaper, Some("Acme ltd"), Some("test@test.com"))
+  val agentPreferencesPaperNoBusinessName = ConfirmationPreference(isTransactor = true, Constants.preferencePaper, None, Some("test@test.com"))
+  val agentPreferencesDigital = ConfirmationPreference(isTransactor = true, Constants.preferenceDigital, Some("Acme ltd"), Some("test@test.com"))
+  val agentPreferencesDigitalNoBusinessName = ConfirmationPreference(isTransactor = true, Constants.preferenceDigital, None, Some("test@test.com"))
+  val clientPreferencesDigital = ConfirmationPreference(isTransactor = false, Constants.preferenceDigital, None, None)
+  val clientPreferencesPaper = ConfirmationPreference(isTransactor = false, Constants.preferencePaper, None, None)
+  val clientPreferencesFail = ConfirmationPreference(isTransactor = false, Constants.preferenceFail, None, None)
 }

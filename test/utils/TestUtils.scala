@@ -21,6 +21,7 @@ import akka.stream.ActorMaterializer
 import common.SessionKeys
 import config.ErrorHandler
 import mocks.MockAppConfig
+import models.MTDfBMandated
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.inject.Injector
@@ -46,7 +47,24 @@ trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
 
   lazy val requestWithClientVRN: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest().withSession(SessionKeys.clientVrn -> "123456789")
-  lazy val requestWithClientVRNMandation: FakeRequest[AnyContentAsEmpty.type] =
-    FakeRequest().withSession(SessionKeys.clientVrn -> "123456789",SessionKeys.inflightMandationStatus -> "false")
+
+  lazy val requestPredicatedAgentDigital: FakeRequest[AnyContentAsEmpty.type] =
+    FakeRequest().withSession(SessionKeys.businessName -> "Acme ltd.", SessionKeys.clientVrn -> "123456789",
+      SessionKeys.mandationStatus -> MTDfBMandated.value, SessionKeys.inflightMandationStatus -> "false",
+      SessionKeys.verifiedAgentEmail -> "test@test.com")
+
+  lazy val requestPredicatedAgentPaper: FakeRequest[AnyContentAsEmpty.type] =
+    FakeRequest().withSession(SessionKeys.businessName -> "Acme ltd.", SessionKeys.clientVrn -> "123456789",
+      SessionKeys.mandationStatus -> MTDfBMandated.value, SessionKeys.inflightMandationStatus -> "false")
+
+  lazy val requestPredicatedClient: FakeRequest[AnyContentAsEmpty.type] =
+    FakeRequest().withSession(SessionKeys.clientVrn -> "123456789",
+      SessionKeys.mandationStatus -> MTDfBMandated.value, SessionKeys.inflightMandationStatus -> "false")
+
+  lazy val requestMandatedClientVRNNoBusinessName: FakeRequest[AnyContentAsEmpty.type] =
+    FakeRequest().withSession(SessionKeys.clientVrn -> "123456789",
+      SessionKeys.mandationStatus -> MTDfBMandated.value, SessionKeys.inflightMandationStatus -> "false",
+      SessionKeys.verifiedAgentEmail -> "test@test.com")
+
   lazy val mockErrorHandler: ErrorHandler = new ErrorHandler(messagesApi, appConfig)
 }

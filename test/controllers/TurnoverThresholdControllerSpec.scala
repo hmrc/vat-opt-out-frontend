@@ -29,10 +29,10 @@ class TurnoverThresholdControllerSpec extends MockAuth {
 
   ".show() with no turnover value in session" should {
 
-    mockIndividualAuthorised()
-    lazy val result = controller.show()(requestWithClientVRNMandation)
+    lazy val result = controller.show()(requestPredicatedClient)
 
     "return 200" in {
+      mockIndividualAuthorised()
       status(result) shouldBe Status.OK
     }
 
@@ -44,10 +44,10 @@ class TurnoverThresholdControllerSpec extends MockAuth {
 
   ".show() with a turnover value in session" should {
 
-    mockIndividualAuthorised()
-    lazy val result = controller.show()(requestWithClientVRNMandation.withSession(common.SessionKeys.turnoverThreshold -> optionYes))
+    lazy val result = controller.show()(requestPredicatedClient.withSession(common.SessionKeys.turnoverThreshold -> optionYes))
 
     "return 200" in {
+      mockIndividualAuthorised()
       status(result) shouldBe Status.OK
     }
 
@@ -63,7 +63,7 @@ class TurnoverThresholdControllerSpec extends MockAuth {
 
       "the form is successfully submitted with option yes" should {
 
-        lazy val result = controller.submit(requestWithClientVRNMandation.withFormUrlEncodedBody("threshold" -> optionYes))
+        lazy val result = controller.submit(requestPredicatedClient.withFormUrlEncodedBody("threshold" -> optionYes))
 
         "redirect to the correct view" in {
           status(result) shouldBe Status.SEE_OTHER
@@ -77,21 +77,21 @@ class TurnoverThresholdControllerSpec extends MockAuth {
 
       "the form is successfully submitted with option no" should {
 
-        lazy val result = controller.submit(requestWithClientVRNMandation.withFormUrlEncodedBody("threshold" -> optionNo))
+        lazy val result = controller.submit(requestPredicatedClient.withFormUrlEncodedBody("threshold" -> optionNo))
 
         "redirect to the correct view" in {
           status(result) shouldBe Status.SEE_OTHER
           redirectLocation(result) shouldBe Some(routes.ConfirmOptOutController.show().url)
         }
 
-        "add the new email to the session" in {
+        "add the new threshold value to session" in {
           session(result).get(SessionKeys.turnoverThreshold) shouldBe Some(optionNo)
         }
       }
 
       "the form is successfully submitted with no option selected" should {
 
-        lazy val result = controller.submit(requestWithClientVRNMandation.withFormUrlEncodedBody("threshold" -> ""))
+        lazy val result = controller.submit(requestPredicatedClient.withFormUrlEncodedBody("threshold" -> ""))
 
         "return to the view with a bad request" in {
           status(result) shouldBe Status.BAD_REQUEST

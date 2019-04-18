@@ -25,12 +25,12 @@ import forms.TurnoverThresholdForm._
 import common.SessionKeys.turnoverThreshold
 import controllers.predicates.{AuthPredicate, OptOutPredicate}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class TurnoverThresholdController @Inject()(authenticate: AuthPredicate, val optOutPredicate: OptOutPredicate)
                                            (implicit val appConfig: AppConfig,
-                                            val messagesApi: MessagesApi) extends ControllerBase {
+                                            val messagesApi: MessagesApi, val ec: ExecutionContext) extends ControllerBase {
 
   val show: Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit request =>
     extractSessionThreshold(request) match {
