@@ -36,4 +36,5 @@ object ConfigKeys {
   val exitSurveyHost: String = "feedback-frontend.host"
   val exitSurveyPath: String = "feedback-frontend.path"
   val governmentGatewayHost: String = "government-gateway.host"
+  val govUkSetupAgentServices: String = "govuk.guidance.setupAgentServices.url"
 }

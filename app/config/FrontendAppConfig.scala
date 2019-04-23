@@ -52,6 +52,7 @@ trait AppConfig extends ServicesConfig {
   val host: String
   def feedbackUrl(redirect: String): String
   val exitSurveyUrl: String
+  val agentServicesGovUkGuidance: String
 }
 
 @Singleton
@@ -114,4 +115,6 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
 
   override def feedbackUrl(redirect: String): String = s"$contactHost/contact/beta-feedback?service=$contactFormServiceIdentifier" +
     s"&backUrl=${ContinueUrl(host + redirect).encodedUrl}"
+
+  override lazy val agentServicesGovUkGuidance: String = getString(Keys.govUkSetupAgentServices)
 }

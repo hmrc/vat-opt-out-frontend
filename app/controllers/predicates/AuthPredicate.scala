@@ -70,8 +70,7 @@ class AuthPredicate @Inject()(enrolmentsAuthService: EnrolmentsAuthService,
     else {
       Logger.debug(s"[AuthPredicate][checkAgentEnrolment] - Agent without HMRC-AS-AGENT enrolment. Enrolments: $enrolments")
       Logger.warn(s"[AuthPredicate][checkAgentEnrolment] - Agent without HMRC-AS-AGENT enrolment.")
-      // TODO render agent unauthorised view
-      Future.successful(errorHandler.showInternalServerError)
+      Future.successful(Forbidden(views.html.errors.unauthorisedAgent()))
     }
 
   private def checkVatEnrolment[A](enrolments: Enrolments, block: User[A] => Future[Result])(implicit request: Request[A]) =
@@ -81,7 +80,6 @@ class AuthPredicate @Inject()(enrolmentsAuthService: EnrolmentsAuthService,
     }
     else {
       Logger.debug(s"[AuthPredicate][checkVatEnrolment] - Non-agent without HMRC-MTD-VAT enrolment. $enrolments")
-      // TODO render not signed up view with sign out link
-      Future.successful(errorHandler.showInternalServerError)
+      Future.successful(Forbidden(views.html.errors.unauthorised()))
     }
 }

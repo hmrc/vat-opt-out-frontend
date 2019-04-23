@@ -47,4 +47,5 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override val host: String = "localhost:9166"
   override def feedbackUrl(redirect: String): String = s"feedback/$redirect"
   override val exitSurveyUrl: String = "/exit-survey"
+  override val agentServicesGovUkGuidance: String = "/agent-guidance"
 }

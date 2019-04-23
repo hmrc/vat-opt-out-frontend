@@ -77,13 +77,13 @@ class AuthPredicateSpec extends MockAuth {
 
         lazy val result = await(target(requestWithClientVRN))
 
-        "return Forbidden" in {
+        "return Forbidden (403)" in {
           mockAgentWithoutEnrolment()
-          status(result) shouldBe Status.INTERNAL_SERVER_ERROR
+          status(result) shouldBe Status.FORBIDDEN
         }
 
         "render the Standard Error page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "Sorry, we are experiencing technical difficulties - 500"
+          Jsoup.parse(bodyOf(result)).title shouldBe "You can’t use this service yet"
         }
       }
     }
@@ -102,13 +102,13 @@ class AuthPredicateSpec extends MockAuth {
 
         lazy val result = await(target(request))
 
-        "return Internal Server Error (500)" in {
+        "return Forbidden (403)" in {
           mockIndividualWithoutEnrolment()
-          status(result) shouldBe Status.INTERNAL_SERVER_ERROR
+          status(result) shouldBe Status.FORBIDDEN
         }
 
-        "render the Standard Error page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "Sorry, we are experiencing technical difficulties - 500"
+        "render the Unauthorised page" in {
+          Jsoup.parse(bodyOf(result)).title shouldBe "You are not authorised to use this service"
         }
       }
 
