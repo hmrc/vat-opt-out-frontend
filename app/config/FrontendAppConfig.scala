@@ -22,6 +22,7 @@ import config.{ConfigKeys => Keys}
 import javax.inject.{Inject, Singleton}
 import play.api.{Configuration, Environment}
 import play.api.Mode.Mode
+import play.api.i18n.Lang
 import play.api.mvc.Call
 import uk.gov.hmrc.play.binders.ContinueUrl
 import uk.gov.hmrc.play.config.ServicesConfig
@@ -55,6 +56,8 @@ trait AppConfig extends ServicesConfig {
   val agentServicesGovUkGuidance: String
   val timeoutPeriod: Int
   val timeoutCountdown: Int
+  def routeToSwitchLanguage: String => Call
+  def languageMap: Map[String, Lang]
 }
 
 @Singleton
@@ -122,4 +125,9 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
 
   override lazy val timeoutPeriod: Int = getInt(Keys.timeoutPeriod)
   override lazy val timeoutCountdown: Int = getInt(Keys.timeoutCountdown)
+  override def routeToSwitchLanguage: String => Call = (lang: String) => controllers.routes.LanguageController.switchToLanguage(lang)
+  override def languageMap: Map[String, Lang] = Map(
+    "english" -> Lang("en"),
+    "cymraeg" -> Lang("cy")
+  )
 }

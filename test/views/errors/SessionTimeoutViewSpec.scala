@@ -36,17 +36,17 @@ class SessionTimeoutViewSpec extends ViewBaseSpec {
     }
 
     "have the correct instructions on the page" in {
-      elementText("#content p") shouldBe "To manage your VAT account, you will have to sign in using your Government Gateway ID."
+      elementText("#content > article p") shouldBe "To manage your VAT account, you will have to sign in using your Government Gateway ID."
     }
 
     "have a link to sign in" should {
 
       "have the correct text" in {
-        elementText("#content a") shouldBe "sign in"
+        elementText("#content > article a") shouldBe "sign in"
       }
 
       "have the correct href" in {
-        element("#content a").attr("href") shouldBe appConfig.signInUrl
+        element("#content > article a").attr("href") shouldBe appConfig.signInUrl
       }
     }
   }

@@ -40,13 +40,13 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     }
 
     "have the correct first paragraph" in {
-      elementText("#content p:nth-of-type(1)") shouldBe "We will send you an email within 2 working days with an " +
-        "update, followed by a letter to your principal place of business. You can also go to your HMRC secure " +
-        "messages to find out if your request has been accepted."
+      elementText("#content > article > p:nth-of-type(1)") shouldBe "We will send you an email within 2 working days " +
+        "with an update, followed by a letter to your principal place of business. You can also go to your HMRC " +
+        "secure messages to find out if your request has been accepted."
     }
 
     "have the correct second paragraph" in {
-      elementText("#content p:nth-of-type(2)") shouldBe "Make sure your contact details are up to date."
+      elementText("#content > article > p:nth-of-type(2)") shouldBe "Make sure your contact details are up to date."
     }
 
     "have a button which" should {
@@ -79,12 +79,12 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     }
 
     "have the correct first paragraph" in {
-      elementText("#content p:nth-of-type(1)") shouldBe "We will send a letter to your principal place of business with an " +
-        "update within 15 working days."
+      elementText("#content > article > p:nth-of-type(1)") shouldBe
+        "We will send a letter to your principal place of business with an update within 15 working days."
     }
 
     "have the correct second paragraph" in {
-      elementText("#content p:nth-of-type(2)") shouldBe "Make sure your contact details are up to date."
+      elementText("#content > article > p:nth-of-type(2)") shouldBe "Make sure your contact details are up to date."
     }
 
     "have a button which" should {
@@ -117,11 +117,11 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     }
 
     "have the correct first paragraph" in {
-      elementText("#content p:nth-of-type(1)") shouldBe "We will send you an update within 15 working days."
+      elementText("#content > article > p:nth-of-type(1)") shouldBe "We will send you an update within 15 working days."
     }
 
     "have the correct second paragraph" in {
-      elementText("#content p:nth-of-type(2)") shouldBe "Make sure your contact details are up to date."
+      elementText("#content > article > p:nth-of-type(2)") shouldBe "Make sure your contact details are up to date."
     }
 
     "have a button which" should {
@@ -154,12 +154,12 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     }
 
     "have the correct first paragraph" in {
-      elementText("#content p:nth-of-type(1)") shouldBe "We will send an email to test@test.com " +
+      elementText("#content > article > p:nth-of-type(1)") shouldBe "We will send an email to test@test.com " +
         "within 2 working days telling you whether or not the request has been accepted."
     }
 
     "have the correct second paragraph" in {
-      elementText("#content p:nth-of-type(2)") shouldBe "We will also contact Acme ltd with an update."
+      elementText("#content > article > p:nth-of-type(2)") shouldBe "We will also contact Acme ltd with an update."
     }
 
     "have a button which" should {
@@ -192,12 +192,12 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     }
 
     "have the correct first paragraph" in {
-      elementText("#content p:nth-of-type(1)") shouldBe "We will send an email to test@test.com " +
+      elementText("#content > article > p:nth-of-type(1)") shouldBe "We will send an email to test@test.com " +
         "within 2 working days telling you whether or not the request has been accepted."
     }
 
     "have the correct second paragraph" in {
-      elementText("#content p:nth-of-type(2)") shouldBe "We will also contact your client with an update."
+      elementText("#content > article > p:nth-of-type(2)") shouldBe "We will also contact your client with an update."
     }
 
     "have a button which" should {
@@ -230,11 +230,12 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     }
 
     "have the correct first paragraph" in {
-      elementText("#content p:nth-of-type(1)") shouldBe "We will send a confirmation letter to the agency address within 15 working days."
+      elementText("#content > article > p:nth-of-type(1)") shouldBe
+        "We will send a confirmation letter to the agency address within 15 working days."
     }
 
     "have the correct second paragraph" in {
-      elementText("#content p:nth-of-type(2)") shouldBe "We will also contact Acme ltd with an update."
+      elementText("#content > article > p:nth-of-type(2)") shouldBe "We will also contact Acme ltd with an update."
     }
 
     "have a button which" should {
@@ -267,11 +268,12 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     }
 
     "have the correct first paragraph" in {
-      elementText("#content p:nth-of-type(1)") shouldBe "We will send a confirmation letter to the agency address within 15 working days."
+      elementText("#content > article > p:nth-of-type(1)") shouldBe
+        "We will send a confirmation letter to the agency address within 15 working days."
     }
 
     "have the correct second paragraph" in {
-      elementText("#content p:nth-of-type(2)") shouldBe "We will also contact your client with an update."
+      elementText("#content > article > p:nth-of-type(2)") shouldBe "We will also contact your client with an update."
     }
 
     "have a button which" should {
@@ -285,5 +287,4 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       }
     }
   }
-
 }

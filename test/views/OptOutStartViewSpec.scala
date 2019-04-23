@@ -35,7 +35,7 @@ class OptOutStartViewSpec extends ViewBaseSpec {
     }
 
     "have the correct paragraph" in {
-      elementText("#content p") shouldBe "If you choose to opt out, you will:"
+      elementText("#content > article > p") shouldBe "If you choose to opt out, you will:"
     }
 
     "have the correct first bullet point" in {
