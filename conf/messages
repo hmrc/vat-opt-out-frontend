@@ -5,6 +5,7 @@ base.error.heading = There is a problem
 base.back = Back
 base.continue = Continue
 base.confirm = Confirm
+base.signOut = Sign out
 
 betaBanner.phaseName = BETA
 betaBanner.newService = This is a new service – your

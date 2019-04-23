@@ -39,15 +39,15 @@ class OptOutStartViewSpec extends ViewBaseSpec {
     }
 
     "have the correct first bullet point" in {
-      elementText("li:nth-of-type(1)") shouldBe "not be cancelling your VAT registration"
+      elementText("#content li:nth-of-type(1)") shouldBe "not be cancelling your VAT registration"
     }
 
     "have the correct second bullet point" in {
-      elementText("li:nth-of-type(2)") shouldBe "have to submit your VAT Returns using a different service"
+      elementText("#content li:nth-of-type(2)") shouldBe "have to submit your VAT Returns using a different service"
     }
 
     "have the correct third bullet point" in {
-      elementText("li:nth-of-type(3)") shouldBe "have to join again if your taxable turnover goes above the VAT threshold"
+      elementText("#content li:nth-of-type(3)") shouldBe "have to join again if your taxable turnover goes above the VAT threshold"
     }
 
     "have a continue button" which {

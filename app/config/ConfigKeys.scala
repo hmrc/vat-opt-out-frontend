@@ -33,4 +33,7 @@ object ConfigKeys {
   val vatSubscription: String = "vat-subscription"
   val contactPreferences: String = "contact-preferences"
   val host: String = "host"
+  val exitSurveyHost: String = "feedback-frontend.host"
+  val exitSurveyPath: String = "feedback-frontend.path"
+  val governmentGatewayHost: String = "government-gateway.host"
 }
