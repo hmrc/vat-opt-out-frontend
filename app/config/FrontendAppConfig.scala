@@ -53,6 +53,8 @@ trait AppConfig extends ServicesConfig {
   def feedbackUrl(redirect: String): String
   val exitSurveyUrl: String
   val agentServicesGovUkGuidance: String
+  val timeoutPeriod: Int
+  val timeoutCountdown: Int
 }
 
 @Singleton
@@ -117,4 +119,7 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
     s"&backUrl=${ContinueUrl(host + redirect).encodedUrl}"
 
   override lazy val agentServicesGovUkGuidance: String = getString(Keys.govUkSetupAgentServices)
+
+  override lazy val timeoutPeriod: Int = getInt(Keys.timeoutPeriod)
+  override lazy val timeoutCountdown: Int = getInt(Keys.timeoutCountdown)
 }

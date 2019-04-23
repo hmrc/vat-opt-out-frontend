@@ -61,12 +61,27 @@
 
 @afterHeader = {}
 
+@scriptElement = {
+  <script>
+    @if(showLogout) {
+      window.GOVUK.timeoutDialog({
+        timeout: @appConfig.timeoutPeriod,
+        countdown: @appConfig.timeoutCountdown,
+        keepAliveUrl: window.location.href,
+        signOutUrl: '@controllers.routes.SignOutController.signOut(feedbackOnSignOut)',
+      });
+      var dialogOpen;
+    }
+  </script>
+  @scriptElem.map(x => x)
+}
+
 @bodyEnd = {
     @uiLayouts.footer(
       analyticsToken = Some(appConfig.analyticsToken),
       analyticsHost = appConfig.analyticsHost,
       ssoUrl = None,
-      scriptElem = scriptElem,
+      scriptElem = Some(scriptElement),
       gaCalls = None)
 }
 

@@ -37,4 +37,6 @@ object ConfigKeys {
   val exitSurveyPath: String = "feedback-frontend.path"
   val governmentGatewayHost: String = "government-gateway.host"
   val govUkSetupAgentServices: String = "govuk.guidance.setupAgentServices.url"
+  val timeoutPeriod: String = "timeout.period"
+  val timeoutCountdown: String = "timeout.countdown"
 }

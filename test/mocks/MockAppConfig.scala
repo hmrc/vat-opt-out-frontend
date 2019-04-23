@@ -48,4 +48,6 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override def feedbackUrl(redirect: String): String = s"feedback/$redirect"
   override val exitSurveyUrl: String = "/exit-survey"
   override val agentServicesGovUkGuidance: String = "/agent-guidance"
+  override val timeoutPeriod: Int = 999
+  override val timeoutCountdown: Int = 999
 }
