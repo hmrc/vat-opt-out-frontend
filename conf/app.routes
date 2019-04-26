@@ -14,3 +14,4 @@ GET        /confirm-opt-out         controllers.ConfirmOptOutController.show
 POST       /confirm-opt-out         controllers.ConfirmOptOutController.submit()
 
 GET        /sign-out                controllers.SignOutController.signOut(authorised: Boolean)
+GET        /language/:lang          controllers.LanguageController.switchToLanguage(lang: String)

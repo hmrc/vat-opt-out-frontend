@@ -35,7 +35,7 @@ class CannotOptOutViewSpec extends ViewBaseSpec {
     }
 
     "have the correct paragraph" in {
-      elementText("#content p") shouldBe
+      elementText("#content > article > p") shouldBe
         "This is because the business’s taxable turnover is, or has been, over the VAT threshold."
     }
 

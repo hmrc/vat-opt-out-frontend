@@ -19,7 +19,7 @@ package views
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-class AlreadyOptedOutSpec extends ViewBaseSpec{
+class AlreadyOptedOutViewSpec extends ViewBaseSpec {
 
   val title = "You have already opted out of Making Tax Digital for VAT"
   val heading = "You have already opted out of Making Tax Digital for VAT"
@@ -39,7 +39,7 @@ class AlreadyOptedOutSpec extends ViewBaseSpec{
     }
 
     "have the correct explanation on the page" in {
-      elementText("#content p") shouldBe content
+      elementText("#content > article > p") shouldBe content
     }
 
     "have a back link" which {

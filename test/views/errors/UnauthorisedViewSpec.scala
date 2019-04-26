@@ -36,7 +36,7 @@ class UnauthorisedViewSpec extends ViewBaseSpec {
     }
 
     "have the correct instructions on the page" in {
-      elementText("#content p") shouldBe "You need to sign up to use software to submit your VAT Returns."
+      elementText("#content > article p") shouldBe "You need to sign up to use software to submit your VAT Returns."
     }
 
     "have a button to sign out" which {
