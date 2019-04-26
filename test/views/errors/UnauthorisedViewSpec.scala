@@ -20,27 +20,34 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import views.ViewBaseSpec
 
-class ErrorTemplateSpec extends ViewBaseSpec{
+class UnauthorisedViewSpec extends ViewBaseSpec {
 
-val title = "Error Template Title"
-val heading = "Error Template Heading"
-val content = "Error Template Content"
+  "Rendering the unauthorised page" should {
 
-  "Rendering the error template page" should {
-
-    lazy val view = views.html.errors.error_template(title,heading,content)
+    lazy val view = views.html.errors.unauthorised()
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {
-      document.title shouldBe title
+      document.title shouldBe "You are not authorised to use this service"
     }
 
     "have the correct page heading" in {
-      elementText("#content h1") shouldBe heading
+      elementText("#content h1") shouldBe "You are not authorised to use this service"
     }
 
     "have the correct instructions on the page" in {
-      elementText("#content p") shouldBe content
+      elementText("#content p") shouldBe "You need to sign up to use software to submit your VAT Returns."
+    }
+
+    "have a button to sign out" which {
+
+      "has the correct text" in {
+        elementText(".button") shouldBe "Sign out"
+      }
+
+      "have the correct href" in {
+        element(".button").attr("href") shouldBe controllers.routes.SignOutController.signOut(authorised = false).url
+      }
     }
   }
 }

@@ -25,10 +25,10 @@ val appName = "vat-opt-out-frontend"
 val compile = Seq(
 
   "uk.gov.hmrc"             %% "govuk-template"           % "5.30.0-play-25",
-  "uk.gov.hmrc"             %% "play-ui"                  % "7.33.0-play-25",
+  "uk.gov.hmrc"             %% "play-ui"                  % "7.39.0-play-25",
   "uk.gov.hmrc"             %% "play-whitelist-filter"    % "2.0.0",
   "uk.gov.hmrc"             %% "auth-client"              % "2.20.0-play-25",
-  "uk.gov.hmrc"             %% "bootstrap-play-25"        % "4.9.0"
+  "uk.gov.hmrc"             %% "bootstrap-play-25"        % "4.11.0"
 )
 
 def test(scope:String = "test,it"): Seq[ModuleID] = Seq(
@@ -37,7 +37,7 @@ def test(scope:String = "test,it"): Seq[ModuleID] = Seq(
   "com.typesafe.play"       %% "play-test"                   % current                 % scope,
   "org.pegdown"             %  "pegdown"                     % "1.6.0"                 % scope,
   "org.scalatestplus.play"  %% "scalatestplus-play"          % "2.0.1"                 % scope,
-  "uk.gov.hmrc"             %% "hmrctest"                    % "3.6.0-play-25"         % scope,
+  "uk.gov.hmrc"             %% "hmrctest"                    % "3.8.0-play-25"         % scope,
   "org.mockito"             %  "mockito-core"                % "2.7.17"                % scope,
   "com.github.tomakehurst"  %  "wiremock"                    % "2.22.0"                % scope
 )

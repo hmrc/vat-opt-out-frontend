@@ -42,6 +42,8 @@ trait AppConfig extends ServicesConfig {
   val agentClientLookupServiceUrl: String
   val agentClientLookupServicePath: String
   val signInUrl: String
+  val signOutUrl: String
+  val unauthorisedSignOutUrl: String
   val manageVatSubscriptionServiceUrl: String
   val manageVatSubscriptionServicePath: String
   val thresholdPreviousYearsUrl: String
@@ -49,6 +51,10 @@ trait AppConfig extends ServicesConfig {
   val contactPreferencesHost: String
   val host: String
   def feedbackUrl(redirect: String): String
+  val exitSurveyUrl: String
+  val agentServicesGovUkGuidance: String
+  val timeoutPeriod: Int
+  val timeoutCountdown: Int
 }
 
 @Singleton
@@ -65,10 +71,15 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
   lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
   lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
 
+  private lazy val governmentGatewayHost: String = getString(Keys.governmentGatewayHost)
+
   private lazy val signInContinueUrl: String = ContinueUrl(vatOptOutServicePath).encodedUrl
   private lazy val signInBaseUrl: String = getString(Keys.signInBaseUrl)
   private lazy val signInOrigin = getString("appName")
   override lazy val signInUrl: String = s"$signInBaseUrl?continue=$signInContinueUrl&origin=$signInOrigin"
+
+  override lazy val signOutUrl: String = s"$governmentGatewayHost/gg/sign-out?continue=$exitSurveyUrl"
+  override lazy val unauthorisedSignOutUrl: String = s"$governmentGatewayHost/gg/sign-out?continue=$signInContinueUrl"
 
   private def whitelistConfig(key: String): Seq[String] = Some(new String(Base64.getDecoder
     .decode(getString(key)), "UTF-8"))
@@ -99,9 +110,16 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
   override val vatSubscriptionHost: String = baseUrl(Keys.vatSubscription)
   override val contactPreferencesHost: String = baseUrl(Keys.contactPreferences)
 
+  private lazy val exitSurveyBase: String = getString(Keys.exitSurveyHost) + getString(Keys.exitSurveyPath)
+  override lazy val exitSurveyUrl: String = s"$exitSurveyBase/$contactFormServiceIdentifier"
 
   override val host: String = getString(Keys.host)
 
   override def feedbackUrl(redirect: String): String = s"$contactHost/contact/beta-feedback?service=$contactFormServiceIdentifier" +
     s"&backUrl=${ContinueUrl(host + redirect).encodedUrl}"
+
+  override lazy val agentServicesGovUkGuidance: String = getString(Keys.govUkSetupAgentServices)
+
+  override lazy val timeoutPeriod: Int = getInt(Keys.timeoutPeriod)
+  override lazy val timeoutCountdown: Int = getInt(Keys.timeoutCountdown)
 }

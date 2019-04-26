@@ -35,6 +35,8 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override val vatOptOutServiceUrl = ""
   override val vatOptOutServicePath = ""
   override val signInUrl = "/sign-in-url"
+  override val signOutUrl: String = "/sign-out"
+  override val unauthorisedSignOutUrl: String = "/unauthorised-sign-out"
   override val manageVatSubscriptionServiceUrl: String = ""
   override val manageVatSubscriptionServicePath: String = "/change-business-details"
   override val thresholdPreviousYearsUrl: String = "/some-link"
@@ -42,8 +44,10 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override val contactPreferencesHost: String = "/test-contact-preferences-host"
   override val agentClientLookupServiceUrl: String = ""
   override val agentClientLookupServicePath: String = "/agent-client-lookup"
-
   override val host: String = "localhost:9166"
-
   override def feedbackUrl(redirect: String): String = s"feedback/$redirect"
+  override val exitSurveyUrl: String = "/exit-survey"
+  override val agentServicesGovUkGuidance: String = "/agent-guidance"
+  override val timeoutPeriod: Int = 999
+  override val timeoutCountdown: Int = 999
 }

@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-package config
+package controllers
 
+import config.AppConfig
 import javax.inject.{Inject, Singleton}
 import play.api.i18n.MessagesApi
-import play.api.mvc.{Request, Result}
-import play.twirl.api.Html
-import play.api.mvc.Results.InternalServerError
-import uk.gov.hmrc.play.bootstrap.http.FrontendErrorHandler
+import play.api.mvc.{Action, AnyContent}
+
+import scala.concurrent.Future
 
 @Singleton
-class ErrorHandler @Inject()(val messagesApi: MessagesApi, implicit val appConfig: AppConfig) extends FrontendErrorHandler {
-  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html =
-    views.html.errors.error_template(pageTitle, heading, message)
+class SignOutController @Inject()(implicit val messagesApi: MessagesApi,
+                                  val appConfig: AppConfig) extends ControllerBase {
 
-  def showInternalServerError(implicit request: Request[_]): Result = InternalServerError(internalServerErrorTemplate)
+  def signOut(authorised: Boolean): Action[AnyContent] = Action.async { implicit request =>
+    val redirectUrl: String = if (authorised) appConfig.signOutUrl else appConfig.unauthorisedSignOutUrl
+    Future.successful(Redirect(redirectUrl))
+  }
 }
