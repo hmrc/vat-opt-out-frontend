@@ -66,12 +66,11 @@ class AuthoriseAsAgentWithClient @Inject()(enrolmentsAuthService: EnrolmentsAuth
             case _: AuthorisationException =>
               Logger.warn(s"[AuthoriseAsAgentWithClient][invokeBlock] - Agent does not have " +
                 s"delegated authority for Client")
-              //TODO show not authorised for client view
-              errorHandler.showInternalServerError
+              Forbidden(views.html.errors.unauthorisedForClient(vrn))
 
           }
         case _ =>
-          Future.successful(Redirect(appConfig.agentClientLookupServicePath))
+          Future.successful(Redirect(appConfig.agentClientLookupHandoff))
       }
   }
 }

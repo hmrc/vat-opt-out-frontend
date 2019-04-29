@@ -26,6 +26,12 @@ unauthorisedAgent.title = You can’t use this service yet
 unauthorisedAgent.useThisService = To use this service, you need to
 unauthorisedAgent.setUpAccount = set up an agent services account
 
+unauthorisedForClient.title = You’re not authorised for this client
+unauthorisedForClient.useThisService = To use this service, your client needs to
+unauthorisedForClient.authoriseForClient = authorise you as their agent
+unauthorisedForClient.enterDetails = If you think you have entered the wrong details you can
+unauthorisedForClient.tryAgain = try again
+
 optOutStart.title = Opt out of Making Tax Digital
 optOutStart.heading = Opt out of Making Tax Digital for VAT
 optOutStart.chooseToOptOut = If you choose to opt out, you will:

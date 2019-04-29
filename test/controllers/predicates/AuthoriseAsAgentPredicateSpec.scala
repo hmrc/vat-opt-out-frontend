@@ -57,31 +57,17 @@ class AuthoriseAsAgentPredicateSpec extends MockAuth {
         }
       }
 
-      "the agent is not authorised" should {
+      "the agent is not authorised for the client (insufficient client enrolment)" should {
 
         lazy val result = target(requestWithClientVRN)
 
         "return Internal Server Error (500)" in {
           mockUnauthorised()
-          status(result) shouldBe Status.INTERNAL_SERVER_ERROR
+          status(result) shouldBe Status.FORBIDDEN
         }
 
-        "render the Standard Error page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "Sorry, we are experiencing technical difficulties - 500"
-        }
-      }
-
-      "the agent has no enrolments" should {
-
-        lazy val result = await(target(requestWithClientVRN))
-
-        "return Internal Server Error (500)" in {
-          mockAgentWithoutEnrolment()
-          status(result) shouldBe Status.INTERNAL_SERVER_ERROR
-        }
-
-        "render the Internal Server Error page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "Sorry, we are experiencing technical difficulties - 500"
+        "render the Unauthorised For Client page" in {
+          Jsoup.parse(bodyOf(result)).title shouldBe "You’re not authorised for this client"
         }
       }
 

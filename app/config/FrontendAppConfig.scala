@@ -38,10 +38,8 @@ trait AppConfig extends ServicesConfig {
   val whitelistedIps: Seq[String]
   val whitelistExcludedPaths: Seq[Call]
   val shutterPage: String
-  val vatOptOutServiceUrl: String
   val vatOptOutServicePath: String
-  val agentClientLookupServiceUrl: String
-  val agentClientLookupServicePath: String
+  val agentClientLookupHandoff: String
   val signInUrl: String
   val signOutUrl: String
   val unauthorisedSignOutUrl: String
@@ -50,7 +48,6 @@ trait AppConfig extends ServicesConfig {
   val thresholdPreviousYearsUrl: String
   val vatSubscriptionHost: String
   val contactPreferencesHost: String
-  val host: String
   def feedbackUrl(redirect: String): String
   val exitSurveyUrl: String
   val agentServicesGovUkGuidance: String
@@ -58,6 +55,7 @@ trait AppConfig extends ServicesConfig {
   val timeoutCountdown: Int
   def routeToSwitchLanguage: String => Call
   def languageMap: Map[String, Lang]
+  val agentInvitationsFastTrack: String
 }
 
 @Singleton
@@ -93,20 +91,17 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
   override lazy val whitelistExcludedPaths: Seq[Call] = whitelistConfig(Keys.whitelistExcludedPaths).map(path => Call("GET", path))
   override lazy val shutterPage: String = getString(Keys.whitelistShutterPage)
 
-  override val vatOptOutServiceUrl: String = getString(Keys.vatOptOutServiceUrl)
-  override val vatOptOutServicePath: String =
+  private lazy val vatOptOutServiceUrl: String = getString(Keys.vatOptOutServiceUrl)
+  override lazy val vatOptOutServicePath: String =
     vatOptOutServiceUrl + getString(Keys.vatOptOutServicePath)
 
-  override val agentClientLookupServiceUrl: String = getString(Keys.agentClientLookupUrl)
-  override val agentClientLookupServicePath: String = agentClientLookupHandoff(controllers.routes.OptOutStartController.show().url)
+  private lazy val agentClientLookupServiceUrl: String = getString(Keys.agentClientLookupUrl)
+  private lazy val agentClientLookupServicePath: String = getString(Keys.agentClientLookupPath)
+  override lazy val agentClientLookupHandoff: String =
+    agentClientLookupServiceUrl + agentClientLookupServicePath + s"/client-vat-number?redirectUrl=$signInContinueUrl"
 
-  def agentClientLookupHandoff(redirectUrl: String): String = {
-    agentClientLookupServiceUrl + getString(Keys.agentClientLookupPath) +
-      s"/client-vat-number?redirectUrl=${ContinueUrl(vatOptOutServicePath + redirectUrl).encodedUrl}"
-  }
-
-  override val manageVatSubscriptionServiceUrl: String = getString(Keys.manageVatSubscriptionServiceUrl)
-  override val manageVatSubscriptionServicePath: String =
+  override lazy val manageVatSubscriptionServiceUrl: String = getString(Keys.manageVatSubscriptionServiceUrl)
+  override lazy val manageVatSubscriptionServicePath: String =
     manageVatSubscriptionServiceUrl + getString(Keys.manageVatSubscriptionServicePath)
 
   override val thresholdPreviousYearsUrl: String = getString(Keys.thresholdPreviousYearsUrl)
@@ -116,10 +111,8 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
   private lazy val exitSurveyBase: String = getString(Keys.exitSurveyHost) + getString(Keys.exitSurveyPath)
   override lazy val exitSurveyUrl: String = s"$exitSurveyBase/$contactFormServiceIdentifier"
 
-  override val host: String = getString(Keys.host)
-
   override def feedbackUrl(redirect: String): String = s"$contactHost/contact/beta-feedback?service=$contactFormServiceIdentifier" +
-    s"&backUrl=${ContinueUrl(host + redirect).encodedUrl}"
+    s"&backUrl=${ContinueUrl(vatOptOutServiceUrl + redirect).encodedUrl}"
 
   override lazy val agentServicesGovUkGuidance: String = getString(Keys.govUkSetupAgentServices)
 
@@ -130,4 +123,7 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
     "english" -> Lang("en"),
     "cymraeg" -> Lang("cy")
   )
+
+  override val agentInvitationsFastTrack: String =
+    getString(Keys.agentInvitationsFastTrackUrl) + getString(Keys.agentInvitationsFastTrackPath)
 }

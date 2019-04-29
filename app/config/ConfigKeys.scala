@@ -39,4 +39,6 @@ object ConfigKeys {
   val govUkSetupAgentServices: String = "govuk.setupAgentServicesUrl"
   val timeoutPeriod: String = "timeout.period"
   val timeoutCountdown: String = "timeout.countdown"
+  val agentInvitationsFastTrackUrl: String = "agent-invitations-fast-track.url"
+  val agentInvitationsFastTrackPath: String = "agent-invitations-fast-track.path"
 }
