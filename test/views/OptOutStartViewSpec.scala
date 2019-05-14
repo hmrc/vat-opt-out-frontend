@@ -21,9 +21,9 @@ import org.jsoup.nodes.Document
 
 class OptOutStartViewSpec extends ViewBaseSpec {
 
-  "The opt out start journey page" should {
+  "The opt out start journey page for a client" should {
 
-    lazy val view = views.html.optOutStart()
+    lazy val view = views.html.optOutStart(isAgent = false)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {
@@ -50,7 +50,7 @@ class OptOutStartViewSpec extends ViewBaseSpec {
       elementText("#content li:nth-of-type(3)") shouldBe "have to join again if your taxable turnover goes above the VAT threshold"
     }
 
-    "have a continue button" which {
+    "have a button" which {
 
       "has the correct text" in {
         elementText(".button") shouldBe "Continue"
@@ -58,6 +58,10 @@ class OptOutStartViewSpec extends ViewBaseSpec {
 
       "has the correct href" in {
         element(".button").attr("href") shouldBe controllers.routes.TurnoverThresholdController.show().url
+      }
+
+      "has the correct GA tag" in {
+        element(".button").attr("data-journey-click") shouldBe "opt-out:submit:opt-out"
       }
     }
 
@@ -70,6 +74,16 @@ class OptOutStartViewSpec extends ViewBaseSpec {
       "has the correct href" in {
         element(".link-back").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
       }
+    }
+  }
+
+  "The opt-out journey start page for an agent" should {
+
+    lazy val view = views.html.optOutStart(isAgent = true)
+    lazy implicit val document: Document = Jsoup.parse(view.body)
+
+    "have the correct GA tag on the button" in {
+      element(".button").attr("data-journey-click") shouldBe "agent_opt-out:submit:opt-out"
     }
   }
 }

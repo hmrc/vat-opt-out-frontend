@@ -32,19 +32,21 @@ class TurnoverThresholdController @Inject()(authenticate: AuthPredicate, val opt
                                            (implicit val appConfig: AppConfig,
                                             val messagesApi: MessagesApi, val ec: ExecutionContext) extends ControllerBase {
 
-  val show: Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit request =>
-    extractSessionThreshold(request) match {
+  val show: Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>
+    user.session.get(turnoverThreshold) match {
       case Some(turnoverOption) =>
-        Future.successful(Ok(views.html.turnoverThreshold(turnoverThresholdForm.fill(turnoverOption))))
+        Future.successful(Ok(views.html.turnoverThreshold(turnoverThresholdForm.fill(turnoverOption), user.isAgent)))
       case _ =>
-        Future.successful(Ok(views.html.turnoverThreshold(turnoverThresholdForm)))
+        Future.successful(Ok(views.html.turnoverThreshold(turnoverThresholdForm, user.isAgent)))
     }
   }
 
-  def submit: Action[AnyContent] = (authenticate andThen optOutPredicate) { implicit request =>
+  def submit: Action[AnyContent] = (authenticate andThen optOutPredicate) { implicit user =>
     turnoverThresholdForm.bindFromRequest().fold(
       error => {
-        BadRequest(views.html.turnoverThreshold(error.discardingErrors.withError("threshold", "turnoverThreshold.error.empty")))
+        BadRequest(views.html.turnoverThreshold(
+          error.discardingErrors.withError("threshold", "turnoverThreshold.error.empty"), user.isAgent
+        ))
       },
       {
         case formData@Constants.optionYes => Redirect(controllers.routes.CannotOptOutController.show())
@@ -54,9 +56,4 @@ class TurnoverThresholdController @Inject()(authenticate: AuthPredicate, val opt
       }
     )
   }
-
-  private[controllers] def extractSessionThreshold(request: Request[AnyContent]): Option[String] = {
-    request.session.get(turnoverThreshold).filter(_.nonEmpty)
-  }
-
 }

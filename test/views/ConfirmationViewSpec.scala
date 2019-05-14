@@ -24,15 +24,22 @@ class ConfirmationViewSpec extends ViewBaseSpec {
 
   "The confirmation page for a client with digital preference" should {
 
-    lazy val view = views.html.confirmation(clientPreferencesDigital)
+    lazy val view = views.html.confirmation(clientPreferencesDigital, isAgent = false)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct title" in {
       document.title shouldBe "Request to opt out of Making Tax Digital for VAT received"
     }
 
-    "have the correct heading" in {
-      elementText("h1") shouldBe "Request to opt out of Making Tax Digital for VAT received"
+    "have a heading" which {
+
+      "has the correct text" in {
+        elementText("h1") shouldBe "Request to opt out of Making Tax Digital for VAT received"
+      }
+
+      "has the correct GA tag" in {
+        element("h1").attr("data-journey") shouldBe "opt-out:confirm:opt-out"
+      }
     }
 
     "have the correct subheading" in {
@@ -63,94 +70,32 @@ class ConfirmationViewSpec extends ViewBaseSpec {
 
   "The confirmation page for a client with paper preference" should {
 
-    lazy val view = views.html.confirmation(clientPreferencesPaper)
+    lazy val view = views.html.confirmation(clientPreferencesPaper, isAgent = false)
     lazy implicit val document: Document = Jsoup.parse(view.body)
-
-    "have the correct title" in {
-      document.title shouldBe "Request to opt out of Making Tax Digital for VAT received"
-    }
-
-    "have the correct heading" in {
-      elementText("h1") shouldBe "Request to opt out of Making Tax Digital for VAT received"
-    }
-
-    "have the correct subheading" in {
-      elementText("h2") shouldBe "What happens next"
-    }
 
     "have the correct first paragraph" in {
       elementText("#content > article > p:nth-of-type(1)") shouldBe
         "We will send a letter to your principal place of business with an update within 15 working days."
     }
-
-    "have the correct second paragraph" in {
-      elementText("#content > article > p:nth-of-type(2)") shouldBe "Make sure your contact details are up to date."
-    }
-
-    "have a button which" should {
-
-      "have the correct text" in {
-        elementText(".button") shouldBe "Finish"
-      }
-
-      "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
-      }
-    }
   }
 
   "The confirmation page for a client where the preference could not be obtained" should {
 
-    lazy val view = views.html.confirmation(clientPreferencesFail)
+    lazy val view = views.html.confirmation(clientPreferencesFail, isAgent = false)
     lazy implicit val document: Document = Jsoup.parse(view.body)
-
-    "have the correct title" in {
-      document.title shouldBe "Request to opt out of Making Tax Digital for VAT received"
-    }
-
-    "have the correct heading" in {
-      elementText("h1") shouldBe "Request to opt out of Making Tax Digital for VAT received"
-    }
-
-    "have the correct subheading" in {
-      elementText("h2") shouldBe "What happens next"
-    }
 
     "have the correct first paragraph" in {
       elementText("#content > article > p:nth-of-type(1)") shouldBe "We will send you an update within 15 working days."
     }
-
-    "have the correct second paragraph" in {
-      elementText("#content > article > p:nth-of-type(2)") shouldBe "Make sure your contact details are up to date."
-    }
-
-    "have a button which" should {
-
-      "have the correct text" in {
-        elementText(".button") shouldBe "Finish"
-      }
-
-      "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
-      }
-    }
   }
 
-  "The confirmation page for a transactor with digital preference" should {
+  "The confirmation page for an agent with digital preference" should {
 
-    lazy val view = views.html.confirmation(agentPreferencesDigital)
+    lazy val view = views.html.confirmation(agentPreferencesDigital, isAgent = true)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
-    "have the correct title" in {
-      document.title shouldBe "Request to opt out of Making Tax Digital for VAT received"
-    }
-
-    "have the correct heading" in {
-      elementText("h1") shouldBe "Request to opt out of Making Tax Digital for VAT received"
-    }
-
-    "have the correct subheading" in {
-      elementText("h2") shouldBe "What happens next"
+    "have the correct GA tag on the heading" in {
+      element("h1").attr("data-journey") shouldBe "agent_opt-out:confirm:opt-out"
     }
 
     "have the correct first paragraph" in {
@@ -161,73 +106,22 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     "have the correct second paragraph" in {
       elementText("#content > article > p:nth-of-type(2)") shouldBe "We will also contact Acme ltd with an update."
     }
-
-    "have a button which" should {
-
-      "have the correct text" in {
-        elementText(".button") shouldBe "Finish"
-      }
-
-      "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
-      }
-    }
   }
 
-  "The confirmation page for a transactor with digital preference but no business name" should {
+  "The confirmation page for an agent with digital preference but no business name" should {
 
-    lazy val view = views.html.confirmation(agentPreferencesDigitalNoBusinessName)
+    lazy val view = views.html.confirmation(agentPreferencesDigitalNoBusinessName, isAgent = true)
     lazy implicit val document: Document = Jsoup.parse(view.body)
-
-    "have the correct title" in {
-      document.title shouldBe "Request to opt out of Making Tax Digital for VAT received"
-    }
-
-    "have the correct heading" in {
-      elementText("h1") shouldBe "Request to opt out of Making Tax Digital for VAT received"
-    }
-
-    "have the correct subheading" in {
-      elementText("h2") shouldBe "What happens next"
-    }
-
-    "have the correct first paragraph" in {
-      elementText("#content > article > p:nth-of-type(1)") shouldBe "We will send an email to test@test.com " +
-        "within 2 working days telling you whether or not the request has been accepted."
-    }
 
     "have the correct second paragraph" in {
       elementText("#content > article > p:nth-of-type(2)") shouldBe "We will also contact your client with an update."
     }
-
-    "have a button which" should {
-
-      "have the correct text" in {
-        elementText(".button") shouldBe "Finish"
-      }
-
-      "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
-      }
-    }
   }
 
-  "The confirmation page for a transactor with paper preference" should {
+  "The confirmation page for an agent with paper preference" should {
 
-    lazy val view = views.html.confirmation(agentPreferencesPaper)
+    lazy val view = views.html.confirmation(agentPreferencesPaper, isAgent = true)
     lazy implicit val document: Document = Jsoup.parse(view.body)
-
-    "have the correct title" in {
-      document.title shouldBe "Request to opt out of Making Tax Digital for VAT received"
-    }
-
-    "have the correct heading" in {
-      elementText("h1") shouldBe "Request to opt out of Making Tax Digital for VAT received"
-    }
-
-    "have the correct subheading" in {
-      elementText("h2") shouldBe "What happens next"
-    }
 
     "have the correct first paragraph" in {
       elementText("#content > article > p:nth-of-type(1)") shouldBe
@@ -237,54 +131,15 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     "have the correct second paragraph" in {
       elementText("#content > article > p:nth-of-type(2)") shouldBe "We will also contact Acme ltd with an update."
     }
-
-    "have a button which" should {
-
-      "have the correct text" in {
-        elementText(".button") shouldBe "Finish"
-      }
-
-      "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
-      }
-    }
   }
 
-  "The confirmation page for a transactor with paper preference but no business name" should {
+  "The confirmation page for an agent with paper preference but no business name" should {
 
-    lazy val view = views.html.confirmation(agentPreferencesPaperNoBusinessName)
+    lazy val view = views.html.confirmation(agentPreferencesPaperNoBusinessName, isAgent = true)
     lazy implicit val document: Document = Jsoup.parse(view.body)
-
-    "have the correct title" in {
-      document.title shouldBe "Request to opt out of Making Tax Digital for VAT received"
-    }
-
-    "have the correct heading" in {
-      elementText("h1") shouldBe "Request to opt out of Making Tax Digital for VAT received"
-    }
-
-    "have the correct subheading" in {
-      elementText("h2") shouldBe "What happens next"
-    }
-
-    "have the correct first paragraph" in {
-      elementText("#content > article > p:nth-of-type(1)") shouldBe
-        "We will send a confirmation letter to the agency address within 15 working days."
-    }
 
     "have the correct second paragraph" in {
       elementText("#content > article > p:nth-of-type(2)") shouldBe "We will also contact your client with an update."
-    }
-
-    "have a button which" should {
-
-      "have the correct text" in {
-        elementText(".button") shouldBe "Finish"
-      }
-
-      "have the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
-      }
     }
   }
 }

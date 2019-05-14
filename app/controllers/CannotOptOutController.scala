@@ -28,7 +28,7 @@ class CannotOptOutController @Inject()(authenticate: AuthPredicate, val optOutPr
                                       (implicit val appConfig: AppConfig,
                                        val messagesApi: MessagesApi, val ec: ExecutionContext) extends ControllerBase {
 
-  def show(): Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit request =>
-    Future.successful(Ok(views.html.cannotOptOut()))
+  def show(): Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>
+    Future.successful(Ok(views.html.cannotOptOut(user.isAgent)))
   }
 }

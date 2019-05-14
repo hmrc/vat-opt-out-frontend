@@ -34,16 +34,16 @@ class ConfirmationController @Inject()(authenticate: AuthPredicate, val optOutPr
                                       (implicit val appConfig: AppConfig, val messagesApi: MessagesApi,
                                        val ec: ExecutionContext) extends ControllerBase {
 
-  def show(): Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit request =>
+  def show(): Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>
 
-    if (request.isAgent) {
-      Future.successful(Ok(views.html.confirmation(getTransactorData(request))))
+    if (user.isAgent) {
+      Future.successful(Ok(views.html.confirmation(getTransactorData(user), isAgent = true)))
     } else {
-      contactPreferencesService.getContactPreferences(request.vrn).map {
+      contactPreferencesService.getContactPreferences(user.vrn).map {
         case Right(contactPreference) =>
-          Ok(views.html.confirmation(getClientData(Some(contactPreference))))
+          Ok(views.html.confirmation(getClientData(Some(contactPreference)), isAgent = false))
         case _ =>
-          Ok(views.html.confirmation(getClientData(None)))
+          Ok(views.html.confirmation(getClientData(None), isAgent = false))
       }
     }
   }
