@@ -20,7 +20,7 @@ import common.{Constants, SessionKeys}
 import config.AppConfig
 import javax.inject.{Inject, Singleton}
 import play.api.i18n.MessagesApi
-import play.api.mvc.{Action, AnyContent, Request}
+import play.api.mvc.{Action, AnyContent}
 import forms.TurnoverThresholdForm._
 import common.SessionKeys.turnoverThreshold
 import controllers.predicates.{AuthPredicate, OptOutPredicate}
