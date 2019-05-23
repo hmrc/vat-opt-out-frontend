@@ -32,13 +32,12 @@ unauthorisedForClient.authoriseForClient = authorise you as their agent
 unauthorisedForClient.enterDetails = If you think you have entered the wrong details you can
 unauthorisedForClient.tryAgain = try again
 
-optOutStart.title = Opt out of Making Tax Digital
-optOutStart.heading = Opt out of Making Tax Digital for VAT
-optOutStart.chooseToOptOut = If you choose to opt out, you will:
-optOutStart.bullet1 = not be cancelling your VAT registration
-optOutStart.bullet2 = have to submit your VAT Returns using a different service
-optOutStart.bullet3 = have to join again if your taxable turnover goes above the VAT threshold
-
+confirmOptOut.title = Opt out of Making Tax Digital
+confirmOptOut.heading = Opt out of Making Tax Digital for VAT
+confirmOptOut.chooseToOptOut = If you choose to opt out, you will:
+confirmOptOut.bullet1 = not be cancelling your VAT registration
+confirmOptOut.bullet2 = have to submit your VAT Returns using a different service
+confirmOptOut.bullet3 = have to join again if your taxable turnover goes above the VAT threshold
 
 confirmation.title = Request to opt out of Making Tax Digital for VAT received
 confirmation.subheading = What happens next
@@ -74,12 +73,6 @@ cannotOptOut.return = Return to change of business details
 
 alreadyOptedOut.title = You have already opted out of Making Tax Digital for VAT
 alreadyOptedOut.explanation = You do not need to use compatible software to submit your VAT Returns to HMRC.
-
-confirmOptOut.title = Are you sure you want to opt out from Making Tax Digital for VAT?
-confirmOptOut.error.empty = Select yes if you want to opt out from Making Tax Digital for VAT
-
-decidedNotToOptOut.title = You have decided not to opt out of Making Tax Digital
-decidedNotToOptOut.return = Return to change of business details
 
 turnoverThreshold.error.empty = Select yes if the business’s taxable turnover is above £85,000
 turnoverThreshold.title = Was the business’s taxable turnover above £85,000 since 1st April 2019?

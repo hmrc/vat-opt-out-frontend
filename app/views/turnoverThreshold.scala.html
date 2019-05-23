@@ -23,7 +23,7 @@
 
 @main_template(messages("turnoverThreshold.title"), feedbackRedirect = Some(routes.TurnoverThresholdController.show().url)) {
 
-<a class="link-back" href='@routes.OptOutStartController.show'>@messages("base.back")</a>
+<a class="link-back" href='@appConfig.manageVatSubscriptionServicePath'>@messages("base.back")</a>
 
 
 @errorSummary(messages("base.error.heading"), turnoverThresholdForm, forceDivToAppear = false)

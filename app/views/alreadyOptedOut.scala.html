@@ -16,11 +16,15 @@
 
 @()(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig)
 
-@views.html.main_template(title = messages("alreadyOptedOut.title"), bodyClasses = None, feedbackRedirect = Some(routes.OptOutStartController.show().url)) {
-    <a class="link-back" href="@appConfig.manageVatSubscriptionServicePath">@messages("base.back")</a>
+@views.html.main_template(
+  title = messages("alreadyOptedOut.title"),
+  feedbackRedirect = Some(appConfig.manageVatSubscriptionServicePath)
+) {
 
-    <h1>@messages("alreadyOptedOut.title")</h1>
+  <a class="link-back" href="@appConfig.manageVatSubscriptionServicePath">@messages("base.back")</a>
 
-    <p>@messages("alreadyOptedOut.explanation")</p>
+  <h1>@messages("alreadyOptedOut.title")</h1>
+
+  <p>@messages("alreadyOptedOut.explanation")</p>
 
 }

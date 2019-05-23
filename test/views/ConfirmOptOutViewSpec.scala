@@ -18,163 +18,72 @@ package views
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import play.twirl.api.Html
-import forms.ConfirmOptOutForm._
 
 class ConfirmOptOutViewSpec extends ViewBaseSpec {
 
-  lazy val pageTitleAndHeading = "Are you sure you want to opt out from Making Tax Digital for VAT?"
-  lazy val continueUrl = "/vat-through-software/account/opt-out/confirm-opt-out"
+  "The Confirm Opt Out page for a client" should {
 
-  object Selectors {
-    val pageHeading = "#content h1"
-    val subtext = "fieldset > p"
-    val backLink = "#content > article > a"
-    val form = "form"
-    val confirmButton = "button"
-    val errorSummaryHeading = "#error-summary-heading"
-    val errorSummaryLink = "#confirmOptOut-error-summary"
-    val radioOptionYes = "#confirmOptOut-yes"
-    val radioOptionNo = "#confirmOptOut-no"
-    val errorText = ".error-notification"
+    lazy val view = views.html.confirmOptOut(isAgent = false)
+    lazy implicit val document: Document = Jsoup.parse(view.body)
+
+    "have the correct document title" in {
+      document.title shouldBe "Opt out of Making Tax Digital"
+    }
+
+    "have the correct heading" in {
+      elementText("h1") shouldBe "Opt out of Making Tax Digital for VAT"
+    }
+
+    "have the correct paragraph" in {
+      elementText("#content > article > p") shouldBe "If you choose to opt out, you will:"
+    }
+
+    "have the correct first bullet point" in {
+      elementText("#content li:nth-of-type(1)") shouldBe "not be cancelling your VAT registration"
+    }
+
+    "have the correct second bullet point" in {
+      elementText("#content li:nth-of-type(2)") shouldBe "have to submit your VAT Returns using a different service"
+    }
+
+    "have the correct third bullet point" in {
+      elementText("#content li:nth-of-type(3)") shouldBe "have to join again if your taxable turnover goes above the VAT threshold"
+    }
+
+    "have a button" which {
+
+      "has the correct text" in {
+        elementText(".button") shouldBe "Continue"
+      }
+
+      "has the correct href" in {
+        element(".button").attr("href") shouldBe controllers.routes.ConfirmationController.show().url
+      }
+
+      "has the correct GA tag" in {
+        element(".button").attr("data-journey-click") shouldBe "opt-out:submit:opt-out"
+      }
+    }
+
+    "have a back link" which {
+
+      "has the correct text" in {
+        elementText(".link-back") shouldBe "Back"
+      }
+
+      "has the correct href" in {
+        element(".link-back").attr("href") shouldBe controllers.routes.TurnoverThresholdController.show().url
+      }
+    }
   }
 
-  "Rendering the ConfirmOptOut page" when {
+  "The Confirm Opt Out page for an agent" should {
 
-    "the user doesn't have a radio option selected" should {
+    lazy val view = views.html.confirmOptOut(isAgent = true)
+    lazy implicit val document: Document = Jsoup.parse(view.body)
 
-      lazy val view: Html = views.html.confirmOptOut(confirmOptOutForm)
-      lazy implicit val document: Document = Jsoup.parse(view.body)
-
-      "have the correct document title" in {
-        document.title shouldBe pageTitleAndHeading
-      }
-
-      "have a back link which takes the user to the opt out start page" in {
-        element(Selectors.backLink).attr("href") shouldBe controllers.routes.TurnoverThresholdController.show().url
-      }
-
-      "have the correct page heading" in {
-        elementText(Selectors.pageHeading) shouldBe pageTitleAndHeading
-      }
-
-      "have the correct form action" in {
-        element(Selectors.form).attr("action") shouldBe continueUrl
-      }
-
-      "have the yes radio option" in {
-        element(Selectors.radioOptionYes).attr("value") shouldBe "yes"
-      }
-
-      "have the no radio option" in {
-        element(Selectors.radioOptionNo).attr("value") shouldBe "no"
-      }
-
-      "have the confirm button" in {
-        elementText(Selectors.confirmButton) shouldBe "Confirm"
-      }
-    }
-
-    "the user has already selected the no radio button" should {
-
-      lazy val view: Html = views.html.confirmOptOut(confirmOptOutForm.bind(
-        Map("confirmOptOut" -> "no")))
-      lazy implicit val document: Document = Jsoup.parse(view.body)
-
-      "have the correct document title" in {
-        document.title shouldBe pageTitleAndHeading
-      }
-
-      "have a back link which takes the user to the opt out start page" in {
-        element(Selectors.backLink).attr("href") shouldBe controllers.routes.TurnoverThresholdController.show().url
-      }
-
-      "have the correct page heading" in {
-        elementText(Selectors.pageHeading) shouldBe pageTitleAndHeading
-      }
-
-      "have the correct form action" in {
-        element(Selectors.form).attr("action") shouldBe continueUrl
-      }
-
-      "have the yes radio option" in {
-        element(Selectors.radioOptionYes).attr("value") shouldBe "yes"
-      }
-
-      "have the no radio option" in {
-        element(Selectors.radioOptionNo).attr("value") shouldBe "no"
-      }
-
-      "have the no radio option selected" in {
-        element(Selectors.radioOptionNo).attr("checked") shouldBe "checked"
-      }
-
-      "not have the yes radio option selected" in {
-        element(Selectors.radioOptionYes).hasAttr("checked") shouldBe false
-      }
-
-      "have the continue button" in {
-        elementText(Selectors.confirmButton) shouldBe "Confirm"
-      }
-
-    }
-
-    "the user has already selected the yes radio button" should {
-
-      lazy val view: Html = views.html.confirmOptOut(confirmOptOutForm.bind(
-        Map("confirmOptOut" -> "yes")))
-      lazy implicit val document: Document = Jsoup.parse(view.body)
-
-      "have the correct document title" in {
-        document.title shouldBe pageTitleAndHeading
-      }
-
-      "have a back link which takes the user to the opt out start page" in {
-        element(Selectors.backLink).attr("href")shouldBe controllers.routes.TurnoverThresholdController.show().url
-      }
-
-      "have the correct page heading" in {
-        elementText(Selectors.pageHeading) shouldBe pageTitleAndHeading
-      }
-
-      "have the correct form action" in {
-        element(Selectors.form).attr("action") shouldBe continueUrl
-      }
-
-      "have the yes radio option" in {
-        element(Selectors.radioOptionYes).attr("value") shouldBe "yes"
-      }
-
-      "have the no radio option" in {
-        element(Selectors.radioOptionNo).attr("value") shouldBe "no"
-      }
-
-      "have the yes radio option selected" in {
-        element(Selectors.radioOptionYes).attr("checked") shouldBe "checked"
-      }
-
-      "not have the no radio option selected" in {
-        element(Selectors.radioOptionNo).hasAttr("checked") shouldBe false
-      }
-
-      "have the continue button" in {
-        elementText(Selectors.confirmButton) shouldBe "Confirm"
-      }
-
-    }
-
-    "the form is posted with no option selected" should {
-      lazy val view = views.html.confirmOptOut(confirmOptOutForm.bind(Map("" -> "")))
-      lazy implicit val document: Document = Jsoup.parse(view.body)
-
-      "display the error summary" in {
-        element(Selectors.errorSummaryHeading).text() shouldBe "There is a problem"
-      }
-
-      "display a link to the error field" in {
-        element(Selectors.errorSummaryLink).attr("href") shouldBe "#confirmOptOut"
-      }
-
+    "have the correct GA tag on the button" in {
+      element(".button").attr("data-journey-click") shouldBe "agent_opt-out:submit:opt-out"
     }
   }
 }

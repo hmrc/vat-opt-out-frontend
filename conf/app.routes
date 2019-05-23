@@ -1,17 +1,13 @@
 # microservice specific routes
 
-GET        /                        controllers.OptOutStartController.show()
-GET        /opt-out-confirmation    controllers.ConfirmationController.show()
+GET        /                          controllers.TurnoverThresholdController.show
+POST       /                          controllers.TurnoverThresholdController.submit
 
-GET        /cannot-opt-out          controllers.CannotOptOutController.show()
+GET        /confirm-opt-out           controllers.ConfirmOptOutController.show()
 
-GET        /cancel-opt-out          controllers.DecidedNotToOptOutController.show()
+GET        /opt-out-confirmation      controllers.ConfirmationController.show()
 
-GET        /turnover-threshold      controllers.TurnoverThresholdController.show
-POST       /turnover-threshold      controllers.TurnoverThresholdController.submit
+GET        /over-turnover-threshold   controllers.CannotOptOutController.show()
 
-GET        /confirm-opt-out         controllers.ConfirmOptOutController.show
-POST       /confirm-opt-out         controllers.ConfirmOptOutController.submit()
-
-GET        /sign-out                controllers.SignOutController.signOut(authorised: Boolean)
-GET        /language/:lang          controllers.LanguageController.switchToLanguage(lang: String)
+GET        /sign-out                  controllers.SignOutController.signOut(authorised: Boolean)
+GET        /language/:lang            controllers.LanguageController.switchToLanguage(lang: String)

@@ -14,36 +14,25 @@
  * limitations under the License.
  *@
 
-@import config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.{form, errorSummary, input_radio_group}
-@import forms.ConfirmOptOutForm._
-@import common.Constants
+@(isAgent: Boolean)(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig)
 
-@(confirmOptOutForm: Form[String])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@main_template(title = messages("confirmOptOut.title"), feedbackRedirect = Some(routes.ConfirmOptOutController.show().url)) {
 
-@main_template(title = messages("confirmOptOut.title"), bodyClasses = None, feedbackRedirect = Some(routes.ConfirmOptOutController.show().url)) {
+<a class="link-back" href='@controllers.routes.TurnoverThresholdController.show().url'>@messages("base.back")</a>
 
-    <a class="link-back" href='@routes.TurnoverThresholdController.show().url'>@messages("base.back")</a>
+<h1>@messages("confirmOptOut.heading")</h1>
 
-    @errorSummary(messages("base.error.heading"), confirmOptOutForm, forceDivToAppear = false)
+<p>@messages("confirmOptOut.chooseToOptOut")</p>
 
-    <h1 class="heading-large">@messages("confirmOptOut.title")</h1>
+<ul class="list list-bullet">
+  <li>@messages("confirmOptOut.bullet1")</li>
+  <li>@messages("confirmOptOut.bullet2")</li>
+  <li>@messages("confirmOptOut.bullet3")</li>
+</ul>
 
-    @form(controllers.routes.ConfirmOptOutController.submit, 'class -> "group") {
+<a class="button"
+   type="submit"
+   href="@controllers.routes.ConfirmationController.show().url"
+   data-journey-click="@{if(isAgent)"agent_"}opt-out:submit:opt-out">@messages("base.continue")</a>
 
-        <div class="form-group" id="confirmOptOut">
-            @input_radio_group(
-            confirmOptOutForm(Constants.confirmOptOut),
-            Seq(Constants.optionYes -> messages("base.yes"), Constants.optionNo -> messages("base.no")),
-            '_labelClass -> "block-label radio-label",
-            '_legend -> messages("confirmOptOut.title"),
-            '_legendClass -> "visually-hidden",
-            '_groupClass -> "inline"
-            )
-        </div>
-
-        <div class="form-group">
-            <button class="button" type="submit">@messages("base.confirm")</button>
-        </div>
-    }
 }

@@ -61,7 +61,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
         }
 
         "should have the correct back link" in {
-          element(Selectors.backLink).attr("href") shouldBe controllers.routes.OptOutStartController.show().url
+          element(Selectors.backLink).attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
         }
       }
 

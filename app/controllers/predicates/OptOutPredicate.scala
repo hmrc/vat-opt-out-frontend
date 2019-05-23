@@ -73,7 +73,7 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
           case (maybeBussName, false, mandStatus) =>
             Logger.debug("[OptOutPredicate][getCustomerInfoCall] -"
               + "Mandation status is not in flight and not NonMTDfB. Redirecting user to the start of the journey.")
-            Left(Redirect(controllers.routes.OptOutStartController.show().url)
+            Left(Redirect(controllers.routes.TurnoverThresholdController.show().url)
               .addingToSession(
                 businessName -> maybeBussName.getOrElse(""),
                 mandationStatus -> mandStatus.value,

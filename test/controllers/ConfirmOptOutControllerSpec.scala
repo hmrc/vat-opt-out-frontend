@@ -16,113 +16,42 @@
 
 package controllers
 
-import common.SessionKeys
 import play.api.http.Status
 import play.api.test.Helpers._
-import common.Constants._
-import org.jsoup.Jsoup
 import utils.MockAuth
 
 class ConfirmOptOutControllerSpec extends MockAuth {
 
-  val testYesRadioSelection: String = "yes"
-  val testNoRadioSelection: String = "no"
+  val controller = new ConfirmOptOutController(mockAuthPredicate, mockOptOutPredicate)
 
-  def controller: ConfirmOptOutController = new ConfirmOptOutController(
-    mockAuthPredicate,
-    mockOptOutPredicate
-  )
+  ".show() for an individual fulfilling predicate sessions checks" should {
 
-  "calling the show action" when {
+    lazy val result = controller.show()(requestPredicatedClient)
 
-    "there is no answer to the opt out confirmation in session" should {
-
-      lazy val result = controller.show()(requestPredicatedClient)
-
-      "return 200" in {
-        mockAgentAuthorised()
-        status(result) shouldBe Status.OK
-      }
-
-      "return HTML" in {
-        contentType(result) shouldBe Some("text/html")
-        charset(result) shouldBe Some("utf-8")
-      }
-
+    "return 200" in {
+      mockIndividualAuthorised()
+      status(result) shouldBe Status.OK
     }
 
-    "there is a yes answer to the opt out confirmation in session" should {
-
-      lazy val result = controller.show()(requestPredicatedClient.withSession(SessionKeys.confirmOptOut -> optionYes))
-
-      "return 200" in {
-        mockIndividualAuthorised()
-        status(result) shouldBe Status.OK
-      }
-
-      "return HTML" in {
-        contentType(result) shouldBe Some("text/html")
-        charset(result) shouldBe Some("utf-8")
-      }
+    "return HTML" in {
+      contentType(result) shouldBe Some("text/html")
+      charset(result) shouldBe Some("utf-8")
     }
   }
 
-  "calling the submit action" when {
+  ".show() for an agent fulfilling predicate sessions checks" should {
 
-    lazy val testRequest = requestPredicatedClient.withFormUrlEncodedBody("confirmOptOut" -> optionYes)
+    lazy val result = controller.show()(requestPredicatedAgentDigital)
 
-    "the user selects yes and submits" should {
-
-      lazy val result = controller.submit()(testRequest)
-
-      "add the yes answer to session" in {
-
-        session(result).get(SessionKeys.confirmOptOut) shouldBe Some(testYesRadioSelection)
-      }
-
-      "redirect to the opt out confirmation page" in {
-
-        status(result) shouldBe Status.SEE_OTHER
-
-        redirectLocation(result) shouldBe
-          Some(controllers.routes.ConfirmationController.show().url)
-      }
+    "return 200" in {
+      mockAgentAuthorised()
+      status(result) shouldBe Status.OK
     }
 
-    "the user selects no and submits" should {
-
-      lazy val result = controller.submit()(requestPredicatedClient.withFormUrlEncodedBody("confirmOptOut" -> optionNo))
-
-      "add the no answer to session" in {
-
-        session(result).get(SessionKeys.confirmOptOut) shouldBe Some(testNoRadioSelection)
-      }
-
-      "redirect to the you have decided not to opt out page" in {
-
-        status(result) shouldBe Status.SEE_OTHER
-
-        redirectLocation(result) shouldBe
-          Some(controllers.routes.DecidedNotToOptOutController.show().url)
-      }
-    }
-
-    "the user doesn't select an option and submits" should {
-
-      lazy val result = controller.submit()(requestPredicatedClient)
-
-      "return a 400 BAD_REQUEST" in {
-
-        status(result) shouldBe Status.BAD_REQUEST
-
-      }
-
-      "send the correct error text to the view" in {
-        result map {
-          r => Jsoup.parse(r.body.toString)
-            .getElementById("confirmOptOut-error-summary").text() shouldBe "select an option"
-        }
-      }
+    "return HTML" in {
+      contentType(result) shouldBe Some("text/html")
+      charset(result) shouldBe Some("utf-8")
     }
   }
+
 }

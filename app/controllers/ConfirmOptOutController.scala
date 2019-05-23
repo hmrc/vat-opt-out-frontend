@@ -16,50 +16,20 @@
 
 package controllers
 
-import common.{Constants, SessionKeys}
 import config.AppConfig
 import controllers.predicates.{AuthPredicate, OptOutPredicate}
-import javax.inject.{Inject, Singleton}
+import javax.inject.Inject
 import play.api.i18n.MessagesApi
-import play.api.mvc._
-import forms.ConfirmOptOutForm._
-import services.ContactPreferencesService
+import play.api.mvc.{Action, AnyContent}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-@Singleton
-class ConfirmOptOutController @Inject()(val authenticate: AuthPredicate,
+class ConfirmOptOutController @Inject()(authenticate: AuthPredicate,
                                         val optOutPredicate: OptOutPredicate)
                                        (implicit val appConfig: AppConfig,
                                         val messagesApi: MessagesApi, val ec: ExecutionContext) extends ControllerBase {
 
-  def show(): Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit request =>
-
-    val confirmOptOut = request.session.get(SessionKeys.confirmOptOut)
-
-    confirmOptOut match {
-      case Some(answer) =>
-        Future.successful(Ok(views.html.confirmOptOut(confirmOptOutForm.fill(answer))))
-      case None =>
-        Future.successful(Ok(views.html.confirmOptOut(confirmOptOutForm)))
-    }
-
-  }
-
-  def submit: Action[AnyContent] = (authenticate andThen optOutPredicate) { implicit user =>
-    confirmOptOutForm.bindFromRequest().fold(
-      error => BadRequest(views.html.confirmOptOut(error.discardingErrors.withError(
-        Constants.confirmOptOut, "confirmOptOut.error.empty"))),
-      {
-        case formData@Constants.optionYes =>
-          Redirect(controllers.routes.ConfirmationController.show())
-            .addingToSession(SessionKeys.confirmOptOut -> formData)
-
-        case formData@Constants.optionNo =>
-          Redirect(controllers.routes.DecidedNotToOptOutController.show())
-            .addingToSession(SessionKeys.confirmOptOut -> formData)
-      }
-    )
+  def show(): Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>
+    Future.successful(Ok(views.html.confirmOptOut(user.isAgent)))
   }
 }
-
