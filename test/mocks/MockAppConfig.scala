@@ -54,4 +54,6 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
     "english" -> Lang("en"),
     "cymraeg" -> Lang("cy")
   )
+  override val govUkManageClientsDetails: String = "/gov-uk/manage"
+  override val govUkContactUs: String = "/gov-uk/contact-us"
 }

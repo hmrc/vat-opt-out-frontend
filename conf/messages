@@ -32,48 +32,43 @@ unauthorisedForClient.authoriseForClient = authorise you as their agent
 unauthorisedForClient.enterDetails = If you think you have entered the wrong details you can
 unauthorisedForClient.tryAgain = try again
 
-confirmOptOut.title = Opt out of Making Tax Digital
-confirmOptOut.heading = Opt out of Making Tax Digital for VAT
-confirmOptOut.chooseToOptOut = If you choose to opt out, you will:
-confirmOptOut.bullet1 = not be cancelling your VAT registration
-confirmOptOut.bullet2 = have to submit your VAT Returns using a different service
-confirmOptOut.bullet3 = have to join again if your taxable turnover goes above the VAT threshold
+confirmOptOut.title = Are you sure you want to opt out of Making Tax Digital for VAT?
+confirmOptOut.title.agent = Are you sure you want to opt your client out of Making Tax Digital for VAT?
+confirmOptOut.chooseToOptOut = If you choose to opt out, you must:
+confirmOptOut.chooseToOptOut.agent = If you choose to opt your client out, you must:
+confirmOptOut.bullet1 = continue to use software compatible with Making Tax Digital for your current return period
+confirmOptOut.bullet1.agent = continue to use software compatible with Making Tax Digital to submit your client’s VAT Returns for their current return period
+confirmOptOut.bullet2 = use your online account to submit VAT Returns from your next return period
+confirmOptOut.bullet2.agent = submit your client’s VAT Returns online from your next return period
+confirmOptOut.bullet3 = contact us to sign up for Making Tax Digital if your taxable turnover goes above £85,000
+confirmOptOut.bullet3.agent = sign your client up for Making Tax Digital again if their taxable turnover goes above £85,000
+confirmOptOut.notCancellingRegistration = By opting out you will not be cancelling your VAT registration.
+confirmOptOut.notCancellingRegistration.agent = By opting your client out of Making Tax Digital, you will not be cancelling their VAT registration.
+confirmOptOut.confirm = Confirm and opt out
 
-confirmation.title = Request to opt out of Making Tax Digital for VAT received
+confirmation.title = You have opted out of Making Tax Digital for VAT
+confirmation.title.agent = You have opted your client out of Making Tax Digital for VAT
 confirmation.subheading = What happens next
-confirmation.contactDetails = Make sure your contact details are up to date.
+confirmation.useSoftware = You must continue to use software compatible with Making Tax Digital to submit your VAT Returns for your current return period.
+confirmation.useSoftware.agent = You must continue to use software compatible with Making Tax Digital to submit your client’s VAT Returns for their current return period.
+confirmation.submitOnline = You must submit your VAT Return using your online VAT account from your next return period.
+confirmation.submitOnline.agent1 = Submit your client’s VAT Returns
+confirmation.submitOnline.agent2 = online
+confirmation.submitOnline.agent3 = from your next return period.
+confirmation.aboveThreshold1 = If your taxable turnover goes above £85,000, you must
+confirmation.aboveThreshold1.agent = You must
+confirmation.aboveThreshold2 = contact us (opens in a new tab)
+confirmation.aboveThreshold3 = to sign up again for Making Tax Digital.
+confirmation.aboveThreshold3.agent = to sign your client up for Making Tax Digital again if their taxable turnover goes above £85,000.
 confirmation.finish = Finish
-
-# business name inserted between the below
-confirmation.business.contact =  We will also contact
-confirmation.business.update = with an update.
-
-#agent paper
-confirmation.agentPaperSend = We will send a confirmation letter to the agency address within 15 working days.
-
-# agent digital. Agent email inserted between the below
-confirmation.agentDigitalSend = We will send an email to
-confirmation.agentDigitalWithin = within 2 working days telling you whether or not the request has been accepted.
-
-# agent no business name
-confirmation.noBusinessName = your client
-
-# client paper
-confirmation.clientPaperSend = We will send a letter to your principal place of business with an update within 15 working days.
-
-# client digital
-confirmation.clientDigitalSend = We will send you an email within 2 working days with an update, followed by a letter to your principal place of business. You can also go to your HMRC secure messages to find out if your request has been accepted.
-
-# client fail
-confirmation.clientDigitalFail =  We will send you an update within 15 working days.
+confirmation.changeClient = Change client
 
 cannotOptOut.title = The business cannot opt out of Making Tax Digital for VAT
 cannotOptOut.explanation = This is because the business’s taxable turnover is, or has been, over the VAT threshold.
-cannotOptOut.return = Return to change of business details
+cannotOptOut.return = Return to your VAT account
 
 alreadyOptedOut.title = You have already opted out of Making Tax Digital for VAT
 alreadyOptedOut.explanation = You do not need to use compatible software to submit your VAT Returns to HMRC.
 
 turnoverThreshold.error.empty = Select yes if the business’s taxable turnover is above £85,000
-turnoverThreshold.title = Was the business’s taxable turnover above £85,000 since 1st April 2019?
-turnoverThreshold.link = View the VAT threshold for previous tax years (opens in a new tab)
+turnoverThreshold.title = Has the business’s taxable turnover been above £85,000 since 1 April 2019?

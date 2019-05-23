@@ -15,30 +15,48 @@
  *@
 
 @import models.viewModels.ConfirmationPreference
-@import views.html.templates.displayClientMessage
-@import views.html.templates.displayTransactorMessage
 
-@(confirmationPreference: ConfirmationPreference, isAgent: Boolean)(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig)
+@(isAgent: Boolean)(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig)
 
-@main_template(title = messages("confirmation.title"), feedbackRedirect = Some(controllers.routes.ConfirmationController.show().url)) {
+@agentMessageAffix = @{
+  if(isAgent) ".agent" else ""
+}
+
+@main_template(
+  title = messages(s"confirmation.title$agentMessageAffix"),
+  feedbackRedirect = Some(controllers.routes.ConfirmationController.show().url)
+) {
 
 <div class="govuk-box-highlight">
   <h1 class="heading-xlarge" data-journey="@{if(isAgent)"agent_"}opt-out:confirm:opt-out">
-    @messages("confirmation.title")
+    @messages(s"confirmation.title$agentMessageAffix")
   </h1>
 </div>
 
 <h2>@messages("confirmation.subheading")</h2>
 
-@if(confirmationPreference.isTransactor) {
-     @displayTransactorMessage(confirmationPreference.preferenceType, confirmationPreference.transactorEmail.getOrElse(""),
-         confirmationPreference.businessName.getOrElse(messages("confirmation.noBusinessName")))
-  } else {
-     @displayClientMessage(confirmationPreference.preferenceType)
+<p>@messages(s"confirmation.useSoftware$agentMessageAffix")</p>
+
+@if(isAgent) {
+  <p>
+    @messages("confirmation.submitOnline.agent1")
+    <a href="@appConfig.govUkManageClientsDetails" target="_blank">@messages("confirmation.submitOnline.agent2")</a>
+    @messages("confirmation.submitOnline.agent3")
+  </p>
+} else {
+  <p>@messages("confirmation.submitOnline")</p>
 }
 
+<p>
+  @messages(s"confirmation.aboveThreshold1$agentMessageAffix")
+  <a href="@appConfig.govUkContactUs" target="_blank">@messages("confirmation.aboveThreshold2")</a>
+  @messages(s"confirmation.aboveThreshold3$agentMessageAffix")
+</p>
 
+<p><a class="button" type="submit" href="@appConfig.manageVatSubscriptionServicePath">@messages("confirmation.finish")</a></p>
 
-<a class="button" type="submit" href="@appConfig.manageVatSubscriptionServicePath">@messages("confirmation.finish")</a>
+@if(isAgent) {
+  <p><a href="@appConfig.agentClientLookupHandoff">@messages("confirmation.changeClient")</a></p>
+}
 
 }

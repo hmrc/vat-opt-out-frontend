@@ -30,9 +30,6 @@
 
 <h1 class="heading-large" data-journey="@{if(isAgent)"agent_"}opt-out:view:change-opt-out">@messages("turnoverThreshold.title")</h1>
 
-<div class="form-group">
-  <a target="_blank" href="@appConfig.thresholdPreviousYearsUrl">@messages("turnoverThreshold.link")</a><span>.</span>
-</div>
 @form(action = controllers.routes.TurnoverThresholdController.submit) {
   <div class="form-group" id="threshold">
    @input_radio_group(

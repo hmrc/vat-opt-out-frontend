@@ -22,19 +22,19 @@ import assets.ContactPreferencesConstants._
 
 class ConfirmationViewSpec extends ViewBaseSpec {
 
-  "The confirmation page for a client with digital preference" should {
+  "The confirmation page for a client" should {
 
-    lazy val view = views.html.confirmation(clientPreferencesDigital, isAgent = false)
+    lazy val view = views.html.confirmation(isAgent = false)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct title" in {
-      document.title shouldBe "Request to opt out of Making Tax Digital for VAT received"
+      document.title shouldBe "You have opted out of Making Tax Digital for VAT"
     }
 
     "have a heading" which {
 
       "has the correct text" in {
-        elementText("h1") shouldBe "Request to opt out of Making Tax Digital for VAT received"
+        elementText("h1") shouldBe "You have opted out of Making Tax Digital for VAT"
       }
 
       "has the correct GA tag" in {
@@ -47,13 +47,29 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     }
 
     "have the correct first paragraph" in {
-      elementText("#content > article > p:nth-of-type(1)") shouldBe "We will send you an email within 2 working days " +
-        "with an update, followed by a letter to your principal place of business. You can also go to your HMRC " +
-        "secure messages to find out if your request has been accepted."
+      elementText("#content > article > p:nth-of-type(1)") shouldBe "You must continue to use software " +
+        "compatible with Making Tax Digital to submit your VAT Returns for your current return period."
     }
 
     "have the correct second paragraph" in {
-      elementText("#content > article > p:nth-of-type(2)") shouldBe "Make sure your contact details are up to date."
+      elementText("#content > article > p:nth-of-type(2)") shouldBe
+        "You must submit your VAT Return using your online VAT account from your next return period."
+    }
+
+    "have a third paragraph" which {
+
+      "has the correct text" in {
+        elementText("#content > article > p:nth-of-type(3)") shouldBe "If your taxable turnover goes above " +
+          "£85,000, you must contact us (opens in a new tab) to sign up again for Making Tax Digital."
+      }
+
+      "has the correct link text" in {
+        elementText("#content > article > p:nth-of-type(3) > a") shouldBe "contact us (opens in a new tab)"
+      }
+
+      "has the correct link location" in {
+        element("#content > article > p:nth-of-type(3) > a").attr("href") shouldBe appConfig.govUkContactUs
+      }
     }
 
     "have a button which" should {
@@ -62,84 +78,78 @@ class ConfirmationViewSpec extends ViewBaseSpec {
         elementText(".button") shouldBe "Finish"
       }
 
-      "have the correct href" in {
+      "have the correct link location" in {
         element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
       }
     }
   }
 
-  "The confirmation page for a client with paper preference" should {
+  "The confirmation page for an agent " should {
 
-    lazy val view = views.html.confirmation(clientPreferencesPaper, isAgent = false)
+    lazy val view = views.html.confirmation(isAgent = true)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
-    "have the correct first paragraph" in {
-      elementText("#content > article > p:nth-of-type(1)") shouldBe
-        "We will send a letter to your principal place of business with an update within 15 working days."
+    "have the correct title" in {
+      document.title shouldBe "You have opted your client out of Making Tax Digital for VAT"
     }
-  }
 
-  "The confirmation page for a client where the preference could not be obtained" should {
+    "have a heading" which {
 
-    lazy val view = views.html.confirmation(clientPreferencesFail, isAgent = false)
-    lazy implicit val document: Document = Jsoup.parse(view.body)
+      "has the correct text" in {
+        elementText("h1") shouldBe "You have opted your client out of Making Tax Digital for VAT"
+      }
 
-    "have the correct first paragraph" in {
-      elementText("#content > article > p:nth-of-type(1)") shouldBe "We will send you an update within 15 working days."
-    }
-  }
-
-  "The confirmation page for an agent with digital preference" should {
-
-    lazy val view = views.html.confirmation(agentPreferencesDigital, isAgent = true)
-    lazy implicit val document: Document = Jsoup.parse(view.body)
-
-    "have the correct GA tag on the heading" in {
-      element("h1").attr("data-journey") shouldBe "agent_opt-out:confirm:opt-out"
+      "has the correct GA tag" in {
+        element("h1").attr("data-journey") shouldBe "agent_opt-out:confirm:opt-out"
+      }
     }
 
     "have the correct first paragraph" in {
-      elementText("#content > article > p:nth-of-type(1)") shouldBe "We will send an email to test@test.com " +
-        "within 2 working days telling you whether or not the request has been accepted."
+      elementText("#content > article > p:nth-of-type(1)") shouldBe "You must continue to use software " +
+        "compatible with Making Tax Digital to submit your client’s VAT Returns for their current return period."
     }
 
-    "have the correct second paragraph" in {
-      elementText("#content > article > p:nth-of-type(2)") shouldBe "We will also contact Acme ltd with an update."
-    }
-  }
+    "have a second paragraph" which {
 
-  "The confirmation page for an agent with digital preference but no business name" should {
+      "has the correct text" in {
+        elementText("#content > article > p:nth-of-type(2)") shouldBe
+          "Submit your client’s VAT Returns online from your next return period."
+      }
 
-    lazy val view = views.html.confirmation(agentPreferencesDigitalNoBusinessName, isAgent = true)
-    lazy implicit val document: Document = Jsoup.parse(view.body)
+      "has the correct link text" in {
+        elementText("#content > article > p:nth-of-type(2) > a") shouldBe "online"
+      }
 
-    "have the correct second paragraph" in {
-      elementText("#content > article > p:nth-of-type(2)") shouldBe "We will also contact your client with an update."
-    }
-  }
-
-  "The confirmation page for an agent with paper preference" should {
-
-    lazy val view = views.html.confirmation(agentPreferencesPaper, isAgent = true)
-    lazy implicit val document: Document = Jsoup.parse(view.body)
-
-    "have the correct first paragraph" in {
-      elementText("#content > article > p:nth-of-type(1)") shouldBe
-        "We will send a confirmation letter to the agency address within 15 working days."
+      "has the correct link location" in {
+        element("#content > article > p:nth-of-type(2) > a").attr("href") shouldBe appConfig.govUkManageClientsDetails
+      }
     }
 
-    "have the correct second paragraph" in {
-      elementText("#content > article > p:nth-of-type(2)") shouldBe "We will also contact Acme ltd with an update."
+    "have a third paragraph" which {
+
+      "has the correct text" in {
+        elementText("#content > article > p:nth-of-type(3)") shouldBe "You must contact us (opens in a new tab) " +
+          "to sign your client up for Making Tax Digital again if their taxable turnover goes above £85,000."
+      }
+
+      "has the correct link text" in {
+        elementText("#content > article > p:nth-of-type(3) > a") shouldBe "contact us (opens in a new tab)"
+      }
+
+      "has the correct link location" in {
+        element("#content > article > p:nth-of-type(3) > a").attr("href") shouldBe appConfig.govUkContactUs
+      }
     }
-  }
 
-  "The confirmation page for an agent with paper preference but no business name" should {
+    "have a change client link which" should {
 
-    lazy val view = views.html.confirmation(agentPreferencesPaperNoBusinessName, isAgent = true)
-    lazy implicit val document: Document = Jsoup.parse(view.body)
+      "have the correct text" in {
+        elementText("#content > article > p:nth-of-type(5) > a") shouldBe "Change client"
+      }
 
-    "have the correct second paragraph" in {
-      elementText("#content > article > p:nth-of-type(2)") shouldBe "We will also contact your client with an update."
+      "have the correct link location" in {
+        element("#content > article > p:nth-of-type(5) > a").attr("href") shouldBe appConfig.agentClientLookupHandoff
+      }
     }
   }
 }

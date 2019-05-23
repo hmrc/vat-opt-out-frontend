@@ -49,7 +49,7 @@ class CannotOptOutViewSpec extends ViewBaseSpec {
     "have a button" which {
 
       "has the correct text" in {
-        elementText(".button") shouldBe "Return to change of business details"
+        elementText(".button") shouldBe "Return to your VAT account"
       }
 
       "has the correct href" in {

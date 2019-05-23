@@ -27,33 +27,41 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {
-      document.title shouldBe "Opt out of Making Tax Digital"
+      document.title shouldBe "Are you sure you want to opt out of Making Tax Digital for VAT?"
     }
 
     "have the correct heading" in {
-      elementText("h1") shouldBe "Opt out of Making Tax Digital for VAT"
+      elementText("h1") shouldBe "Are you sure you want to opt out of Making Tax Digital for VAT?"
     }
 
-    "have the correct paragraph" in {
-      elementText("#content > article > p") shouldBe "If you choose to opt out, you will:"
+    "have the correct initial paragraph" in {
+      elementText("#content > article > p:nth-of-type(1)") shouldBe "If you choose to opt out, you must:"
     }
 
     "have the correct first bullet point" in {
-      elementText("#content li:nth-of-type(1)") shouldBe "not be cancelling your VAT registration"
+      elementText("#content li:nth-of-type(1)") shouldBe
+        "continue to use software compatible with Making Tax Digital for your current return period"
     }
 
     "have the correct second bullet point" in {
-      elementText("#content li:nth-of-type(2)") shouldBe "have to submit your VAT Returns using a different service"
+      elementText("#content li:nth-of-type(2)") shouldBe
+        "use your online account to submit VAT Returns from your next return period"
     }
 
     "have the correct third bullet point" in {
-      elementText("#content li:nth-of-type(3)") shouldBe "have to join again if your taxable turnover goes above the VAT threshold"
+      elementText("#content li:nth-of-type(3)") shouldBe
+        "contact us to sign up for Making Tax Digital if your taxable turnover goes above £85,000"
+    }
+
+    "have the correct final paragraph" in {
+      elementText("#content > article > p:nth-of-type(2)") shouldBe
+        "By opting out you will not be cancelling your VAT registration."
     }
 
     "have a button" which {
 
       "has the correct text" in {
-        elementText(".button") shouldBe "Continue"
+        elementText(".button") shouldBe "Confirm and opt out"
       }
 
       "has the correct href" in {

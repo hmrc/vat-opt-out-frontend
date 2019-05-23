@@ -16,23 +16,32 @@
 
 @(isAgent: Boolean)(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig)
 
-@main_template(title = messages("confirmOptOut.title"), feedbackRedirect = Some(routes.ConfirmOptOutController.show().url)) {
+@agentMessageAffix = @{
+  if(isAgent) ".agent" else ""
+}
+
+@main_template(
+  title = messages(s"confirmOptOut.title$agentMessageAffix"),
+  feedbackRedirect = Some(routes.ConfirmOptOutController.show().url)
+) {
 
 <a class="link-back" href='@controllers.routes.TurnoverThresholdController.show().url'>@messages("base.back")</a>
 
-<h1>@messages("confirmOptOut.heading")</h1>
+<h1>@messages(s"confirmOptOut.title$agentMessageAffix")</h1>
 
-<p>@messages("confirmOptOut.chooseToOptOut")</p>
+<p>@messages(s"confirmOptOut.chooseToOptOut$agentMessageAffix")</p>
 
 <ul class="list list-bullet">
-  <li>@messages("confirmOptOut.bullet1")</li>
-  <li>@messages("confirmOptOut.bullet2")</li>
-  <li>@messages("confirmOptOut.bullet3")</li>
+  <li>@messages(s"confirmOptOut.bullet1$agentMessageAffix")</li>
+  <li>@messages(s"confirmOptOut.bullet2$agentMessageAffix")</li>
+  <li>@messages(s"confirmOptOut.bullet3$agentMessageAffix")</li>
 </ul>
+
+<p>@messages(s"confirmOptOut.notCancellingRegistration$agentMessageAffix")</p>
 
 <a class="button"
    type="submit"
    href="@controllers.routes.ConfirmationController.show().url"
-   data-journey-click="@{if(isAgent)"agent_"}opt-out:submit:opt-out">@messages("base.continue")</a>
+   data-journey-click="@{if(isAgent)"agent_"}opt-out:submit:opt-out">@messages("confirmOptOut.confirm")</a>
 
 }

@@ -56,6 +56,8 @@ trait AppConfig extends ServicesConfig {
   def routeToSwitchLanguage: String => Call
   def languageMap: Map[String, Lang]
   val agentInvitationsFastTrack: String
+  val govUkManageClientsDetails: String
+  val govUkContactUs: String
 }
 
 @Singleton
@@ -126,4 +128,7 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
 
   override val agentInvitationsFastTrack: String =
     getString(Keys.agentInvitationsFastTrackUrl) + getString(Keys.agentInvitationsFastTrackPath)
+
+  override val govUkManageClientsDetails: String = getString(Keys.govUkManageClientsDetails)
+  override val govUkContactUs: String = getString(Keys.govUkContactUs)
 }

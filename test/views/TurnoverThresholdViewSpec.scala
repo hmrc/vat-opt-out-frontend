@@ -51,7 +51,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
       lazy implicit val document: Document = Jsoup.parse(view.body)
 
       "have the correct document title" in {
-        document.title shouldBe "Was the business’s taxable turnover above £85,000 since 1st April 2019?"
+        document.title shouldBe "Has the business’s taxable turnover been above £85,000 since 1 April 2019?"
       }
 
       "have a back link" which {
@@ -65,22 +65,10 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
         }
       }
 
-      "have a previous years link" which {
-
-        "should have the correct text" in {
-          elementText(Selectors.backLinkPreviousYears) shouldBe "View the VAT threshold for previous tax years (opens in a new tab)"
-        }
-
-        "should have the correct previous years link" in {
-          element(Selectors.backLinkPreviousYears).attr("href") shouldBe "/some-link"
-
-        }
-      }
-
       "have a page heading" which {
 
         "has the correct text" in {
-          elementText(Selectors.pageHeading) shouldBe "Was the business’s taxable turnover above £85,000 since 1st April 2019?"
+          elementText(Selectors.pageHeading) shouldBe "Has the business’s taxable turnover been above £85,000 since 1 April 2019?"
         }
 
         "has the correct GA tag" in {
