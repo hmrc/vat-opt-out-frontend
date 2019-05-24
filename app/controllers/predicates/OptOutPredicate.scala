@@ -16,7 +16,7 @@
 
 package controllers.predicates
 
-import common.SessionKeys.{businessName, inflightMandationStatus, mandationStatus}
+import common.SessionKeys.{inflightMandationStatus, mandationStatus}
 import config.{AppConfig, ErrorHandler}
 import javax.inject.{Inject, Singleton}
 import models.{NonMTDfB, User}
@@ -45,12 +45,12 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
 
     val getSessionAttribute: String => Option[String] = req.session.get
 
-    (getSessionAttribute(businessName), getSessionAttribute(inflightMandationStatus), getSessionAttribute(mandationStatus)) match {
-      case (_, _, Some(NonMTDfB.value)) =>
+    (getSessionAttribute(inflightMandationStatus), getSessionAttribute(mandationStatus)) match {
+      case (_, Some(NonMTDfB.value)) =>
         Future.successful(Left(Ok(views.html.alreadyOptedOut())))
-      case (_, Some("true"), _) =>
+      case (Some("true"), _) =>
         Future.successful(Left(errorHandler.showInternalServerError))
-      case (_, Some("false"), _) =>
+      case (Some("false"), _) =>
         Future.successful(Right(req))
       case _ =>
         getCustomerInfoCall(req.vrn)
@@ -70,12 +70,11 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
             Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
               "Mandation status is inflight. Rendering standard error page.")
             Left(errorHandler.showInternalServerError.addingToSession(inflightMandationStatus -> "true"))
-          case (maybeBussName, false, mandStatus) =>
+          case (_, false, mandStatus) =>
             Logger.debug("[OptOutPredicate][getCustomerInfoCall] -"
               + "Mandation status is not in flight and not NonMTDfB. Redirecting user to the start of the journey.")
             Left(Redirect(controllers.routes.TurnoverThresholdController.show().url)
               .addingToSession(
-                businessName -> maybeBussName.getOrElse(""),
                 mandationStatus -> mandStatus.value,
                 inflightMandationStatus -> "false"
               )

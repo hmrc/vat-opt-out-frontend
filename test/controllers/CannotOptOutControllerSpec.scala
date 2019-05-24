@@ -41,7 +41,7 @@ class CannotOptOutControllerSpec extends MockAuth {
 
   ".show() for an agent fulfilling predicate sessions checks" should {
 
-    lazy val result = controller.show()(requestPredicatedAgentDigital)
+    lazy val result = controller.show()(requestPredicatedAgent)
 
     "return 200" in {
       mockAgentAuthorised()

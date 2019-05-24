@@ -47,7 +47,6 @@ trait AppConfig extends ServicesConfig {
   val manageVatSubscriptionServicePath: String
   val thresholdPreviousYearsUrl: String
   val vatSubscriptionHost: String
-  val contactPreferencesHost: String
   def feedbackUrl(redirect: String): String
   val exitSurveyUrl: String
   val agentServicesGovUkGuidance: String
@@ -108,7 +107,6 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
 
   override val thresholdPreviousYearsUrl: String = getString(Keys.thresholdPreviousYearsUrl)
   override val vatSubscriptionHost: String = baseUrl(Keys.vatSubscription)
-  override val contactPreferencesHost: String = baseUrl(Keys.contactPreferences)
 
   private lazy val exitSurveyBase: String = getString(Keys.exitSurveyHost) + getString(Keys.exitSurveyPath)
   override lazy val exitSurveyUrl: String = s"$exitSurveyBase/$contactFormServiceIdentifier"

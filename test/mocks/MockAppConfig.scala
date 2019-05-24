@@ -41,7 +41,6 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override val manageVatSubscriptionServicePath: String = "/change-business-details"
   override val thresholdPreviousYearsUrl: String = "/some-link"
   override val vatSubscriptionHost: String = "vat-subscription"
-  override val contactPreferencesHost: String = "/test-contact-preferences-host"
   override val agentClientLookupHandoff: String = "/agent-client-lookup"
   override val agentInvitationsFastTrack: String = "/agent-fast-track"
   override def feedbackUrl(redirect: String): String = s"feedback/$redirect"
