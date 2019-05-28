@@ -17,7 +17,7 @@
 package config
 
 import javax.inject.{Inject, Singleton}
-import play.api.i18n.MessagesApi
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.mvc.{Request, Result}
 import play.twirl.api.Html
 import play.api.mvc.Results.InternalServerError
@@ -28,5 +28,9 @@ class ErrorHandler @Inject()(val messagesApi: MessagesApi, implicit val appConfi
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html =
     views.html.errors.error_template(pageTitle, heading, message)
 
-  def showInternalServerError(implicit request: Request[_]): Result = InternalServerError(internalServerErrorTemplate)
+  def showInternalServerError(implicit request: Request[_]): Result = InternalServerError(standardErrorTemplate(
+    Messages("standardError.title"),
+    Messages("standardError.heading"),
+    Messages("standardError.message")
+  ))
 }

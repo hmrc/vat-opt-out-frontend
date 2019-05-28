@@ -68,7 +68,7 @@ class AuthPredicateSpec extends MockAuth {
           }
 
           "render the Standard Error page" in {
-            Jsoup.parse(bodyOf(result)).title shouldBe "Sorry, we are experiencing technical difficulties - 500"
+            Jsoup.parse(bodyOf(result)).title shouldBe "There is a problem with the service - VAT reporting through software - GOV.UK"
           }
         }
       }
@@ -122,7 +122,7 @@ class AuthPredicateSpec extends MockAuth {
         }
 
         "render the Standard Error page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "Sorry, we are experiencing technical difficulties - 500"
+          Jsoup.parse(bodyOf(result)).title shouldBe "There is a problem with the service - VAT reporting through software - GOV.UK"
         }
       }
     }

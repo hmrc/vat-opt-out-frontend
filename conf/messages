@@ -4,7 +4,6 @@ base.no = No
 base.error.heading = There is a problem
 base.back = Back
 base.continue = Continue
-base.confirm = Confirm
 base.signOut = Sign out
 base.fullStop = .
 
@@ -12,6 +11,10 @@ betaBanner.phaseName = BETA
 betaBanner.newService = This is a new service – your
 betaBanner.feedback = feedback
 betaBanner.feedbackImprove = will help us to improve it.
+
+standardError.title = There is a problem with the service - VAT reporting through software - GOV.UK
+standardError.heading = Sorry, there is a problem with the service
+standardError.message = Try again later.
 
 sessionTimeout.title = Your session has timed out
 sessionTimeout.helpOne = To manage your VAT account, you will have to

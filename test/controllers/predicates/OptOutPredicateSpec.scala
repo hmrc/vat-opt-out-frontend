@@ -76,7 +76,7 @@ class OptOutPredicateSpec extends MockAuth {
         }
 
         "show the generic error page" in {
-          document.title shouldBe "Sorry, we are experiencing technical difficulties - 500"
+          document.title shouldBe "There is a problem with the service - VAT reporting through software - GOV.UK"
         }
 
         "not call the VatSubscriptionService" in {
@@ -139,7 +139,7 @@ class OptOutPredicateSpec extends MockAuth {
         }
 
         "show the generic error page" in {
-          document.title shouldBe "Sorry, we are experiencing technical difficulties - 500"
+          document.title shouldBe "There is a problem with the service - VAT reporting through software - GOV.UK"
         }
 
         "call the VatSubscriptionService" in {
@@ -188,7 +188,7 @@ class OptOutPredicateSpec extends MockAuth {
         }
 
         "show the generic error page" in {
-          document.title shouldBe "Sorry, we are experiencing technical difficulties - 500"
+          document.title shouldBe "There is a problem with the service - VAT reporting through software - GOV.UK"
         }
       }
     }

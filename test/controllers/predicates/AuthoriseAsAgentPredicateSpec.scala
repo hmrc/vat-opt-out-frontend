@@ -81,7 +81,7 @@ class AuthoriseAsAgentPredicateSpec extends MockAuth {
         }
 
         "render the Internal Server Error page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "Sorry, we are experiencing technical difficulties - 500"
+          Jsoup.parse(bodyOf(result)).title shouldBe "There is a problem with the service - VAT reporting through software - GOV.UK"
         }
       }
     }
