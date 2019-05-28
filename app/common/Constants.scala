@@ -22,5 +22,4 @@ object Constants {
   val confirmOptOut: String = "confirmOptOut"
   val preferenceDigital = "Digital"
   val preferencePaper = "Paper"
-  val preferenceFail = "Fail"
 }

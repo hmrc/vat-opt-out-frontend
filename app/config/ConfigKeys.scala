@@ -31,7 +31,6 @@ object ConfigKeys {
   val manageVatSubscriptionServicePath: String = "manage-vat-subscription-frontend.path"
   val thresholdPreviousYearsUrl: String = "govuk.thresholdPreviousYearsUrl"
   val vatSubscription: String = "vat-subscription"
-  val contactPreferences: String = "contact-preferences"
   val host: String = "host"
   val exitSurveyHost: String = "feedback-frontend.host"
   val exitSurveyPath: String = "feedback-frontend.path"

@@ -18,7 +18,6 @@ package views
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import assets.ContactPreferencesConstants._
 
 class ConfirmationViewSpec extends ViewBaseSpec {
 
