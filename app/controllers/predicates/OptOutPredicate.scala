@@ -16,7 +16,7 @@
 
 package controllers.predicates
 
-import common.SessionKeys.{inflightMandationStatus, mandationStatus}
+import common.SessionKeys.{inflightMandationStatus, mandationStatus, businessName}
 import config.{AppConfig, ErrorHandler}
 import javax.inject.{Inject, Singleton}
 import models.{NonMTDfB, User}
@@ -70,11 +70,12 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
             Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
               "Mandation status is inflight. Rendering standard error page.")
             Left(errorHandler.showInternalServerError.addingToSession(inflightMandationStatus -> "true"))
-          case (_, false, mandStatus) =>
+          case (maybeBussName, false, mandStatus) =>
             Logger.debug("[OptOutPredicate][getCustomerInfoCall] -"
               + "Mandation status is not in flight and not NonMTDfB. Redirecting user to the start of the journey.")
             Left(Redirect(controllers.routes.TurnoverThresholdController.show().url)
               .addingToSession(
+                businessName -> maybeBussName.getOrElse(""),
                 mandationStatus -> mandStatus.value,
                 inflightMandationStatus -> "false"
               )
