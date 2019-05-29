@@ -42,4 +42,5 @@ object ConfigKeys {
   val agentInvitationsFastTrackPath: String = "agent-invitations-fast-track.path"
   val govUkManageClientsDetails: String = "govuk.manageClientsDetails"
   val govUkContactUs: String = "govuk.contactUs"
+  val thresholdAmount: String = "threshold.amount"
 }

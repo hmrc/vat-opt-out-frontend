@@ -91,7 +91,7 @@ class TurnoverThresholdControllerSpec extends MockAuth {
 
       "the form is successfully submitted with no option selected" should {
 
-        lazy val result = controller.submit(requestPredicatedClient.withFormUrlEncodedBody("threshold" -> ""))
+        lazy val result = controller.submit(requestPredicatedClient.withFormUrlEncodedBody())
 
         "return to the view with a bad request" in {
           status(result) shouldBe Status.BAD_REQUEST

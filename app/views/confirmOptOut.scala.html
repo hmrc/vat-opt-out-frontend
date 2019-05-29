@@ -34,7 +34,7 @@
 <ul class="list list-bullet">
   <li>@messages(s"confirmOptOut.bullet1$agentMessageAffix")</li>
   <li>@messages(s"confirmOptOut.bullet2$agentMessageAffix")</li>
-  <li>@messages(s"confirmOptOut.bullet3$agentMessageAffix")</li>
+  <li>@messages(s"confirmOptOut.bullet3$agentMessageAffix",appConfig.thresholdAmount)</li>
 </ul>
 
 <p>@messages(s"confirmOptOut.notCancellingRegistration$agentMessageAffix")</p>

@@ -46,9 +46,9 @@
 }
 
 <p>
-  @messages(s"confirmation.aboveThreshold1$agentMessageAffix")
+  @messages(s"confirmation.aboveThreshold1$agentMessageAffix", appConfig.thresholdAmount)
   <a href="@appConfig.govUkContactUs" target="_blank">@messages("confirmation.aboveThreshold2")</a>
-  @messages(s"confirmation.aboveThreshold3$agentMessageAffix")
+  @messages(s"confirmation.aboveThreshold3$agentMessageAffix",appConfig.thresholdAmount)
 </p>
 
 <p><a class="button" type="submit" href="@appConfig.manageVatSubscriptionServicePath">@messages("confirmation.finish")</a></p>

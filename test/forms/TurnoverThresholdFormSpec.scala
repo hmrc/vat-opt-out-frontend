@@ -23,25 +23,24 @@ import forms.TurnoverThresholdForm.turnoverThresholdForm
 
 class TurnoverThresholdFormSpec extends TestUtils {
 
-  "The turnoverThresholdForm" should {
+    "The turnoverThresholdForm" should {
 
-    val emptyThresholdErrorMessage: String = "turnoverThreshold.error.empty"
     val testThresholdYes: String = Constants.optionYes
     val testThresholdNo: String = Constants.optionNo
 
     "validate that testThresholdYes is valid" in {
-      val actual = turnoverThresholdForm.bind(Map("threshold" -> testThresholdYes)).value
+      val actual = turnoverThresholdForm(appConfig.thresholdAmount).bind(Map("threshold" -> testThresholdYes)).value
       actual shouldBe Some(testThresholdYes)
     }
 
     "validate that testThresholdNo is valid" in {
-      val actual = turnoverThresholdForm.bind(Map("threshold" -> testThresholdNo)).value
+      val actual = turnoverThresholdForm(appConfig.thresholdAmount).bind(Map("threshold" -> testThresholdNo)).value
       actual shouldBe Some(testThresholdNo)
     }
 
     "validate that data has been entered" in {
-      val formWithError = turnoverThresholdForm.bind(Map("threshold" -> ""))
-      formWithError.errors should contain(FormError("threshold", emptyThresholdErrorMessage))
+      val formWithError = turnoverThresholdForm(appConfig.thresholdAmount).bind(Map[String,String]())
+      formWithError.errors should contain(FormError("threshold", "turnoverThreshold.error.empty",Seq(appConfig.thresholdAmount)))
     }
 
   }
