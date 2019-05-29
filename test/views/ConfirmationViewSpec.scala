@@ -83,7 +83,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     }
   }
 
-  "The confirmation page for an agent " should {
+  "The confirmation page for an agent" should {
 
     lazy val view = views.html.confirmation(isAgent = true)
     lazy implicit val document: Document = Jsoup.parse(view.body)
@@ -112,11 +112,11 @@ class ConfirmationViewSpec extends ViewBaseSpec {
 
       "has the correct text" in {
         elementText("#content > article > p:nth-of-type(2)") shouldBe
-          "Submit your client’s VAT Returns online from your next return period."
+          "Submit your client’s VAT Returns online (opens in a new tab) from your next return period."
       }
 
       "has the correct link text" in {
-        elementText("#content > article > p:nth-of-type(2) > a") shouldBe "online"
+        elementText("#content > article > p:nth-of-type(2) > a") shouldBe "online (opens in a new tab)"
       }
 
       "has the correct link location" in {
