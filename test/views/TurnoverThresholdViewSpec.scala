@@ -16,12 +16,12 @@
 
 package views
 
+import common.Constants.{optionNo, optionYes}
+import forms.TurnoverThresholdForm.turnoverThresholdForm
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import play.twirl.api.Html
-import forms.TurnoverThresholdForm.turnoverThresholdForm
 import play.api.data.Form
-import common.Constants.{optionNo, optionYes}
+import play.twirl.api.Html
 
 class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
@@ -41,7 +41,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
     val errorRadioText = "span.error-notification"
   }
 
-  val emptyForm: Form[String] = turnoverThresholdForm
+  val emptyForm: Form[String] = turnoverThresholdForm(appConfig.thresholdAmount)
 
   "Rendering the turnover threshold page with an empty form for a client" when {
 
@@ -110,7 +110,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
     "the form has errors" should {
 
-      lazy val view = views.html.turnoverThreshold(turnoverThresholdForm.bind(Map("threshold" -> "")), isAgent = false)
+      lazy val view = views.html.turnoverThreshold(turnoverThresholdForm(appConfig.thresholdAmount).bind(Map[String,String]()), isAgent = false)
       lazy implicit val document: Document = Jsoup.parse(view.body)
 
       "display the error summary" in {
@@ -129,7 +129,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
   "Rendering the turnover threshold page for a client with a populated yes option" should {
 
-    lazy val view = views.html.turnoverThreshold(turnoverThresholdForm.bind(Map("threshold" -> optionYes)), isAgent = false)
+    lazy val view = views.html.turnoverThreshold(turnoverThresholdForm(appConfig.thresholdAmount).bind(Map("threshold" -> optionYes)), isAgent = false)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have a 'Yes' radio button" which {
@@ -142,7 +142,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
   "Rendering the turnover threshold page for a client with aa populated no value" should {
 
-    lazy val view = views.html.turnoverThreshold(turnoverThresholdForm.bind(Map("threshold" -> optionNo)), isAgent = false)
+    lazy val view = views.html.turnoverThreshold(turnoverThresholdForm(appConfig.thresholdAmount).bind(Map("threshold" -> optionNo)), isAgent = false)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have a 'No' radio button" which {

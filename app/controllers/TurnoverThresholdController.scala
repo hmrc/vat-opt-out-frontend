@@ -16,14 +16,14 @@
 
 package controllers
 
+import common.SessionKeys.turnoverThreshold
 import common.{Constants, SessionKeys}
 import config.AppConfig
+import controllers.predicates.{AuthPredicate, OptOutPredicate}
+import forms.TurnoverThresholdForm._
 import javax.inject.{Inject, Singleton}
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent}
-import forms.TurnoverThresholdForm._
-import common.SessionKeys.turnoverThreshold
-import controllers.predicates.{AuthPredicate, OptOutPredicate}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -35,18 +35,16 @@ class TurnoverThresholdController @Inject()(authenticate: AuthPredicate, val opt
   val show: Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>
     user.session.get(turnoverThreshold) match {
       case Some(turnoverOption) =>
-        Future.successful(Ok(views.html.turnoverThreshold(turnoverThresholdForm.fill(turnoverOption), user.isAgent)))
+        Future.successful(Ok(views.html.turnoverThreshold(turnoverThresholdForm(appConfig.thresholdAmount).fill(turnoverOption), user.isAgent)))
       case _ =>
-        Future.successful(Ok(views.html.turnoverThreshold(turnoverThresholdForm, user.isAgent)))
+        Future.successful(Ok(views.html.turnoverThreshold(turnoverThresholdForm(appConfig.thresholdAmount), user.isAgent)))
     }
   }
 
   def submit: Action[AnyContent] = (authenticate andThen optOutPredicate) { implicit user =>
-    turnoverThresholdForm.bindFromRequest().fold(
+    turnoverThresholdForm(appConfig.thresholdAmount).bindFromRequest().fold(
       error => {
-        BadRequest(views.html.turnoverThreshold(
-          error.discardingErrors.withError("threshold", "turnoverThreshold.error.empty"), user.isAgent
-        ))
+              BadRequest(views.html.turnoverThreshold(error,user.isAgent))
       },
       {
         case formData@Constants.optionYes => Redirect(controllers.routes.CannotOptOutController.show())

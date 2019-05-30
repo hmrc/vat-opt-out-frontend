@@ -57,6 +57,7 @@ trait AppConfig extends ServicesConfig {
   val agentInvitationsFastTrack: String
   val govUkManageClientsDetails: String
   val govUkContactUs: String
+  val thresholdAmount: String
 }
 
 @Singleton
@@ -129,4 +130,6 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
 
   override val govUkManageClientsDetails: String = getString(Keys.govUkManageClientsDetails)
   override val govUkContactUs: String = getString(Keys.govUkContactUs)
+  override val thresholdAmount: String = getString(Keys.thresholdAmount)
+
 }

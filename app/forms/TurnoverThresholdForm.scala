@@ -16,13 +16,28 @@
 
 package forms
 
-import play.api.data.Form
 import play.api.data.Forms._
+import play.api.data.format.Formatter
+import play.api.data.{Form, FormError}
+
 
 object TurnoverThresholdForm {
 
-  val turnoverThresholdForm: Form[String] = Form(
-    "threshold" -> text.verifying(
-      "turnoverThreshold.error.empty", _.length != 0)
+  def formatter(thresholdAmount: String): Formatter[String] = new Formatter[String] {
+
+    override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] = {
+      data.get(key) match {
+        case Some(value) => Right(value)
+        case _ => Left(Seq(FormError(key, "turnoverThreshold.error.empty", Seq(thresholdAmount))))
+      }
+    }
+
+    override def unbind(key: String, value: String): Map[String, String] = Map(key -> value)
+  }
+
+  def turnoverThresholdForm(thresholdAmount: String): Form[String] = Form(
+    single(
+      "threshold" -> of(formatter(thresholdAmount))
+    )
   )
 }

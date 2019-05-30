@@ -55,4 +55,6 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   )
   override val govUkManageClientsDetails: String = "/gov-uk/manage"
   override val govUkContactUs: String = "/gov-uk/contact-us"
+  override val thresholdAmount: String = "£85,000"
+
 }

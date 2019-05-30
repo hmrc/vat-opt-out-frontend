@@ -19,11 +19,8 @@ package controllers
 import config.AppConfig
 import controllers.predicates.{AuthPredicate, OptOutPredicate}
 import javax.inject.Inject
-import models.viewModels.ConfirmationPreference
 import play.api.i18n.MessagesApi
-import play.api.mvc.{Action, AnyContent, Request}
-import common.SessionKeys
-import common.Constants._
+import play.api.mvc.{Action, AnyContent}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -35,17 +32,4 @@ class ConfirmationController @Inject()(authenticate: AuthPredicate, val optOutPr
     Future.successful(Ok(views.html.confirmation(user.isAgent)))
   }
 
-  private def getTransactorData(request: Request[AnyContent]): ConfirmationPreference = {
-
-    val transactorEmail: Option[String] = extractFromSession(request, SessionKeys.verifiedAgentEmail)
-    val preferenceType: String = transactorEmail.fold(preferencePaper)(_ => preferenceDigital)
-    val businessName = extractFromSession(request, SessionKeys.businessName)
-
-    ConfirmationPreference(isTransactor = true, preferenceType, businessName, transactorEmail)
-
-  }
-
-  private[controllers] def extractFromSession(request: Request[AnyContent], sessionKey: String): Option[String] = {
-    request.session.get(sessionKey).filter(_.nonEmpty)
-  }
 }
