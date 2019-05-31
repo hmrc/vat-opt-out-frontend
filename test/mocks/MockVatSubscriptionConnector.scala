@@ -16,10 +16,11 @@
 
 package mocks
 
-import assets.BaseTestConstants.errorModel
+import assets.BaseTestConstants.{errorModel, updateVatSubscriptionModel}
 import assets.CustomerInformationConstants.customerInfoModelTradeName
 import connectors.VatSubscriptionConnector
 import connectors.httpParsers.GetVatSubscriptionHttpParser.GetVatSubscriptionResponse
+import connectors.httpParsers.UpdateVatSubscriptionHttpParser.UpdateVatSubscriptionResponse
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.mockito.stubbing.OngoingStubbing
@@ -29,16 +30,27 @@ import scala.concurrent.Future
 
 trait MockVatSubscriptionConnector extends MockitoSugar {
 
-  type VatSubStub = OngoingStubbing[Future[GetVatSubscriptionResponse]]
+  type VatGetStub = OngoingStubbing[Future[GetVatSubscriptionResponse]]
+  type VatUpdateStub = OngoingStubbing[Future[UpdateVatSubscriptionResponse]]
 
   val connector: VatSubscriptionConnector = mock[VatSubscriptionConnector]
 
-  def mockVatSubscriptionResponse(result: Future[GetVatSubscriptionResponse]): VatSubStub =
+  def mockGetVatSubscriptionResponse(result: Future[GetVatSubscriptionResponse]): VatGetStub =
     when(connector.getCustomerInfo(any())(any(), any())).thenReturn(result)
 
-  def mockVatSubscriptionSuccess(): VatSubStub =
-    mockVatSubscriptionResponse(Future.successful(Right(customerInfoModelTradeName)))
+  def mockGetVatSubscriptionSuccess(): VatGetStub =
+    mockGetVatSubscriptionResponse(Future.successful(Right(customerInfoModelTradeName)))
 
-  def mockVatSubscriptionFailure(): VatSubStub =
-    mockVatSubscriptionResponse(Future.successful(Left(errorModel)))
+  def mockGetVatSubscriptionFailure(): VatGetStub =
+    mockGetVatSubscriptionResponse(Future.successful(Left(errorModel)))
+
+  def mockUpdateVatSubscriptionResponse(result: Future[UpdateVatSubscriptionResponse]): VatUpdateStub =
+    when(connector.updateMandationStatus(any(),any())(any(), any())).thenReturn(result)
+
+  def mockUpdateVatSubscriptionSuccess(): VatUpdateStub =
+    mockUpdateVatSubscriptionResponse(Future.successful(Right(updateVatSubscriptionModel)))
+
+  def mockUpdateVatSubscriptionFailure(): VatUpdateStub =
+    mockUpdateVatSubscriptionResponse(Future.successful(Left(errorModel)))
+
 }

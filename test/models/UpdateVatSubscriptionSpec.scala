@@ -16,22 +16,22 @@
 
 package models
 
-import play.api.libs.json.Json
+import play.api.libs.json.{JsObject, Json}
 import utils.TestUtils
+import assets.BaseTestConstants.updateVatSubscriptionModel
 
 class UpdateVatSubscriptionSpec extends TestUtils {
 
-  val exampleModel = UpdateVatSubscription("0123456789")
-  val exampleJson = Json.obj("formBundle" -> "0123456789")
+  val exampleJson: JsObject = Json.obj("formBundle" -> "0123456789")
 
   "UpdateVatSubscription" should {
 
     "parse from JSON" in {
-      exampleJson.as[UpdateVatSubscription] shouldBe exampleModel
+      exampleJson.as[UpdateVatSubscription] shouldBe updateVatSubscriptionModel
     }
 
     "serialize to JSON" in {
-      Json.toJson(exampleModel) shouldBe exampleJson
+      Json.toJson(updateVatSubscriptionModel) shouldBe exampleJson
     }
   }
 }

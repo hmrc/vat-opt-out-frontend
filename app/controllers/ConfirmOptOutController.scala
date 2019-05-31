@@ -16,20 +16,39 @@
 
 package controllers
 
-import config.AppConfig
+import config.{AppConfig, ErrorHandler}
 import controllers.predicates.{AuthPredicate, OptOutPredicate}
 import javax.inject.Inject
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent}
+import models.NonMTDfB
+import services.VatSubscriptionService
+import common.SessionKeys.{inflightMandationStatus, mandationStatus}
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class ConfirmOptOutController @Inject()(authenticate: AuthPredicate,
-                                        val optOutPredicate: OptOutPredicate)
-                                       (implicit val appConfig: AppConfig,
-                                        val messagesApi: MessagesApi, val ec: ExecutionContext) extends ControllerBase {
+                                        val optOutPredicate: OptOutPredicate,
+                                        val errorHandler: ErrorHandler,
+                                        val vatSubscriptionService: VatSubscriptionService)
+                                        (implicit val appConfig: AppConfig,
+                                        val messagesApi: MessagesApi,
+                                        val ec: ExecutionContext) extends ControllerBase {
 
   def show(): Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>
     Future.successful(Ok(views.html.confirmOptOut(user.isAgent)))
+  }
+
+  def updateMandationStatus(): Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>
+
+    vatSubscriptionService.updateMandationStatus(user.vrn, NonMTDfB) map {
+      case Right(_) =>
+        Redirect(routes.ConfirmationController.show())
+          .removingFromSession(mandationStatus)
+          .addingToSession(inflightMandationStatus -> "true")
+
+      case Left(_) =>
+        errorHandler.showInternalServerError
+    }
   }
 }

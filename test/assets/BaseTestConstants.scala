@@ -16,10 +16,13 @@
 
 package assets
 
-import models.ErrorModel
+import models.{ErrorModel, UpdateVatSubscription}
 import play.api.http.Status.INTERNAL_SERVER_ERROR
 
 object BaseTestConstants {
   val testVrn = "123456789"
   val errorModel = ErrorModel(INTERNAL_SERVER_ERROR, "Fail")
+  val updateVatSubscriptionModel = UpdateVatSubscription("0123456789")
 }
+
+
