@@ -14,19 +14,24 @@
  * limitations under the License.
  */
 
-package services
+package models
 
-import connectors.VatSubscriptionConnector
-import connectors.httpParsers.GetVatSubscriptionHttpParser.GetVatSubscriptionResponse
-import javax.inject.{Inject, Singleton}
-import uk.gov.hmrc.http.HeaderCarrier
+import play.api.libs.json.Json
+import utils.TestUtils
 
-import scala.concurrent.{ExecutionContext, Future}
+class UpdateVatSubscriptionSpec extends TestUtils {
 
-@Singleton
-class VatSubscriptionService @Inject()(connector: VatSubscriptionConnector) {
+  val exampleModel = UpdateVatSubscription("0123456789")
+  val exampleJson = Json.obj("formBundle" -> "0123456789")
 
-  def getCustomerInfo(vrn: String)
-                     (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[GetVatSubscriptionResponse] =
-    connector.getCustomerInfo(vrn)
+  "UpdateVatSubscription" should {
+
+    "parse from JSON" in {
+      exampleJson.as[UpdateVatSubscription] shouldBe exampleModel
+    }
+
+    "serialize to JSON" in {
+      Json.toJson(exampleModel) shouldBe exampleJson
+    }
+  }
 }

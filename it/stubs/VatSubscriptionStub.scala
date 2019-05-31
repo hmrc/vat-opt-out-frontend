@@ -24,6 +24,7 @@ import play.api.libs.json.{JsObject, Json}
 object VatSubscriptionStub extends WireMockMethods {
 
   private val getCustomerInfoUri: String = "/vat-subscription/([0-9]+)/full-information"
+  private val updateMandationStatusUri: String = "/vat-subscription/([0-9]+)/mandation-status"
 
   def stubCustomerInfo: StubMapping = {
     when(method = GET, uri = getCustomerInfoUri)
@@ -35,6 +36,16 @@ object VatSubscriptionStub extends WireMockMethods {
       .thenReturn(status = INTERNAL_SERVER_ERROR, body = Json.obj("fail" -> "nope"))
   }
 
+  def stubUpdateVatSubscription: StubMapping = {
+    when(method = PUT, uri = updateMandationStatusUri)
+      .thenReturn(status = OK, body = updateVatSubscriptionJson)
+  }
+
+  def stubUpdateVatSubscriptionError: StubMapping = {
+    when(method = PUT, uri = updateMandationStatusUri)
+      .thenReturn(status = INTERNAL_SERVER_ERROR, body = Json.obj("fail" -> "nope"))
+  }
+
   val customerInfoJsonAll: JsObject = Json.obj(
     "customerDetails" -> Json.obj(
     "tradingName" -> "ChoC Services",
@@ -43,5 +54,9 @@ object VatSubscriptionStub extends WireMockMethods {
     "lastName" -> "Services"
      ),
     "mandationStatus" -> "MTDfB Mandated"
+  )
+
+  val updateVatSubscriptionJson: JsObject = Json.obj(
+    "formBundle" -> "0123456789"
   )
 }

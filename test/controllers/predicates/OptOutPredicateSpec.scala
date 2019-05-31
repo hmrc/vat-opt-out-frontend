@@ -17,7 +17,7 @@
 package controllers.predicates
 
 import common.SessionKeys
-import connectors.httpParsers.VatSubscriptionHttpParser.VatSubscriptionResponse
+import connectors.httpParsers.GetVatSubscriptionHttpParser.GetVatSubscriptionResponse
 import models._
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers.any
@@ -32,7 +32,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class OptOutPredicateSpec extends MockAuth {
 
-  def setup(result: VatSubscriptionResponse): Unit = {
+  def setup(result: GetVatSubscriptionResponse): Unit = {
     reset(mockVatSubscriptionService)
     when(mockVatSubscriptionService.getCustomerInfo(any())(any(), any()))
       .thenReturn(Future.successful(result))

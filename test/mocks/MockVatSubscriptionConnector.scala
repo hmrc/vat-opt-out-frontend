@@ -19,7 +19,7 @@ package mocks
 import assets.BaseTestConstants.errorModel
 import assets.CustomerInformationConstants.customerInfoModelTradeName
 import connectors.VatSubscriptionConnector
-import connectors.httpParsers.VatSubscriptionHttpParser.VatSubscriptionResponse
+import connectors.httpParsers.GetVatSubscriptionHttpParser.GetVatSubscriptionResponse
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.mockito.stubbing.OngoingStubbing
@@ -29,11 +29,11 @@ import scala.concurrent.Future
 
 trait MockVatSubscriptionConnector extends MockitoSugar {
 
-  type VatSubStub = OngoingStubbing[Future[VatSubscriptionResponse]]
+  type VatSubStub = OngoingStubbing[Future[GetVatSubscriptionResponse]]
 
   val connector: VatSubscriptionConnector = mock[VatSubscriptionConnector]
 
-  def mockVatSubscriptionResponse(result: Future[VatSubscriptionResponse]): VatSubStub =
+  def mockVatSubscriptionResponse(result: Future[GetVatSubscriptionResponse]): VatSubStub =
     when(connector.getCustomerInfo(any())(any(), any())).thenReturn(result)
 
   def mockVatSubscriptionSuccess(): VatSubStub =

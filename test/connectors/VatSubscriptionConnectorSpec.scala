@@ -29,5 +29,9 @@ class VatSubscriptionConnectorSpec extends TestUtils with MockitoSugar {
     "generate the correct url for getCustomerInfo" in {
       connector.getCustomerInfoUrl("123456789") shouldBe "vat-subscription/vat-subscription/123456789/full-information"
     }
+
+    "generate the correct url for updateMandationStatus" in {
+      connector.updateMandationStatusUrl("123456789") shouldBe "vat-subscription/vat-subscription/123456789/mandation-status"
+    }
   }
 }

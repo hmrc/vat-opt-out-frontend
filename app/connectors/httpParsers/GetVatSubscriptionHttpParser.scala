@@ -21,23 +21,23 @@ import play.api.Logger
 import play.api.http.Status.{INTERNAL_SERVER_ERROR, OK}
 import uk.gov.hmrc.http.{HttpReads, HttpResponse}
 
-object VatSubscriptionHttpParser {
+object GetVatSubscriptionHttpParser {
 
-  type VatSubscriptionResponse = Either[ErrorModel, CustomerInformation]
+  type GetVatSubscriptionResponse = Either[ErrorModel, CustomerInformation]
 
-  implicit object VatSubscriptionReads extends HttpReads[VatSubscriptionResponse] {
-    override def read(method: String, url: String, response: HttpResponse): VatSubscriptionResponse = {
+  implicit object GetVatSubscriptionReads extends HttpReads[GetVatSubscriptionResponse] {
+    override def read(method: String, url: String, response: HttpResponse): GetVatSubscriptionResponse = {
       response.status match {
         case OK =>
           response.json.validate[CustomerInformation].fold(
           invalid => {
-            Logger.warn(s"[VatSubscriptionHttpParser][read] - Invalid JSON: $invalid")
+            Logger.warn(s"[GetVatSubscriptionHttpParser][read] - Invalid JSON: $invalid")
             Left(ErrorModel(INTERNAL_SERVER_ERROR, "The endpoint returned invalid JSON."))
           },
           valid => Right(valid)
         )
         case status =>
-          Logger.warn(s"[VatSubscriptionHttpParser][read]: Unexpected Response, Status $status returned,with " +
+          Logger.warn(s"[GetVatSubscriptionHttpParser][read]: Unexpected Response, Status $status returned,with " +
             s"response: ${response.body}")
           Left(ErrorModel(status, response.body))
       }

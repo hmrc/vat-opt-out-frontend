@@ -16,9 +16,10 @@
 
 package connectors
 
-import connectors.httpParsers.VatSubscriptionHttpParser.VatSubscriptionResponse
+import connectors.httpParsers.GetVatSubscriptionHttpParser.GetVatSubscriptionResponse
+import connectors.httpParsers.UpdateVatSubscriptionHttpParser.UpdateVatSubscriptionResponse
 import helpers.IntegrationBaseSpec
-import models.{CustomerInformation, ErrorModel, MTDfBMandated}
+import models.{CustomerInformation, ErrorModel, MTDfBMandated, UpdateVatSubscription}
 import play.api.http.Status.INTERNAL_SERVER_ERROR
 import stubs.VatSubscriptionStub
 
@@ -36,7 +37,7 @@ class VatSubscriptionConnectorISpec extends IntegrationBaseSpec {
         VatSubscriptionStub.stubCustomerInfo
 
         val expected = Right(CustomerInformation(Some("ChoC Services"), MTDfBMandated, inflightMandationStatus = false))
-        val result: VatSubscriptionResponse = await(connector.getCustomerInfo("123456789"))
+        val result: GetVatSubscriptionResponse = await(connector.getCustomerInfo("123456789"))
 
         result shouldBe expected
       }
@@ -48,7 +49,34 @@ class VatSubscriptionConnectorISpec extends IntegrationBaseSpec {
         VatSubscriptionStub.stubCustomerInfoError
 
         val expected = Left(ErrorModel(INTERNAL_SERVER_ERROR, """{"fail":"nope"}"""))
-        val result: VatSubscriptionResponse = await(connector.getCustomerInfo("123456789"))
+        val result: GetVatSubscriptionResponse = await(connector.getCustomerInfo("123456789"))
+
+        result shouldBe expected
+      }
+    }
+  }
+
+  "Calling .updateMandationStatus" when {
+
+    "valid JSON is returned by the endpoint" should {
+
+      "return an UpdateVatSubscription model" in new Test {
+        VatSubscriptionStub.stubUpdateVatSubscription
+
+        val expected = Right(UpdateVatSubscription("0123456789"))
+        val result: UpdateVatSubscriptionResponse = await(connector.updateMandationStatus("123456789", MTDfBMandated))
+
+        result shouldBe expected
+      }
+    }
+
+    "an internal server error is returned by the endpoint" should {
+
+      "return an Error Model" in new Test {
+        VatSubscriptionStub.stubUpdateVatSubscriptionError
+
+        val expected = Left(ErrorModel(INTERNAL_SERVER_ERROR, """{"fail":"nope"}"""))
+        val result: UpdateVatSubscriptionResponse = await(connector.updateMandationStatus("123456789", MTDfBMandated))
 
         result shouldBe expected
       }

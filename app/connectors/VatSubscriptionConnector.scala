@@ -17,9 +17,12 @@
 package connectors
 
 import config.AppConfig
-import connectors.httpParsers.VatSubscriptionHttpParser.VatSubscriptionReads
-import connectors.httpParsers.VatSubscriptionHttpParser.VatSubscriptionResponse
+import connectors.httpParsers.GetVatSubscriptionHttpParser.GetVatSubscriptionReads
+import connectors.httpParsers.GetVatSubscriptionHttpParser.GetVatSubscriptionResponse
+import connectors.httpParsers.UpdateVatSubscriptionHttpParser.UpdateVatSubscriptionReads
+import connectors.httpParsers.UpdateVatSubscriptionHttpParser.UpdateVatSubscriptionResponse
 import javax.inject.{Inject, Singleton}
+import models.MandationStatus
 import play.api.Logger
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
@@ -33,10 +36,13 @@ class VatSubscriptionConnector @Inject()(http: HttpClient,
   private[connectors] def getCustomerInfoUrl(vrn: String): String =
     s"${appConfig.vatSubscriptionHost}/vat-subscription/$vrn/full-information"
 
-  def getCustomerInfo(vrn: String)
-                     (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[VatSubscriptionResponse] = {
+  private[connectors] def updateMandationStatusUrl(vrn: String): String =
+    s"${appConfig.vatSubscriptionHost}/vat-subscription/$vrn/mandation-status"
 
-    http.GET[VatSubscriptionResponse](getCustomerInfoUrl(vrn)).map {
+  def getCustomerInfo(vrn: String)
+                     (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[GetVatSubscriptionResponse] = {
+
+    http.GET[GetVatSubscriptionResponse](getCustomerInfoUrl(vrn)).map {
       case customerInfo@Right(_) =>
         Logger.debug(s"[VatSubscriptionConnector][getCustomerInfo] successfully received customer info response")
         customerInfo
@@ -45,4 +51,16 @@ class VatSubscriptionConnector @Inject()(http: HttpClient,
         httpError
     }
   }
+
+  def updateMandationStatus(vrn: String, mandationStatus: MandationStatus)
+                           (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[UpdateVatSubscriptionResponse] =
+
+    http.PUT[MandationStatus, UpdateVatSubscriptionResponse](updateMandationStatusUrl(vrn), mandationStatus).map {
+      case success@Right(response) =>
+        Logger.debug(s"[VatSubscriptionConnector][updateMandationStatus] successfully received response: " + response)
+        success
+      case httpError@Left(error) =>
+        Logger.warn(s"[VatSubscriptionConnector][updateMandationStatus] received error: " + error.body)
+        httpError
+    }
 }

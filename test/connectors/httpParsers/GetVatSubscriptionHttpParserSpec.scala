@@ -18,19 +18,19 @@ package connectors.httpParsers
 
 import assets.BaseTestConstants.errorModel
 import assets.CustomerInformationConstants._
-import connectors.httpParsers.VatSubscriptionHttpParser.{VatSubscriptionReads, VatSubscriptionResponse}
+import connectors.httpParsers.GetVatSubscriptionHttpParser.{GetVatSubscriptionReads, GetVatSubscriptionResponse}
 import models.ErrorModel
 import play.api.libs.json.Json
 import play.mvc.Http.Status
 import uk.gov.hmrc.http.HttpResponse
 import utils.TestUtils
 
-class VatSubscriptionHttpParserSpec extends TestUtils {
+class GetVatSubscriptionHttpParserSpec extends TestUtils {
 
-  def vatSubscriptionResult(response: HttpResponse): VatSubscriptionResponse =
-    VatSubscriptionReads.read("", "", response)
+  def vatSubscriptionResult(response: HttpResponse): GetVatSubscriptionResponse =
+    GetVatSubscriptionReads.read("", "", response)
 
-  "VatSubscriptionReads" when {
+  "GetVatSubscriptionReads" when {
 
     "the HTTP response status is 200 (OK)" when {
 
