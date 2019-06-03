@@ -23,7 +23,7 @@ import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent}
 import models.NonMTDfB
 import services.VatSubscriptionService
-import common.SessionKeys.{inflightMandationStatus, mandationStatus}
+import common.SessionKeys.{inflightMandationStatus, mandationStatus, optOutSuccessful}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -45,7 +45,7 @@ class ConfirmOptOutController @Inject()(authenticate: AuthPredicate,
       case Right(_) =>
         Redirect(routes.ConfirmationController.show())
           .removingFromSession(mandationStatus)
-          .addingToSession(inflightMandationStatus -> "true")
+          .addingToSession(inflightMandationStatus -> "true", optOutSuccessful -> "true")
 
       case Left(_) =>
         errorHandler.showInternalServerError

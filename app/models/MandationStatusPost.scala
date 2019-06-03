@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package common
+package models
 
-object SessionKeys {
-  val clientVrn: String = "CLIENT_VRN"
-  val turnoverThreshold: String = "vatOptOutTurnoverThreshold"
-  val verifiedAgentEmail: String = "verifiedAgentEmail"
-  val businessName: String = "vatOptOutBusinessName"
-  val mandationStatus: String = "mandationStatus"
-  val inflightMandationStatus: String = "inflightMandationStatus"
-  val optOutSuccessful: String = "vatOptOutSuccessful"
+import play.api.libs.json.{Format, Json}
+
+case class MandationStatusPost(mandationStatus: MandationStatus)
+
+object MandationStatusPost {
+  implicit val format: Format[MandationStatusPost] = Json.format[MandationStatusPost]
 }

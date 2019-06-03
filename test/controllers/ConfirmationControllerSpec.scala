@@ -16,43 +16,53 @@
 
 package controllers
 
+import common.SessionKeys
 import play.api.http.Status
+import play.api.mvc.AnyContentAsEmpty
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import utils.MockAuth
 
 class ConfirmationControllerSpec extends MockAuth {
 
   def controller: ConfirmationController = new ConfirmationController(
-    mockAuthPredicate, mockOptOutPredicate
+    mockAuthPredicate, mockErrorHandler
   )
 
-  ".show() for a transactor" should {
+  ".show()" when {
 
-    lazy val result = controller.show()(requestPredicatedAgent)
+    "the user has opted out successfully" should {
 
-    "return 200" in {
-      mockAgentAuthorised()
-      status(result) shouldBe Status.OK
+      lazy val optedOutRequest: FakeRequest[AnyContentAsEmpty.type] = FakeRequest().withSession(
+        SessionKeys.inflightMandationStatus -> "true",
+        SessionKeys.optOutSuccessful -> "true"
+      )
+      lazy val result = controller.show()(optedOutRequest)
+
+      "return 200" in {
+        mockIndividualAuthorised()
+        status(result) shouldBe Status.OK
+      }
+
+      "return HTML" in {
+        contentType(result) shouldBe Some("text/html")
+        charset(result) shouldBe Some("utf-8")
+      }
     }
 
-    "return HTML" in {
-      contentType(result) shouldBe Some("text/html")
-      charset(result) shouldBe Some("utf-8")
-    }
-  }
+    "the user has not opted out yet" should {
 
-  ".show() for an individual" should {
+      lazy val result = controller.show()(requestPredicatedClient)
 
-    lazy val result = controller.show()(requestPredicatedClient)
+      "return 500" in {
+        mockIndividualAuthorised()
+        status(result) shouldBe Status.INTERNAL_SERVER_ERROR
+      }
 
-    "return 200" in {
-      mockIndividualAuthorised()
-      status(result) shouldBe Status.OK
-    }
-
-    "return HTML" in {
-      contentType(result) shouldBe Some("text/html")
-      charset(result) shouldBe Some("utf-8")
+      "return HTML" in {
+        contentType(result) shouldBe Some("text/html")
+        charset(result) shouldBe Some("utf-8")
+      }
     }
   }
 }

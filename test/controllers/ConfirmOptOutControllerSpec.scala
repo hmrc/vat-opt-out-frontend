@@ -17,7 +17,7 @@
 package controllers
 
 import assets.BaseTestConstants.{errorModel, updateVatSubscriptionModel}
-import common.SessionKeys.{inflightMandationStatus, mandationStatus}
+import common.SessionKeys.{inflightMandationStatus, mandationStatus, optOutSuccessful}
 import connectors.httpParsers.UpdateVatSubscriptionHttpParser.UpdateVatSubscriptionResponse
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{reset, when}
@@ -95,6 +95,9 @@ class ConfirmOptOutControllerSpec extends MockAuth {
         session(result).get(inflightMandationStatus) shouldBe Some("true")
       }
 
+      "update the Opt Out Successful session value to true" in {
+        session(result).get(optOutSuccessful) shouldBe Some("true")
+      }
     }
 
     "the Mandation Status update was unsuccessful" should {

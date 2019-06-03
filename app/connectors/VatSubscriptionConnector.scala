@@ -22,7 +22,7 @@ import connectors.httpParsers.GetVatSubscriptionHttpParser.GetVatSubscriptionRes
 import connectors.httpParsers.UpdateVatSubscriptionHttpParser.UpdateVatSubscriptionReads
 import connectors.httpParsers.UpdateVatSubscriptionHttpParser.UpdateVatSubscriptionResponse
 import javax.inject.{Inject, Singleton}
-import models.MandationStatus
+import models.{MandationStatus, MandationStatusPost}
 import play.api.Logger
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
@@ -53,9 +53,11 @@ class VatSubscriptionConnector @Inject()(http: HttpClient,
   }
 
   def updateMandationStatus(vrn: String, mandationStatus: MandationStatus)
-                           (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[UpdateVatSubscriptionResponse] =
+                           (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[UpdateVatSubscriptionResponse] = {
 
-    http.PUT[MandationStatus, UpdateVatSubscriptionResponse](updateMandationStatusUrl(vrn), mandationStatus).map {
+    val updateModel = MandationStatusPost(mandationStatus)
+
+    http.PUT[MandationStatusPost, UpdateVatSubscriptionResponse](updateMandationStatusUrl(vrn), updateModel).map {
       case success@Right(response) =>
         Logger.debug(s"[VatSubscriptionConnector][updateMandationStatus] successfully received response: " + response)
         success
@@ -63,4 +65,5 @@ class VatSubscriptionConnector @Inject()(http: HttpClient,
         Logger.warn(s"[VatSubscriptionConnector][updateMandationStatus] received error: " + error.body)
         httpError
     }
+  }
 }

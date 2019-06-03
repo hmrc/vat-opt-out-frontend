@@ -14,14 +14,20 @@
  * limitations under the License.
  */
 
-package common
+package models
 
-object SessionKeys {
-  val clientVrn: String = "CLIENT_VRN"
-  val turnoverThreshold: String = "vatOptOutTurnoverThreshold"
-  val verifiedAgentEmail: String = "verifiedAgentEmail"
-  val businessName: String = "vatOptOutBusinessName"
-  val mandationStatus: String = "mandationStatus"
-  val inflightMandationStatus: String = "inflightMandationStatus"
-  val optOutSuccessful: String = "vatOptOutSuccessful"
+import play.api.libs.json.{JsObject, Json}
+import utils.TestUtils
+
+class MandationStatusPostSpec extends TestUtils {
+
+  val exampleJson: JsObject = Json.obj("mandationStatus" -> NonMTDfB.desValue)
+  val exampleModel: MandationStatusPost = MandationStatusPost(NonMTDfB)
+
+  "MandationStatusPost" should {
+
+    "serialize to JSON" in {
+      Json.toJson(exampleModel) shouldBe exampleJson
+    }
+  }
 }

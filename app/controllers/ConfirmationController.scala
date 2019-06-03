@@ -16,20 +16,25 @@
 
 package controllers
 
-import config.AppConfig
-import controllers.predicates.{AuthPredicate, OptOutPredicate}
+import common.SessionKeys.optOutSuccessful
+import config.{AppConfig, ErrorHandler}
+import controllers.predicates.AuthPredicate
 import javax.inject.Inject
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent}
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
-class ConfirmationController @Inject()(authenticate: AuthPredicate, val optOutPredicate: OptOutPredicate)
-                                      (implicit val appConfig: AppConfig, val messagesApi: MessagesApi,
+class ConfirmationController @Inject()(authenticate: AuthPredicate,
+                                       errorHandler: ErrorHandler)
+                                      (implicit val appConfig: AppConfig,
+                                       val messagesApi: MessagesApi,
                                        val ec: ExecutionContext) extends ControllerBase {
 
-  def show(): Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>
-    Future.successful(Ok(views.html.confirmation(user.isAgent)))
+  def show(): Action[AnyContent] = authenticate { implicit user =>
+    user.session.get(optOutSuccessful) match {
+      case Some("true") => Ok(views.html.confirmation(user.isAgent))
+      case _ => errorHandler.showInternalServerError
+    }
   }
-
 }
