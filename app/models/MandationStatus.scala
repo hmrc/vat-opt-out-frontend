@@ -19,22 +19,27 @@ package models
 import play.api.libs.json._
 
 sealed trait MandationStatus {
-  def value: String
+  val desValue: String
+  val value: String
 }
 
 case object MTDfBMandated extends MandationStatus {
+  override val desValue: String = "1"
   override val value: String = "MTDfB Mandated"
 }
 
 case object MTDfBVoluntary extends MandationStatus {
+  override val desValue: String = "2"
   override val value: String = "MTDfB Voluntary"
 }
 
 case object NonMTDfB extends MandationStatus {
+  override val desValue: String = "3"
   override val value: String = "Non MTDfB"
 }
 
 case object NonDigital extends MandationStatus {
+  override val desValue: String = "4"
   override val value: String = "Non Digital"
 }
 
@@ -52,6 +57,6 @@ object MandationStatus {
   } yield status
 
   implicit val writes: Writes[MandationStatus] = Writes(
-    status => JsString(status.value)
+    status => JsString(status.desValue)
   )
 }

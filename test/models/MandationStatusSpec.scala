@@ -62,7 +62,7 @@ class MandationStatusSpec extends TestUtils {
   "Serializing MandationStatus to JSON" should {
 
     "write the object's value" in {
-      Json.toJson(MTDfBMandated) shouldBe JsString(MTDfBMandated.value)
+      Json.toJson(MTDfBMandated) shouldBe JsString(MTDfBMandated.desValue)
     }
   }
 
