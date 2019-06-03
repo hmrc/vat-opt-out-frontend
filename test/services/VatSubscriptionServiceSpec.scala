@@ -20,6 +20,7 @@ import assets.BaseTestConstants._
 import assets.CustomerInformationConstants.customerInfoModelTradeName
 import mocks.MockVatSubscriptionConnector
 import utils.TestUtils
+import models.{MTDfBMandated, NonMTDfB}
 
 class VatSubscriptionServiceSpec extends TestUtils with MockVatSubscriptionConnector {
 
@@ -30,7 +31,7 @@ class VatSubscriptionServiceSpec extends TestUtils with MockVatSubscriptionConne
     "the connector returns a CustomerInformation model" should {
 
       "return the model" in {
-        mockVatSubscriptionSuccess()
+        mockGetVatSubscriptionSuccess()
 
         val result = await(service.getCustomerInfo(testVrn))
         result shouldBe Right(customerInfoModelTradeName)
@@ -40,9 +41,32 @@ class VatSubscriptionServiceSpec extends TestUtils with MockVatSubscriptionConne
     "the connector returns an error model" should {
 
       "return the error model" in {
-        mockVatSubscriptionFailure()
+        mockGetVatSubscriptionFailure()
 
         val result = await(service.getCustomerInfo(testVrn))
+        result shouldBe Left(errorModel)
+      }
+    }
+  }
+
+  "Calling .updateMandationStatus" when {
+
+    "the connector returns a UpdateVatSubscription model" should {
+
+      "return the model" in {
+        mockUpdateVatSubscriptionSuccess()
+
+        val result = await(service.updateMandationStatus(testVrn,MTDfBMandated))
+        result shouldBe Right(updateVatSubscriptionModel)
+      }
+    }
+
+    "the connector returns an error model" should {
+
+      "return the error model" in {
+        mockUpdateVatSubscriptionFailure()
+
+        val result = await(service.updateMandationStatus(testVrn,NonMTDfB))
         result shouldBe Left(errorModel)
       }
     }
