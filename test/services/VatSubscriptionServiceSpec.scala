@@ -17,7 +17,7 @@
 package services
 
 import assets.BaseTestConstants._
-import assets.CustomerInformationConstants.customerInfoModelTradeName
+import assets.CustomerInformationConstants.{customerInfoModel}
 import mocks.MockVatSubscriptionConnector
 import utils.TestUtils
 import models.{MTDfBMandated, NonMTDfB}
@@ -34,7 +34,7 @@ class VatSubscriptionServiceSpec extends TestUtils with MockVatSubscriptionConne
         mockGetVatSubscriptionSuccess()
 
         val result = await(service.getCustomerInfo(testVrn))
-        result shouldBe Right(customerInfoModelTradeName)
+        result shouldBe Right(customerInfoModel(MTDfBMandated))
       }
     }
 

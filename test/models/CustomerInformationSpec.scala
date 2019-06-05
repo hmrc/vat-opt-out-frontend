@@ -25,40 +25,22 @@ class CustomerInformationSpec extends TestUtils {
 
     "successfully parse from JSON" when {
 
-      "all expected fields are present" in {
-        customerInfoJsonAll.as[CustomerInformation] shouldBe customerInfoModelTradeName
+      "all expected fields are present and mandation status of MTDfBMandated" in {
+        customerInfoJson(MTDfBMandated.value).as[CustomerInformation] shouldBe customerInfoModel(MTDfBMandated)
       }
 
-      "there is only an organisation name present" in {
-        customerInfoJsonOrg.as[CustomerInformation] shouldBe customerInfoModelOrgName
+      "there is a mandation status of MTDfB Voluntary" in {
+          customerInfoJson(MTDfBVoluntary.value).as[CustomerInformation] shouldBe customerInfoModel(MTDfBVoluntary)
+        }
+
+      "there is a mandation status of Non MTDfB" in {
+          customerInfoJson(NonMTDfB.value).as[CustomerInformation] shouldBe customerInfoModel(NonMTDfB)
+        }
+
       }
 
-      "there is only a first and last name present" in {
-        customerInfoJsonInd.as[CustomerInformation] shouldBe customerInfoModelIndName
-      }
-
-      "there are no names present" when {
-
-        "there is a mandation status of MTDfB Mandatory" in {
-          customerInfoJsonNoName(MTDfBMandated.value).as[CustomerInformation] shouldBe customerInfoModelNoName(MTDfBMandated)
-        }
-
-        "there is a mandation status of MTDfB Voluntary" in {
-          customerInfoJsonNoName(MTDfBVoluntary.value).as[CustomerInformation] shouldBe customerInfoModelNoName(MTDfBVoluntary)
-        }
-
-        "there is a mandation status of Non MTDfB" in {
-          customerInfoJsonNoName(NonMTDfB.value).as[CustomerInformation] shouldBe customerInfoModelNoName(NonMTDfB)
-        }
-
-        "there is a mandation status of Non Digital" in {
-          customerInfoJsonNoName(NonDigital.value).as[CustomerInformation] shouldBe customerInfoModelNoName(NonDigital)
-        }
-      }
-
-      "there is a pending mandation status" in {
+    "there is a pending mandation status" in {
         customerInfoJsonPending.as[CustomerInformation] shouldBe customerInfoModelPending
-      }
     }
 
     "fail to parse from JSON" when {
@@ -68,7 +50,7 @@ class CustomerInformationSpec extends TestUtils {
       }
 
       "there is a mandation status that is not recognised" in {
-        intercept[Exception](customerInfoJsonNoName("VATDEC Mandatory").as[CustomerInformation])
+        intercept[Exception](customerInfoJson("VATDEC Mandatory").as[CustomerInformation])
       }
     }
   }

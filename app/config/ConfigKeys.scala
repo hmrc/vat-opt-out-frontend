@@ -16,7 +16,7 @@
 
 package config
 
-object ConfigKeys {
+object  ConfigKeys {
 
   val whitelistEnabled: String = "whitelist.enabled"
   val whitelistedIps: String = "whitelist.allowedIps"

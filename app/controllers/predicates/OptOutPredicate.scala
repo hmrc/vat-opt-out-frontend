@@ -16,7 +16,7 @@
 
 package controllers.predicates
 
-import common.SessionKeys.{inflightMandationStatus, mandationStatus, businessName}
+import common.SessionKeys.{inflightMandationStatus, mandationStatus}
 import config.{AppConfig, ErrorHandler}
 import javax.inject.{Inject, Singleton}
 import models.{NonMTDfB, User}
@@ -61,21 +61,21 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
                                                   request: User[A]): Future[Either[Result, User[A]]] =
     vatSubscriptionService.getCustomerInfo(vrn).map {
       case Right(customerInfo) =>
-        (customerInfo.businessName, customerInfo.inflightMandationStatus, customerInfo.mandationStatus) match {
-          case (_, _, NonMTDfB) =>
+        (customerInfo.inflightMandationStatus, customerInfo.mandationStatus) match {
+
+          case (_, NonMTDfB) =>
             Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
               "Mandation status is NonMTDfB. Rendering already opted out error page.")
             Left(Ok(views.html.alreadyOptedOut()).addingToSession(mandationStatus -> NonMTDfB.value))
-          case (_, true, _) =>
+          case (true, _) =>
             Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
               "Mandation status is inflight. Rendering standard error page.")
             Left(errorHandler.showInternalServerError.addingToSession(inflightMandationStatus -> "true"))
-          case (maybeBussName, false, mandStatus) =>
+          case (false, mandStatus) =>
             Logger.debug("[OptOutPredicate][getCustomerInfoCall] -"
               + "Mandation status is not in flight and not NonMTDfB. Redirecting user to the start of the journey.")
             Left(Redirect(controllers.routes.TurnoverThresholdController.show().url)
               .addingToSession(
-                businessName -> maybeBussName.getOrElse(""),
                 mandationStatus -> mandStatus.value,
                 inflightMandationStatus -> "false"
               )

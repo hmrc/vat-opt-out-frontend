@@ -19,7 +19,7 @@ package connectors.httpParsers
 import assets.BaseTestConstants.errorModel
 import assets.CustomerInformationConstants._
 import connectors.httpParsers.GetVatSubscriptionHttpParser.{GetVatSubscriptionReads, GetVatSubscriptionResponse}
-import models.ErrorModel
+import models.{ErrorModel, MTDfBMandated}
 import play.api.libs.json.Json
 import play.mvc.Http.Status
 import uk.gov.hmrc.http.HttpResponse
@@ -37,16 +37,16 @@ class GetVatSubscriptionHttpParserSpec extends TestUtils {
       "valid JSON is returned" should {
 
         "return a CustomerInformation model" in {
-          val response = HttpResponse(Status.OK, Some(customerInfoJsonAll))
+          val response = HttpResponse(Status.OK, Some(customerInfoJson("MTDfB Mandated")))
           val result = vatSubscriptionResult(response)
-          result shouldBe Right(customerInfoModelTradeName)
+          result shouldBe Right(customerInfoModel(MTDfBMandated))
         }
       }
 
       "invalid JSON is returned" should {
 
         "return an Error model with status code of 500 (INTERNAL_SERVER_ERROR)" in {
-          val response = HttpResponse(Status.OK, Some(Json.obj("tradingName" -> true)))
+          val response = HttpResponse(Status.OK, Some(Json.obj("mandationStatus" -> true)))
           val result = vatSubscriptionResult(response)
           result shouldBe Left(errorModel.copy(body = "The endpoint returned invalid JSON."))
         }

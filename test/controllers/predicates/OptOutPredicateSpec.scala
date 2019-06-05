@@ -46,12 +46,11 @@ class OptOutPredicateSpec extends MockAuth {
     ec
   )
 
-  def userWithSession(inflightMandation: Boolean, mandationStatus: MandationStatus, businessName: String): User[AnyContentAsEmpty.type] = {
+  def userWithSession(inflightMandation: Boolean, mandationStatus: MandationStatus): User[AnyContentAsEmpty.type] = {
     User[AnyContentAsEmpty.type]("999943620")(request.withSession(
       SessionKeys.inflightMandationStatus -> inflightMandation.toString,
-      SessionKeys.mandationStatus -> mandationStatus.value,
-      SessionKeys.businessName -> businessName
-    ))
+      SessionKeys.mandationStatus -> mandationStatus.value
+      ))
   }
 
   lazy val user: User[AnyContentAsEmpty.type] = User[AnyContentAsEmpty.type]("666555666", active = true)(request)
@@ -62,11 +61,11 @@ class OptOutPredicateSpec extends MockAuth {
     "The user has a session containing the required opt-out keys" when {
 
       s"The mandationStatus is not $NonMTDfB and the inflightMandationStatus is set to `false`" should {
-        lazy val result = await(optOutPredicate.refine(userWithSession(false, MTDfBVoluntary, "Harold Crow Ltd"))).right.get
+        lazy val result = await(optOutPredicate.refine(userWithSession(false, MTDfBVoluntary))).right.get
 
 
         "return the user to continue the journey" in {
-          result shouldBe userWithSession(false, MTDfBVoluntary, "Harold Crow Ltd")
+          result shouldBe userWithSession(false,MTDfBVoluntary)
         }
 
         "not call the VatSubscriptionService" in {
@@ -76,7 +75,7 @@ class OptOutPredicateSpec extends MockAuth {
       }
 
       "The inflightMandationStatus is set to `true`" should {
-        lazy val result = await(optOutPredicate.refine(userWithSession(true, MTDfBMandated, "Harold Finch Ltd"))).left.get
+        lazy val result = await(optOutPredicate.refine(userWithSession(true, MTDfBMandated))).left.get
         lazy val document = Jsoup.parse(bodyOf(result))
 
         "return 500" in {
@@ -94,7 +93,7 @@ class OptOutPredicateSpec extends MockAuth {
       }
 
       s"The mandationStatus is set to $NonMTDfB" should {
-        lazy val result = await(optOutPredicate.refine(userWithSession(false, NonMTDfB, "Harold Wren Ltd"))).left.get
+        lazy val result = await(optOutPredicate.refine(userWithSession(false, NonMTDfB))).left.get
         lazy val document = Jsoup.parse(bodyOf(result))
 
         "return 200" in {
@@ -116,7 +115,7 @@ class OptOutPredicateSpec extends MockAuth {
 
       s"The mandationStatus is not $NonMTDfB and the inflightMandationStatus is set to `false`" should {
         lazy val result = {
-          setup(Right(CustomerInformation(Some("Harold Crane Ltd"), MTDfBVoluntary, false)))
+          setup(Right(CustomerInformation(MTDfBVoluntary, false)))
           await(optOutPredicate.refine(user)).left.get
         }
 
@@ -133,7 +132,7 @@ class OptOutPredicateSpec extends MockAuth {
 
       "The inflightMandationStatus is set to `true`" should {
         lazy val result = {
-          setup(Right(CustomerInformation(Some("Harold Sparrow Ltd"), MTDfBVoluntary, true)))
+          setup(Right(CustomerInformation(MTDfBVoluntary, true)))
           await(optOutPredicate.refine(user)).left.get
         }
         lazy val document = Jsoup.parse(bodyOf(result))
@@ -154,7 +153,7 @@ class OptOutPredicateSpec extends MockAuth {
 
       s"The mandationStatus is set to $NonMTDfB" should {
         lazy val result = {
-          setup(Right(CustomerInformation(Some("Harold Robin Ltd"), NonMTDfB, false)))
+          setup(Right(CustomerInformation(NonMTDfB, false)))
           await(optOutPredicate.refine(user)).left.get
         }
         lazy val document = Jsoup.parse(bodyOf(result))

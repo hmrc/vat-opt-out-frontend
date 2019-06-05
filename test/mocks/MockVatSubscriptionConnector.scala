@@ -17,10 +17,11 @@
 package mocks
 
 import assets.BaseTestConstants.{errorModel, updateVatSubscriptionModel}
-import assets.CustomerInformationConstants.customerInfoModelTradeName
+import assets.CustomerInformationConstants.customerInfoModel
 import connectors.VatSubscriptionConnector
 import connectors.httpParsers.GetVatSubscriptionHttpParser.GetVatSubscriptionResponse
 import connectors.httpParsers.UpdateVatSubscriptionHttpParser.UpdateVatSubscriptionResponse
+import models.MTDfBMandated
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.mockito.stubbing.OngoingStubbing
@@ -39,7 +40,7 @@ trait MockVatSubscriptionConnector extends MockitoSugar {
     when(connector.getCustomerInfo(any())(any(), any())).thenReturn(result)
 
   def mockGetVatSubscriptionSuccess(): VatGetStub =
-    mockGetVatSubscriptionResponse(Future.successful(Right(customerInfoModelTradeName)))
+    mockGetVatSubscriptionResponse(Future.successful(Right(customerInfoModel(MTDfBMandated))))
 
   def mockGetVatSubscriptionFailure(): VatGetStub =
     mockGetVatSubscriptionResponse(Future.successful(Left(errorModel)))
