@@ -16,6 +16,7 @@
 
 package utils
 
+import audit.AuditService
 import controllers.predicates.{AuthPredicate, AuthoriseAsAgentWithClient, OptOutPredicate}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -31,7 +32,7 @@ trait MockAuth extends TestUtils with MockitoSugar {
 
   val mockAuthConnector: AuthConnector = mock[AuthConnector]
   val mockEnrolmentsAuthService: EnrolmentsAuthService = new EnrolmentsAuthService(mockAuthConnector)
-
+  val mockAuditService: AuditService = mock[AuditService]
   val mockVatSubscriptionService: VatSubscriptionService = mock[VatSubscriptionService]
 
   val mockAuthAsAgentWithClient = new AuthoriseAsAgentWithClient(
@@ -55,7 +56,9 @@ trait MockAuth extends TestUtils with MockitoSugar {
     mockVatSubscriptionService,
     mockErrorHandler,
     messagesApi,
-    appConfig, ec
+    mockAuditService,
+    appConfig,
+    ec
   )
 
   def setupAuthResponse(authResult: Future[~[Option[AffinityGroup], Enrolments]]): OngoingStubbing[Future[~[Option[AffinityGroup], Enrolments]]] = {

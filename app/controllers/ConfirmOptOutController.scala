@@ -16,6 +16,8 @@
 
 package controllers
 
+import audit.AuditService
+import audit.models.UpdateVatSubscriptionAuditModel
 import config.{AppConfig, ErrorHandler}
 import controllers.predicates.{AuthPredicate, OptOutPredicate}
 import javax.inject.Inject
@@ -28,9 +30,10 @@ import common.SessionKeys.{inflightMandationStatus, mandationStatus, optOutSucce
 import scala.concurrent.{ExecutionContext, Future}
 
 class ConfirmOptOutController @Inject()(authenticate: AuthPredicate,
-                                        val optOutPredicate: OptOutPredicate,
-                                        val errorHandler: ErrorHandler,
-                                        val vatSubscriptionService: VatSubscriptionService)
+                                        optOutPredicate: OptOutPredicate,
+                                        errorHandler: ErrorHandler,
+                                        vatSubscriptionService: VatSubscriptionService,
+                                        auditService: AuditService)
                                         (implicit val appConfig: AppConfig,
                                         val messagesApi: MessagesApi,
                                         val ec: ExecutionContext) extends ControllerBase {
@@ -43,6 +46,13 @@ class ConfirmOptOutController @Inject()(authenticate: AuthPredicate,
 
     vatSubscriptionService.updateMandationStatus(user.vrn, NonMTDfB) map {
       case Right(_) =>
+        val auditModel = UpdateVatSubscriptionAuditModel(
+          user.vrn,
+          user.arn,
+          user.isAgent
+        )
+        auditService.audit(auditModel, Some(controllers.routes.ConfirmOptOutController.updateMandationStatus().url))
+
         Redirect(routes.ConfirmationController.show())
           .removingFromSession(mandationStatus)
           .addingToSession(inflightMandationStatus -> "true", optOutSuccessful -> "true")

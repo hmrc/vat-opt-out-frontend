@@ -20,7 +20,7 @@ import assets.BaseTestConstants.{errorModel, updateVatSubscriptionModel}
 import common.SessionKeys.{inflightMandationStatus, mandationStatus, optOutSuccessful}
 import connectors.httpParsers.UpdateVatSubscriptionHttpParser.UpdateVatSubscriptionResponse
 import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{reset, when}
+import org.mockito.Mockito.{reset, when, verify}
 import org.mockito.stubbing.OngoingStubbing
 import play.api.http.Status
 import play.api.test.Helpers._
@@ -32,12 +32,14 @@ class ConfirmOptOutControllerSpec extends MockAuth {
 
   def vatSubscriptionUpdateSetUp(result: UpdateVatSubscriptionResponse): OngoingStubbing[Future[UpdateVatSubscriptionResponse]] = {
     reset(mockVatSubscriptionService)
+    reset(mockAuditService)
     when(mockVatSubscriptionService.updateMandationStatus(any(), any())(any(), any()))
       .thenReturn(Future.successful(result))
   }
 
-
-  val controller = new ConfirmOptOutController(mockAuthPredicate, mockOptOutPredicate, mockErrorHandler, mockVatSubscriptionService)
+  val controller = new ConfirmOptOutController(
+    mockAuthPredicate, mockOptOutPredicate, mockErrorHandler, mockVatSubscriptionService, mockAuditService
+  )
 
   ".show() for an individual fulfilling predicate sessions checks" should {
 
@@ -69,7 +71,7 @@ class ConfirmOptOutControllerSpec extends MockAuth {
     }
   }
 
-  "calling .updateMandationStatus() " when {
+  "calling .updateMandationStatus()" when {
 
     "the Mandation Status has been updated Successfully" should {
 
@@ -83,20 +85,24 @@ class ConfirmOptOutControllerSpec extends MockAuth {
         status(result) shouldBe Status.SEE_OTHER
       }
 
-      "Redirect to Confirmation Controller " in {
+      "redirect to Confirmation Controller " in {
         redirectLocation(result) shouldBe Some(controllers.routes.ConfirmationController.show().url)
       }
 
-      "Remove Mandation status from Session" in {
+      "remove Mandation status from Session" in {
         session(result).get(mandationStatus) shouldBe None
       }
 
-      "Update Inflight Mandation status to true" in {
+      "update Inflight Mandation status to true" in {
         session(result).get(inflightMandationStatus) shouldBe Some("true")
       }
 
       "update the Opt Out Successful session value to true" in {
         session(result).get(optOutSuccessful) shouldBe Some("true")
+      }
+
+      "send an audit event" in {
+        verify(mockAuditService).audit(any(), any())(any(), any())
       }
     }
 
@@ -116,10 +122,6 @@ class ConfirmOptOutControllerSpec extends MockAuth {
          contentType(result) shouldBe Some("text/html")
          charset(result) shouldBe Some("utf-8")
       }
-
     }
-
   }
-
 }
-

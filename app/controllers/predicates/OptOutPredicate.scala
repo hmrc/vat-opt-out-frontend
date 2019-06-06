@@ -16,6 +16,8 @@
 
 package controllers.predicates
 
+import audit.AuditService
+import audit.models.GetCustomerInfoAuditModel
 import common.SessionKeys.{inflightMandationStatus, mandationStatus}
 import config.{AppConfig, ErrorHandler}
 import javax.inject.{Inject, Singleton}
@@ -34,6 +36,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
                                 val errorHandler: ErrorHandler,
                                 val messagesApi: MessagesApi,
+                                auditService: AuditService,
                                 implicit val appConfig: AppConfig,
                                 implicit val ec: ExecutionContext)
   extends ActionRefiner[User, User] with I18nSupport {
@@ -61,8 +64,17 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
                                                   request: User[A]): Future[Either[Result, User[A]]] =
     vatSubscriptionService.getCustomerInfo(vrn).map {
       case Right(customerInfo) =>
-        (customerInfo.inflightMandationStatus, customerInfo.mandationStatus) match {
 
+        val auditModel = GetCustomerInfoAuditModel(
+          request.vrn,
+          request.arn,
+          request.isAgent,
+          customerInfo.mandationStatus,
+          customerInfo.inflightMandationStatus
+        )
+        auditService.audit(auditModel, Some(controllers.routes.TurnoverThresholdController.show().url))
+
+        (customerInfo.inflightMandationStatus, customerInfo.mandationStatus) match {
           case (_, NonMTDfB) =>
             Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
               "Mandation status is NonMTDfB. Rendering already opted out error page.")
