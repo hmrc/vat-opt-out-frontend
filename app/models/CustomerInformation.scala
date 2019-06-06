@@ -19,35 +19,19 @@ package models
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
 
-case class CustomerInformation(businessName: Option[String],
-                               mandationStatus: MandationStatus,
+case class CustomerInformation(mandationStatus: MandationStatus,
                                inflightMandationStatus: Boolean)
 
 object CustomerInformation {
 
-  def construct(tradingName: Option[String],
-                organisationName: Option[String],
-                firstName: Option[String],
-                lastName: Option[String],
-                mandationStatus: MandationStatus,
+  def construct(mandationStatus: MandationStatus,
                 inflightMandationStatus: Option[String]): CustomerInformation = {
 
-    val businessName = (tradingName, organisationName, firstName, lastName) match {
-      case (Some(tradeName), _, _, _) => Some(tradeName)
-      case (None, Some(orgName), _, _) => Some(orgName)
-      case (None, None, Some(first), Some(last)) => Some(s"$first $last")
-      case _ => None
-    }
     val isMandationStatusPending = inflightMandationStatus.fold(false)(_ => true)
-
-    CustomerInformation(businessName, mandationStatus, isMandationStatusPending)
+    CustomerInformation( mandationStatus, isMandationStatusPending)
   }
 
   implicit val reads: Reads[CustomerInformation] = (
-    (JsPath \ "customerDetails" \ "tradingName").readNullable[String].orElse(Reads.pure(None)) and
-    (JsPath \ "customerDetails" \"organisationName").readNullable[String].orElse(Reads.pure(None)) and
-    (JsPath \ "customerDetails" \"firstName").readNullable[String].orElse(Reads.pure(None)) and
-    (JsPath \ "customerDetails" \"lastName").readNullable[String].orElse(Reads.pure(None)) and
     (JsPath \ "mandationStatus").read[MandationStatus] and
     (JsPath \ "pendingChanges" \ "mandationStatus").readNullable[String].orElse(Reads.pure(None))
   )(construct _)

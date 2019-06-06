@@ -19,8 +19,6 @@ package common
 object SessionKeys {
   val clientVrn: String = "CLIENT_VRN"
   val turnoverThreshold: String = "vatOptOutTurnoverThreshold"
-  val verifiedAgentEmail: String = "verifiedAgentEmail"
-  val businessName: String = "vatOptOutBusinessName"
   val mandationStatus: String = "mandationStatus"
   val inflightMandationStatus: String = "inflightMandationStatus"
   val optOutSuccessful: String = "vatOptOutSuccessful"

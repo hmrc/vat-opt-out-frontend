@@ -19,7 +19,4 @@ package common
 object Constants {
   val optionNo: String = "no"
   val optionYes: String = "yes"
-  val confirmOptOut: String = "confirmOptOut"
-  val preferenceDigital = "Digital"
-  val preferencePaper = "Paper"
 }
