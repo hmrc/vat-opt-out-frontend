@@ -42,6 +42,7 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override val thresholdPreviousYearsUrl: String = "/some-link"
   override val vatSubscriptionHost: String = "vat-subscription"
   override val agentClientLookupHandoff: String = "/agent-client-lookup"
+  override val agentClientLookupChoicesPath: String = "/choices"
   override val agentInvitationsFastTrack: String = "/agent-fast-track"
   override def feedbackUrl(redirect: String): String = s"feedback/$redirect"
   override val exitSurveyUrl: String = "/exit-survey"
@@ -56,5 +57,5 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override val govUkManageClientsDetails: String = "/gov-uk/manage"
   override val govUkContactUs: String = "/gov-uk/contact-us"
   override val thresholdAmount: String = "£85,000"
-
+  override val vatSummaryServicePath: String = "/vat-summary"
 }

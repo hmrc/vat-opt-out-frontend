@@ -24,7 +24,7 @@ import javax.inject.{Inject, Singleton}
 import models.{NonMTDfB, User}
 import play.api.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.Results.{Ok, Redirect}
+import play.api.mvc.Results.Redirect
 import play.api.mvc.{ActionRefiner, Result}
 import services.VatSubscriptionService
 import uk.gov.hmrc.http.HeaderCarrier
@@ -49,10 +49,8 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
     val getSessionAttribute: String => Option[String] = req.session.get
 
     (getSessionAttribute(inflightMandationStatus), getSessionAttribute(mandationStatus)) match {
-      case (_, Some(NonMTDfB.value)) =>
-        Future.successful(Left(Ok(views.html.alreadyOptedOut())))
-      case (Some("true"), _) =>
-        Future.successful(Left(errorHandler.showInternalServerError))
+      case (_, Some(NonMTDfB.value)) | (Some("true"), _) =>
+        Future.successful(Left(redirectOutOfJourney))
       case (Some("false"), _) =>
         Future.successful(Right(req))
       case _ =>
@@ -77,12 +75,12 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
         (customerInfo.inflightMandationStatus, customerInfo.mandationStatus) match {
           case (_, NonMTDfB) =>
             Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
-              "Mandation status is NonMTDfB. Rendering already opted out error page.")
-            Left(Ok(views.html.alreadyOptedOut()).addingToSession(mandationStatus -> NonMTDfB.value))
+              "Mandation status is NonMTDfB. Redirecting user out of journey.")
+            Left(redirectOutOfJourney.addingToSession(mandationStatus -> NonMTDfB.value))
           case (true, _) =>
             Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
-              "Mandation status is inflight. Rendering standard error page.")
-            Left(errorHandler.showInternalServerError.addingToSession(inflightMandationStatus -> "true"))
+              "Mandation status is inflight. Redirecting user out of journey.")
+            Left(redirectOutOfJourney.addingToSession(inflightMandationStatus -> "true"))
           case (false, mandStatus) =>
             Logger.debug("[OptOutPredicate][getCustomerInfoCall] -"
               + "Mandation status is not in flight and not NonMTDfB. Redirecting user to the start of the journey.")
@@ -96,5 +94,12 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
       case Left(error) =>
         Logger.warn(s"[OptOutPredicate][getCustomerInfoCall] - The call to the GetCustomerInfo API failed. Error: ${error.body}")
         Left(errorHandler.showInternalServerError)
+    }
+
+  private def redirectOutOfJourney[A](implicit user: User[A]): Result =
+    if (user.isAgent) {
+      Redirect(appConfig.agentClientLookupChoicesPath)
+    } else {
+      Redirect(appConfig.vatSummaryServicePath)
     }
 }

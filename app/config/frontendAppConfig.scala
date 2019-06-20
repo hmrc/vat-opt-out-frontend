@@ -40,6 +40,7 @@ trait AppConfig extends ServicesConfig {
   val shutterPage: String
   val vatOptOutServicePath: String
   val agentClientLookupHandoff: String
+  val agentClientLookupChoicesPath: String
   val signInUrl: String
   val signOutUrl: String
   val unauthorisedSignOutUrl: String
@@ -58,6 +59,7 @@ trait AppConfig extends ServicesConfig {
   val govUkManageClientsDetails: String
   val govUkContactUs: String
   val thresholdAmount: String
+  val vatSummaryServicePath: String
 }
 
 @Singleton
@@ -98,9 +100,12 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
     vatOptOutServiceUrl + getString(Keys.vatOptOutServicePath)
 
   private lazy val agentClientLookupServiceUrl: String = getString(Keys.agentClientLookupUrl)
-  private lazy val agentClientLookupServicePath: String = getString(Keys.agentClientLookupPath)
+  private lazy val agentClientLookupServicePath: String =
+    agentClientLookupServiceUrl + getString(Keys.agentClientLookupPath)
   override lazy val agentClientLookupHandoff: String =
-    agentClientLookupServiceUrl + agentClientLookupServicePath + s"/client-vat-number?redirectUrl=$signInContinueUrl"
+    agentClientLookupServicePath + s"/client-vat-number?redirectUrl=$signInContinueUrl"
+  override lazy val agentClientLookupChoicesPath: String =
+    agentClientLookupServicePath + getString(Keys.agentClientLookupChoices)
 
   override lazy val manageVatSubscriptionServiceUrl: String = getString(Keys.manageVatSubscriptionServiceUrl)
   override lazy val manageVatSubscriptionServicePath: String =
@@ -132,4 +137,6 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
   override val govUkContactUs: String = getString(Keys.govUkContactUs)
   override val thresholdAmount: String = getString(Keys.thresholdAmount)
 
+  private val vatSummaryServiceUrl: String = getString(Keys.vatSummaryServiceUrl)
+  override val vatSummaryServicePath: String = vatSummaryServiceUrl + getString(Keys.vatSummaryServicePath)
 }

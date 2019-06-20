@@ -70,8 +70,5 @@ cannotOptOut.title = Nid yw’r busnes yn gallu optio allan o’r cynllun Troi T
 cannotOptOut.explanation = Mae hyn oherwydd mae trosiant trethadwy’r busnes dros y trothwy TAW, neu roedd dros y trothwy ar un adeg.
 cannotOptOut.return = Yn ôl i’ch cyfrif TAW
 
-alreadyOptedOut.title = Rydych eisoes wedi optio allan o’r cynllun Troi Treth yn Ddigidol ar gyfer TAW
-alreadyOptedOut.explanation = Does dim rhaid i chi ddefnyddio meddalwedd sy’n cydweddu er mwyn cyflwyno’ch Ffurflenni TAW i CThEM.
-
 turnoverThreshold.error.empty = Dewiswch ‘Iawn’ os yw trosiant trethadwy’r busnes dros {0}
 turnoverThreshold.title = A yw trosiant trethadwy’r busnes wedi bod dros {0} ar unrhyw adeg ers 1 Ebrill 2019?

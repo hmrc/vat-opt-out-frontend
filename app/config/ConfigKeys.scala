@@ -26,6 +26,7 @@ object  ConfigKeys {
   val vatOptOutServicePath: String = "vat-opt-out-frontend.path"
   val agentClientLookupUrl: String = "vat-agent-client-lookup-frontend.url"
   val agentClientLookupPath: String = "vat-agent-client-lookup-frontend.path"
+  val agentClientLookupChoices: String = "vat-agent-client-lookup-frontend.choicesPath"
   val signInBaseUrl: String = "signIn.url"
   val manageVatSubscriptionServiceUrl: String = "manage-vat-subscription-frontend.url"
   val manageVatSubscriptionServicePath: String = "manage-vat-subscription-frontend.path"
@@ -43,4 +44,6 @@ object  ConfigKeys {
   val govUkManageClientsDetails: String = "govuk.manageClientsDetails"
   val govUkContactUs: String = "govuk.contactUs"
   val thresholdAmount: String = "threshold.amount"
+  val vatSummaryServiceUrl: String = "vat-summary-frontend.url"
+  val vatSummaryServicePath: String = "vat-summary-frontend.path"
 }

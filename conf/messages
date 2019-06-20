@@ -70,8 +70,5 @@ cannotOptOut.title = The business cannot opt out of Making Tax Digital for VAT
 cannotOptOut.explanation = This is because the business’s taxable turnover is, or has been, over the VAT threshold.
 cannotOptOut.return = Return to your VAT account
 
-alreadyOptedOut.title = You have already opted out of Making Tax Digital for VAT
-alreadyOptedOut.explanation = You do not need to use compatible software to submit your VAT Returns to HMRC.
-
 turnoverThreshold.error.empty = Select yes if the business’s taxable turnover is above {0}
 turnoverThreshold.title = Has the business’s taxable turnover been above {0} since 1 April 2019?

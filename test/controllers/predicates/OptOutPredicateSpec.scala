@@ -22,6 +22,7 @@ import models._
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{never, verify, when, reset}
+import play.api.test.Helpers._
 import play.api.http.Status
 import play.api.mvc.AnyContentAsEmpty
 import utils.MockAuth
@@ -37,27 +38,37 @@ class OptOutPredicateSpec extends MockAuth {
       .thenReturn(Future.successful(result))
   }
 
-  def userWithSession(inflightMandation: Boolean, mandationStatus: MandationStatus, businessName: String): User[AnyContentAsEmpty.type] = {
+  def userWithSession(inflightMandation: Boolean, mandationStatus: MandationStatus): User[AnyContentAsEmpty.type] = {
     User[AnyContentAsEmpty.type]("999943620")(request.withSession(
       SessionKeys.inflightMandationStatus -> inflightMandation.toString,
       SessionKeys.mandationStatus -> mandationStatus.value
       ))
   }
 
+  def agentWithSession(inflightMandation: Boolean, mandationStatus: MandationStatus): User[AnyContentAsEmpty.type] = {
+    User[AnyContentAsEmpty.type]("999943620", arn = Some("XARN1234567"))(request.withSession(
+      SessionKeys.clientVrn -> "999943620",
+      SessionKeys.inflightMandationStatus -> inflightMandation.toString,
+      SessionKeys.mandationStatus -> mandationStatus.value
+    ))
+  }
+
   lazy val user: User[AnyContentAsEmpty.type] = User[AnyContentAsEmpty.type]("666555666", active = true)(request)
+  lazy val agentUser: User[AnyContentAsEmpty.type] =
+    User[AnyContentAsEmpty.type]("666555666", active = true, arn = Some("XARN1234567"))(request)
 
   "The OptOutPredicate" when {
 
     "The user has a session containing the required opt-out keys" when {
 
       s"The mandationStatus is not $NonMTDfB and the inflightMandationStatus is set to `false`" should {
-        lazy val result = await(
-          mockOptOutPredicate.refine(userWithSession(inflightMandation = false, MTDfBVoluntary, "Harold Crow Ltd"))
-        ).right.get
+
+        lazy val result =
+          await(mockOptOutPredicate.refine(userWithSession(inflightMandation = false, MTDfBVoluntary))).right.get
 
 
         "return the user to continue the journey" in {
-          result shouldBe userWithSession(inflightMandation = false, MTDfBVoluntary, "Harold Crow Ltd")
+          result shouldBe userWithSession(inflightMandation = false, MTDfBVoluntary)
         }
 
         "not call the VatSubscriptionService" in {
@@ -65,41 +76,81 @@ class OptOutPredicateSpec extends MockAuth {
         }
       }
 
-      "The inflightMandationStatus is set to `true`" should {
-        lazy val result = await(
-          mockOptOutPredicate.refine(userWithSession(inflightMandation = true, MTDfBMandated, "Harold Finch Ltd"))
-        ).left.get
-        lazy val document = Jsoup.parse(bodyOf(result))
+      "The inflightMandationStatus is set to `true`" when {
 
-        "return 500" in {
-          status(result) shouldBe Status.INTERNAL_SERVER_ERROR
+        "the user is an agent" should {
+
+          lazy val result =
+            await(mockOptOutPredicate.refine(agentWithSession(inflightMandation = true, MTDfBMandated))).left.get
+
+          "return 303" in {
+            status(result) shouldBe Status.SEE_OTHER
+          }
+
+          "redirect the user to the client choices page" in {
+            redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
+          }
+
+          "not call the VatSubscriptionService" in {
+            verify(mockVatSubscriptionService, never()).getCustomerInfo(any())(any(), any())
+          }
         }
 
-        "show the generic error page" in {
-          document.title shouldBe "There is a problem with the service - VAT reporting through software - GOV.UK"
-        }
+        "the user is an individual or organisation" should {
 
-        "not call the VatSubscriptionService" in {
-          verify(mockVatSubscriptionService, never()).getCustomerInfo(any())(any(), any())
+          lazy val result =
+            await(mockOptOutPredicate.refine(userWithSession(inflightMandation = true, MTDfBMandated))).left.get
+
+          "return 303" in {
+            status(result) shouldBe Status.SEE_OTHER
+          }
+
+          "redirect the user to the VAT overview page" in {
+            redirectLocation(result) shouldBe Some(appConfig.vatSummaryServicePath)
+          }
+
+          "not call the VatSubscriptionService" in {
+            verify(mockVatSubscriptionService, never()).getCustomerInfo(any())(any(), any())
+          }
         }
       }
 
-      s"The mandationStatus is set to $NonMTDfB" should {
-        lazy val result = await(
-          mockOptOutPredicate.refine(userWithSession(inflightMandation = false, NonMTDfB, "Harold Wren Ltd"))
-        ).left.get
-        lazy val document = Jsoup.parse(bodyOf(result))
+      s"The mandationStatus is set to $NonMTDfB" when {
 
-        "return 200" in {
-          status(result) shouldBe Status.OK
+        "the user is an agent" should {
+
+          lazy val result =
+            await(mockOptOutPredicate.refine(agentWithSession(inflightMandation = false, NonMTDfB))).left.get
+
+          "return 303" in {
+            status(result) shouldBe Status.SEE_OTHER
+          }
+
+          "redirect the user to the client choices page" in {
+            redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
+          }
+
+          "not call the VatSubscriptionService" in {
+            verify(mockVatSubscriptionService, never()).getCustomerInfo(any())(any(), any())
+          }
         }
 
-        "show the already opted out page" in {
-          document.title shouldBe "You have already opted out of Making Tax Digital for VAT"
-        }
+        "the user is an individual or organisation" should {
 
-        "not call the VatSubscriptionService" in {
-          verify(mockVatSubscriptionService, never()).getCustomerInfo(any())(any(), any())
+          lazy val result =
+            await(mockOptOutPredicate.refine(userWithSession(inflightMandation = false, NonMTDfB))).left.get
+
+          "return 303" in {
+            status(result) shouldBe Status.SEE_OTHER
+          }
+
+          "redirect the user to the VAT overview page" in {
+            redirectLocation(result) shouldBe Some(appConfig.vatSummaryServicePath)
+          }
+
+          "not call the VatSubscriptionService" in {
+            verify(mockVatSubscriptionService, never()).getCustomerInfo(any())(any(), any())
+          }
         }
       }
     }
@@ -107,6 +158,7 @@ class OptOutPredicateSpec extends MockAuth {
     "The user does not have a session containing the opt-out keys" when {
 
       s"The mandationStatus is not $NonMTDfB and the inflightMandationStatus is set to `false`" should {
+
         lazy val result = {
           setup(Right(CustomerInformation(MTDfBVoluntary, inflightMandationStatus = false)))
           await(mockOptOutPredicate.refine(user)).left.get
@@ -118,8 +170,7 @@ class OptOutPredicateSpec extends MockAuth {
         }
 
         "call the VatSubscriptionService" in {
-          verify(mockVatSubscriptionService)
-            .getCustomerInfo(any[String])(any(), any())
+          verify(mockVatSubscriptionService).getCustomerInfo(any[String])(any(), any())
         }
 
         "send an audit event" in {
@@ -128,50 +179,104 @@ class OptOutPredicateSpec extends MockAuth {
       }
 
       "The inflightMandationStatus is set to `true`" should {
-        lazy val result = {
-          setup(Right(CustomerInformation(MTDfBVoluntary, inflightMandationStatus = true)))
-          await(mockOptOutPredicate.refine(user)).left.get
-        }
-        lazy val document = Jsoup.parse(bodyOf(result))
 
-        "return 500" in {
-          status(result) shouldBe Status.INTERNAL_SERVER_ERROR
+        "the user is an agent" should {
+
+          lazy val result = {
+            setup(Right(CustomerInformation(MTDfBVoluntary, inflightMandationStatus = true)))
+            await(mockOptOutPredicate.refine(agentUser)).left.get
+          }
+
+          "return 303" in {
+            status(result) shouldBe Status.SEE_OTHER
+          }
+
+          "redirect the user to the client choices page" in {
+            redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
+          }
+
+          "call the VatSubscriptionService" in {
+            verify(mockVatSubscriptionService).getCustomerInfo(any())(any(), any())
+          }
+
+          "send an audit event" in {
+            verify(mockAuditService).audit(any(), any())(any(), any())
+          }
         }
 
-        "show the generic error page" in {
-          document.title shouldBe "There is a problem with the service - VAT reporting through software - GOV.UK"
-        }
+        "the user is an individual or organisation" should {
 
-        "call the VatSubscriptionService" in {
-          verify(mockVatSubscriptionService).getCustomerInfo(any())(any(), any())
-        }
+          lazy val result = {
+            setup(Right(CustomerInformation(MTDfBVoluntary, inflightMandationStatus = true)))
+            await(mockOptOutPredicate.refine(user)).left.get
+          }
 
-        "send an audit event" in {
-          verify(mockAuditService).audit(any(), any())(any(), any())
+          "return 303" in {
+            status(result) shouldBe Status.SEE_OTHER
+          }
+
+          "redirect the user to the VAT overview page" in {
+            redirectLocation(result) shouldBe Some(appConfig.vatSummaryServicePath)
+          }
+
+          "call the VatSubscriptionService" in {
+            verify(mockVatSubscriptionService).getCustomerInfo(any())(any(), any())
+          }
+
+          "send an audit event" in {
+            verify(mockAuditService).audit(any(), any())(any(), any())
+          }
         }
       }
 
       s"The mandationStatus is set to $NonMTDfB" should {
-        lazy val result = {
-          setup(Right(CustomerInformation(NonMTDfB, inflightMandationStatus = false)))
-          await(mockOptOutPredicate.refine(user)).left.get
-        }
-        lazy val document = Jsoup.parse(bodyOf(result))
 
-        "return 200" in {
-          status(result) shouldBe Status.OK
+        "the user is an agent" should {
+
+          lazy val result = {
+            setup(Right(CustomerInformation(NonMTDfB, inflightMandationStatus = false)))
+            await(mockOptOutPredicate.refine(agentUser)).left.get
+          }
+
+          "return 303" in {
+            status(result) shouldBe Status.SEE_OTHER
+          }
+
+          "redirect the user to the client choices page" in {
+            redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
+          }
+
+          "call the VatSubscriptionService" in {
+            verify(mockVatSubscriptionService).getCustomerInfo(any())(any(), any())
+          }
+
+          "send an audit event" in {
+            verify(mockAuditService).audit(any(), any())(any(), any())
+          }
         }
 
-        "show the already opted out page" in {
-          document.title shouldBe "You have already opted out of Making Tax Digital for VAT"
-        }
+        "the user is an individual or organisation" should {
 
-        "call the VatSubscriptionService" in {
-          verify(mockVatSubscriptionService).getCustomerInfo(any())(any(), any())
-        }
+          lazy val result = {
+            setup(Right(CustomerInformation(NonMTDfB, inflightMandationStatus = false)))
+            await(mockOptOutPredicate.refine(user)).left.get
+          }
 
-        "send an audit event" in {
-          verify(mockAuditService).audit(any(), any())(any(), any())
+          "return 303" in {
+            status(result) shouldBe Status.SEE_OTHER
+          }
+
+          "redirect the user to the VAT overview page" in {
+            redirectLocation(result) shouldBe Some(appConfig.vatSummaryServicePath)
+          }
+
+          "call the VatSubscriptionService" in {
+            verify(mockVatSubscriptionService).getCustomerInfo(any())(any(), any())
+          }
+
+          "send an audit event" in {
+            verify(mockAuditService).audit(any(), any())(any(), any())
+          }
         }
       }
 
