@@ -110,8 +110,14 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
     "the form has errors" should {
 
-      lazy val view = views.html.turnoverThreshold(turnoverThresholdForm(appConfig.thresholdAmount).bind(Map[String,String]()), isAgent = false)
+      lazy val view = views.html.turnoverThreshold(
+        turnoverThresholdForm(appConfig.thresholdAmount).bind(Map[String,String]()), isAgent = false
+      )
       lazy implicit val document: Document = Jsoup.parse(view.body)
+
+      "have the correct title" in {
+        document.title shouldBe "Error: Has the business’s taxable turnover been above £85,000 since 1 April 2019?"
+      }
 
       "display the error summary" in {
         element(Selectors.errorSummary).text() shouldBe "There is a problem"
@@ -129,7 +135,9 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
   "Rendering the turnover threshold page for a client with a populated yes option" should {
 
-    lazy val view = views.html.turnoverThreshold(turnoverThresholdForm(appConfig.thresholdAmount).bind(Map("threshold" -> optionYes)), isAgent = false)
+    lazy val view = views.html.turnoverThreshold(
+      turnoverThresholdForm(appConfig.thresholdAmount).bind(Map("threshold" -> optionYes)), isAgent = false
+    )
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have a 'Yes' radio button" which {
@@ -142,7 +150,9 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
   "Rendering the turnover threshold page for a client with aa populated no value" should {
 
-    lazy val view = views.html.turnoverThreshold(turnoverThresholdForm(appConfig.thresholdAmount).bind(Map("threshold" -> optionNo)), isAgent = false)
+    lazy val view = views.html.turnoverThreshold(
+      turnoverThresholdForm(appConfig.thresholdAmount).bind(Map("threshold" -> optionNo)), isAgent = false
+    )
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have a 'No' radio button" which {

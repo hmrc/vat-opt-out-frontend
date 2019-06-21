@@ -6,6 +6,7 @@ base.back = Back
 base.continue = Continue
 base.signOut = Sign out
 base.fullStop = .
+base.errorPrefix = Error: {0}
 
 betaBanner.phaseName = BETA
 betaBanner.newService = This is a new service – your
