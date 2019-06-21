@@ -16,14 +16,16 @@
 
 package views
 
+import models.User
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import play.api.mvc.AnyContentAsEmpty
 
 class ConfirmOptOutViewSpec extends ViewBaseSpec {
 
   "The Confirm Opt Out page for a client" should {
 
-    lazy val view = views.html.confirmOptOut(isAgent = false)
+    lazy val view = views.html.confirmOptOut()(request, messages, appConfig, clientUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {
@@ -87,7 +89,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
 
   "The Confirm Opt Out page for an agent" should {
 
-    lazy val view = views.html.confirmOptOut(isAgent = true)
+    lazy val view = views.html.confirmOptOut()(request, messages, appConfig, agentUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct GA tag on the button" in {

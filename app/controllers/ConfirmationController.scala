@@ -33,7 +33,7 @@ class ConfirmationController @Inject()(authenticate: AuthPredicate,
 
   def show(): Action[AnyContent] = authenticate { implicit user =>
     user.session.get(optOutSuccessful) match {
-      case Some("true") => Ok(views.html.confirmation(user.isAgent))
+      case Some("true") => Ok(views.html.confirmation())
       case _ => errorHandler.showInternalServerError
     }
   }

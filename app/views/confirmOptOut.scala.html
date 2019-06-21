@@ -14,15 +14,18 @@
  * limitations under the License.
  *@
 
-@(isAgent: Boolean)(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig)
+@import models.User
+
+@()(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig, user: User[_])
 
 @agentMessageAffix = @{
-  if(isAgent) ".agent" else ""
+  if(user.isAgent) ".agent" else ""
 }
 
 @main_template(
   title = messages(s"confirmOptOut.title$agentMessageAffix"),
-  feedbackRedirect = Some(routes.ConfirmOptOutController.show().url)
+  feedbackRedirect = Some(routes.ConfirmOptOutController.show().url),
+  user = Some(user)
 ) {
 
 <a class="link-back" href='@controllers.routes.TurnoverThresholdController.show().url'>@messages("base.back")</a>
@@ -42,6 +45,6 @@
 <a class="button"
    type="submit"
    href="@controllers.routes.ConfirmOptOutController.updateMandationStatus().url"
-   data-journey-click="@{if(isAgent)"agent_"}opt-out:submit:opt-out">@messages("confirmOptOut.confirm")</a>
+   data-journey-click="@{if(user.isAgent)"agent_"}opt-out:submit:opt-out">@messages("confirmOptOut.confirm")</a>
 
 }

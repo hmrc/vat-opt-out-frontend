@@ -53,10 +53,6 @@ class OptOutPredicateSpec extends MockAuth {
     ))
   }
 
-  lazy val user: User[AnyContentAsEmpty.type] = User[AnyContentAsEmpty.type]("666555666", active = true)(request)
-  lazy val agentUser: User[AnyContentAsEmpty.type] =
-    User[AnyContentAsEmpty.type]("666555666", active = true, arn = Some("XARN1234567"))(request)
-
   "The OptOutPredicate" when {
 
     "The user has a session containing the required opt-out keys" when {
@@ -161,7 +157,7 @@ class OptOutPredicateSpec extends MockAuth {
 
         lazy val result = {
           setup(Right(CustomerInformation(MTDfBVoluntary, inflightMandationStatus = false)))
-          await(mockOptOutPredicate.refine(user)).left.get
+          await(mockOptOutPredicate.refine(clientUser)).left.get
         }
 
         "redirect to the start of the journey" in {
@@ -208,7 +204,7 @@ class OptOutPredicateSpec extends MockAuth {
 
           lazy val result = {
             setup(Right(CustomerInformation(MTDfBVoluntary, inflightMandationStatus = true)))
-            await(mockOptOutPredicate.refine(user)).left.get
+            await(mockOptOutPredicate.refine(clientUser)).left.get
           }
 
           "return 303" in {
@@ -259,7 +255,7 @@ class OptOutPredicateSpec extends MockAuth {
 
           lazy val result = {
             setup(Right(CustomerInformation(NonMTDfB, inflightMandationStatus = false)))
-            await(mockOptOutPredicate.refine(user)).left.get
+            await(mockOptOutPredicate.refine(clientUser)).left.get
           }
 
           "return 303" in {
@@ -284,7 +280,7 @@ class OptOutPredicateSpec extends MockAuth {
 
         lazy val result = {
           setup(Left(ErrorModel(Status.BAD_REQUEST, "Error")))
-          await(mockOptOutPredicate.refine(user)).left.get
+          await(mockOptOutPredicate.refine(clientUser)).left.get
         }
         lazy val document = Jsoup.parse(bodyOf(result))
 

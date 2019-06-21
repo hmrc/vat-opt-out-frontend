@@ -39,7 +39,7 @@ class ConfirmOptOutController @Inject()(authenticate: AuthPredicate,
                                         val ec: ExecutionContext) extends ControllerBase {
 
   def show(): Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>
-    Future.successful(Ok(views.html.confirmOptOut(user.isAgent)))
+    Future.successful(Ok(views.html.confirmOptOut()))
   }
 
   def updateMandationStatus(): Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>

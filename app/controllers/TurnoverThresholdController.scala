@@ -35,16 +35,16 @@ class TurnoverThresholdController @Inject()(authenticate: AuthPredicate, val opt
   val show: Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>
     user.session.get(turnoverThreshold) match {
       case Some(turnoverOption) =>
-        Future.successful(Ok(views.html.turnoverThreshold(turnoverThresholdForm(appConfig.thresholdAmount).fill(turnoverOption), user.isAgent)))
+        Future.successful(Ok(views.html.turnoverThreshold(turnoverThresholdForm(appConfig.thresholdAmount).fill(turnoverOption))))
       case _ =>
-        Future.successful(Ok(views.html.turnoverThreshold(turnoverThresholdForm(appConfig.thresholdAmount), user.isAgent)))
+        Future.successful(Ok(views.html.turnoverThreshold(turnoverThresholdForm(appConfig.thresholdAmount))))
     }
   }
 
   def submit: Action[AnyContent] = (authenticate andThen optOutPredicate) { implicit user =>
     turnoverThresholdForm(appConfig.thresholdAmount).bindFromRequest().fold(
       error => {
-              BadRequest(views.html.turnoverThreshold(error,user.isAgent))
+              BadRequest(views.html.turnoverThreshold(error))
       },
       {
         case formData@Constants.optionYes => Redirect(controllers.routes.CannotOptOutController.show())

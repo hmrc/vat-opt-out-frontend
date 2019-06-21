@@ -15,6 +15,8 @@
  *@
 
 @import config.AppConfig
+@import models.User
+
 @(appConfig: AppConfig,
   title: String,
   mainClass: Option[String] = None,
@@ -27,7 +29,8 @@
   scriptElem: Option[Html] = None,
   afterFeedbackRedirect: String,
   showLogout: Boolean = true,
-  feedbackOnSignOut: Boolean = true
+  feedbackOnSignOut: Boolean = true,
+  user: Option[User[_]] = None
 )(implicit request: Request[_], messages: Messages)
 
 @import layouts.{govuk_template => hmrcGovUkTemplate}
@@ -53,7 +56,7 @@
 
 @insideHeader = {
     @uiLayouts.header_nav(
-      navTitle = Some(messages("base.bta")),
+      navTitle = user.map(u => if(u.isAgent) messages("base.agentNavTitle") else messages("base.bta")),
       navTitleLink = None,
       showBetaLink = false,
       navLinks = Some(headerNavLinks))

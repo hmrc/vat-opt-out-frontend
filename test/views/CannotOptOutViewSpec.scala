@@ -23,7 +23,7 @@ class CannotOptOutViewSpec extends ViewBaseSpec {
 
   "The cannot opt-out page for a client" should {
 
-    lazy val view = views.html.cannotOptOut(isAgent = false)
+    lazy val view = views.html.cannotOptOut()(request, messages, appConfig, clientUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct title" in {
@@ -75,7 +75,7 @@ class CannotOptOutViewSpec extends ViewBaseSpec {
 
   "The cannot opt-out page for an agent" should {
 
-    lazy val view = views.html.cannotOptOut(isAgent = true)
+    lazy val view = views.html.cannotOptOut()(request, messages, appConfig, agentUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct GA tag on the heading" in {

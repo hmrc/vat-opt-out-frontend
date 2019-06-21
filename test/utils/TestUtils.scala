@@ -21,7 +21,7 @@ import akka.stream.ActorMaterializer
 import common.SessionKeys
 import config.ErrorHandler
 import mocks.MockAppConfig
-import models.MTDfBMandated
+import models.{MTDfBMandated, User}
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.inject.Injector
@@ -44,6 +44,8 @@ trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
   implicit val system: ActorSystem = ActorSystem("Sys")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
   implicit val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
+  val clientUser: User[AnyContentAsEmpty.type] = User("999999999")(request)
+  val agentUser: User[AnyContentAsEmpty.type] = User("999999999", arn = Some("XARN1234567"))(request)
 
   lazy val requestWithClientVRN: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest().withSession(SessionKeys.clientVrn -> "123456789")
