@@ -6,6 +6,7 @@ base.back = Yn ôl
 base.continue = Yn eich blaen
 base.signOut = Allgofnodi
 base.fullStop = .
+base.errorPrefix = Gwall: {0}
 
 betaBanner.phaseName = BETA
 betaBanner.newService = Gwasanaeth newydd yw hwn – bydd eich
