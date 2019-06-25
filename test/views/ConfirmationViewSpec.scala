@@ -78,7 +78,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       }
 
       "have the correct link location" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
+        element(".button").attr("href") shouldBe appConfig.vatSummaryServicePath
       }
     }
   }
@@ -149,6 +149,10 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       "have the correct link location" in {
         element("#content > article > p:nth-of-type(5) > a").attr("href") shouldBe appConfig.agentClientLookupHandoff
       }
+    }
+
+    "have a button with the correct link location" in {
+      element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
     }
   }
 }

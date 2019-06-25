@@ -30,6 +30,10 @@
   </h1>
 }
 
+@linkBack = @{
+  if(user.isAgent) appConfig.manageVatSubscriptionServicePath else appConfig.vatSummaryServicePath
+}
+
 @main_template(
   title = if(turnoverThresholdForm.errors.nonEmpty) {
     messages("base.errorPrefix", messages("turnoverThreshold.title",appConfig.thresholdAmount))
@@ -40,7 +44,7 @@
   user = Some(user)
 ) {
 
-<a class="link-back" href='@appConfig.manageVatSubscriptionServicePath'>@messages("base.back")</a>
+<a class="link-back" href="@linkBack">@messages("base.back")</a>
 
 @errorSummary(messages("base.error.heading"), turnoverThresholdForm, forceDivToAppear = false)
 

@@ -61,7 +61,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
         }
 
         "should have the correct back link" in {
-          element(Selectors.backLink).attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
+          element(Selectors.backLink).attr("href") shouldBe appConfig.vatSummaryServicePath
         }
       }
 
@@ -174,6 +174,10 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
     "have the correct GA tag on the continue button" in {
       element(Selectors.continueButton).attr("data-journey-click") shouldBe "agent_opt-out:continue:opt-out"
+    }
+
+    "have a back link with the correct link location" in {
+      element(Selectors.backLink).attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
     }
   }
 }

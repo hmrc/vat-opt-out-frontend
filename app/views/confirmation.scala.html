@@ -22,6 +22,10 @@
   if(user.isAgent) ".agent" else ""
 }
 
+@linkBack = @{
+  if(user.isAgent) appConfig.manageVatSubscriptionServicePath else appConfig.vatSummaryServicePath
+}
+
 @main_template(
   title = messages(s"confirmation.title$agentMessageAffix"),
   feedbackRedirect = Some(controllers.routes.ConfirmationController.show().url),
@@ -54,7 +58,7 @@
   @messages(s"confirmation.aboveThreshold3$agentMessageAffix",appConfig.thresholdAmount)
 </p>
 
-<p><a class="button" type="submit" href="@appConfig.manageVatSubscriptionServicePath">@messages("confirmation.finish")</a></p>
+<p><a class="button" type="submit" href="@linkBack">@messages("confirmation.finish")</a></p>
 
 @if(user.isAgent) {
   <p><a href="@appConfig.agentClientLookupHandoff">@messages("confirmation.changeClient")</a></p>
