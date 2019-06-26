@@ -53,7 +53,7 @@ class CannotOptOutViewSpec extends ViewBaseSpec {
       }
 
       "has the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
+        element(".button").attr("href") shouldBe appConfig.vatSummaryServicePath
       }
 
       "has the correct GA tag" in {
@@ -82,8 +82,19 @@ class CannotOptOutViewSpec extends ViewBaseSpec {
       element("h1").attr("data-journey") shouldBe "agent_opt-out:threshold-error:opt-out"
     }
 
-    "have the correct GA tag on the button" in {
-      element(".button").attr("data-journey-click") shouldBe "agent_opt-out:overview:opt-out"
+    "have a button" which {
+
+      "has the correct text" in {
+        elementText(".button") shouldBe "View your client options"
+      }
+
+      "has the correct href" in {
+        element(".button").attr("href") shouldBe appConfig.agentClientLookupChoicesPath
+      }
+
+      "has the correct GA tag" in {
+        element(".button").attr("data-journey-click") shouldBe "agent_opt-out:overview:opt-out"
+      }
     }
   }
 }
