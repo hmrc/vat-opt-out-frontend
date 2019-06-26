@@ -71,6 +71,7 @@ confirmation.changeClient = Change client
 cannotOptOut.title = The business cannot opt out of Making Tax Digital for VAT
 cannotOptOut.explanation = This is because the business’s taxable turnover is, or has been, over the VAT threshold.
 cannotOptOut.return = Return to your VAT account
+cannotOptOut.return.agent = View your client options
 
 turnoverThreshold.error.empty = Select yes if the business’s taxable turnover is above {0}
 turnoverThreshold.title = Has the business’s taxable turnover been above {0} since 1 April 2019?

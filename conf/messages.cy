@@ -71,6 +71,7 @@ confirmation.changeClient = Newid cleient
 cannotOptOut.title = Nid yw’r busnes yn gallu optio allan o’r cynllun Troi Treth yn Ddigidol ar gyfer TAW
 cannotOptOut.explanation = Mae hyn oherwydd mae trosiant trethadwy’r busnes dros y trothwy TAW, neu roedd dros y trothwy ar un adeg.
 cannotOptOut.return = Yn ôl i’ch cyfrif TAW
+cannotOptOut.return.agent = View your client options
 
 turnoverThreshold.error.empty = Dewiswch ‘Iawn’ os yw trosiant trethadwy’r busnes dros {0}
 turnoverThreshold.title = A yw trosiant trethadwy’r busnes wedi bod dros {0} ar unrhyw adeg ers 1 Ebrill 2019?
