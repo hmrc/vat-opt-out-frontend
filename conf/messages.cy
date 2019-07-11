@@ -69,7 +69,7 @@ confirmation.finish = Gorffen
 confirmation.changeClient = Newid cleient
 
 cannotOptOut.title = Nid yw’r busnes yn gallu optio allan o’r cynllun Troi Treth yn Ddigidol ar gyfer TAW
-cannotOptOut.explanation = Mae hyn oherwydd mae trosiant trethadwy’r busnes dros y trothwy TAW, neu roedd dros y trothwy ar un adeg.
+cannotOptOut.explanation = Mae hyn oherwydd bod trosiant trethadwy’r busnes dros y trothwy TAW, neu wedi bod dros y trothwy ar un adeg.
 cannotOptOut.return = Yn ôl i’ch cyfrif TAW
 cannotOptOut.return.agent = Bwrw golwg dros opsiynau eich cleient
 
