@@ -21,7 +21,7 @@ import connectors.httpParsers.GetVatSubscriptionHttpParser.GetVatSubscriptionRes
 import connectors.httpParsers.UpdateVatSubscriptionHttpParser.UpdateVatSubscriptionResponse
 import javax.inject.{Inject, Singleton}
 import uk.gov.hmrc.http.HeaderCarrier
-import models.MandationStatus
+import models.{MandationStatus, User}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -32,7 +32,10 @@ class VatSubscriptionService @Inject()(connector: VatSubscriptionConnector) {
                      (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[GetVatSubscriptionResponse] =
     connector.getCustomerInfo(vrn)
 
-  def updateMandationStatus(vrn: String, mandationStatus: MandationStatus)
-                           (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[UpdateVatSubscriptionResponse] =
-    connector.updateMandationStatus(vrn,mandationStatus)
+  def updateMandationStatus(vrn: String,
+                            mandationStatus: MandationStatus)
+                           (implicit hc: HeaderCarrier,
+                            ec: ExecutionContext,
+                            user: User[_]): Future[UpdateVatSubscriptionResponse] =
+    connector.updateMandationStatus(vrn, mandationStatus)
  }

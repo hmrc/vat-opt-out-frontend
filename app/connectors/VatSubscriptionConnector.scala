@@ -16,13 +16,14 @@
 
 package connectors
 
+import common.SessionKeys
 import config.AppConfig
 import connectors.httpParsers.GetVatSubscriptionHttpParser.GetVatSubscriptionReads
 import connectors.httpParsers.GetVatSubscriptionHttpParser.GetVatSubscriptionResponse
 import connectors.httpParsers.UpdateVatSubscriptionHttpParser.UpdateVatSubscriptionReads
 import connectors.httpParsers.UpdateVatSubscriptionHttpParser.UpdateVatSubscriptionResponse
 import javax.inject.{Inject, Singleton}
-import models.{MandationStatus, MandationStatusPost}
+import models.{MandationStatus, MandationStatusPost, User}
 import play.api.Logger
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
@@ -52,10 +53,13 @@ class VatSubscriptionConnector @Inject()(http: HttpClient,
     }
   }
 
-  def updateMandationStatus(vrn: String, mandationStatus: MandationStatus)
-                           (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[UpdateVatSubscriptionResponse] = {
+  def updateMandationStatus(vrn: String,
+                            mandationStatus: MandationStatus)
+                           (implicit hc: HeaderCarrier,
+                            ec: ExecutionContext,
+                            user: User[_]): Future[UpdateVatSubscriptionResponse] = {
 
-    val updateModel = MandationStatusPost(mandationStatus)
+    val updateModel = MandationStatusPost(mandationStatus, user.session.get(SessionKeys.verifiedAgentEmail))
 
     http.PUT[MandationStatusPost, UpdateVatSubscriptionResponse](updateMandationStatusUrl(vrn), updateModel).map {
       case success@Right(response) =>

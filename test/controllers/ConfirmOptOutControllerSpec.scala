@@ -33,7 +33,7 @@ class ConfirmOptOutControllerSpec extends MockAuth {
   def vatSubscriptionUpdateSetUp(result: UpdateVatSubscriptionResponse): OngoingStubbing[Future[UpdateVatSubscriptionResponse]] = {
     reset(mockVatSubscriptionService)
     reset(mockAuditService)
-    when(mockVatSubscriptionService.updateMandationStatus(any(), any())(any(), any()))
+    when(mockVatSubscriptionService.updateMandationStatus(any(), any())(any(), any(), any()))
       .thenReturn(Future.successful(result))
   }
 

@@ -22,4 +22,5 @@ object SessionKeys {
   val mandationStatus: String = "mandationStatus"
   val inflightMandationStatus: String = "inflightMandationStatus"
   val optOutSuccessful: String = "vatOptOutSuccessful"
+  val verifiedAgentEmail: String = "verifiedAgentEmail"
 }

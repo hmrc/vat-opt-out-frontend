@@ -46,7 +46,7 @@ trait MockVatSubscriptionConnector extends MockitoSugar {
     mockGetVatSubscriptionResponse(Future.successful(Left(errorModel)))
 
   def mockUpdateVatSubscriptionResponse(result: Future[UpdateVatSubscriptionResponse]): VatUpdateStub =
-    when(connector.updateMandationStatus(any(),any())(any(), any())).thenReturn(result)
+    when(connector.updateMandationStatus(any(),any())(any(), any(), any())).thenReturn(result)
 
   def mockUpdateVatSubscriptionSuccess(): VatUpdateStub =
     mockUpdateVatSubscriptionResponse(Future.successful(Right(updateVatSubscriptionModel)))
