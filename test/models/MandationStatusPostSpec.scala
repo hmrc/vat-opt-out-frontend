@@ -21,8 +21,11 @@ import utils.TestUtils
 
 class MandationStatusPostSpec extends TestUtils {
 
-  val exampleJson: JsObject = Json.obj("mandationStatus" -> NonMTDfB.desValue)
-  val exampleModel: MandationStatusPost = MandationStatusPost(NonMTDfB)
+  val exampleJson: JsObject = Json.obj(
+    "mandationStatus" -> NonMTDfB.desValue,
+    "transactorOrCapacitorEmail" -> "email@test.com"
+  )
+  val exampleModel: MandationStatusPost = MandationStatusPost(NonMTDfB, Some("email@test.com"))
 
   "MandationStatusPost" should {
 

@@ -16,10 +16,16 @@
 
 package models
 
-import play.api.libs.json.{Format, Json}
+import play.api.libs.json._
+import play.api.libs.functional.syntax._
 
-case class MandationStatusPost(mandationStatus: MandationStatus)
+case class MandationStatusPost(mandationStatus: MandationStatus,
+                               transactorOrCapacitorEmail: Option[String])
 
 object MandationStatusPost {
-  implicit val format: Format[MandationStatusPost] = Json.format[MandationStatusPost]
+
+  implicit val writes: Writes[MandationStatusPost] = (
+    (JsPath \ "mandationStatus").write[MandationStatus] and
+    (JsPath \ "transactorOrCapacitorEmail").writeNullable[String]
+  ) (unlift(MandationStatusPost.unapply))
 }

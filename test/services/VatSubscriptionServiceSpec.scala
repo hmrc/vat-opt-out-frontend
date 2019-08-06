@@ -17,14 +17,16 @@
 package services
 
 import assets.BaseTestConstants._
-import assets.CustomerInformationConstants.{customerInfoModel}
+import assets.CustomerInformationConstants.customerInfoModel
 import mocks.MockVatSubscriptionConnector
 import utils.TestUtils
-import models.{MTDfBMandated, NonMTDfB}
+import models.{MTDfBMandated, NonMTDfB, User}
+import play.api.mvc.AnyContentAsEmpty
 
 class VatSubscriptionServiceSpec extends TestUtils with MockVatSubscriptionConnector {
 
   val service = new VatSubscriptionService(connector)
+  implicit val user: User[AnyContentAsEmpty.type] = clientUser
 
   "Calling .getCustomerInfo" when {
 

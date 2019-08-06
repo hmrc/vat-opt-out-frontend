@@ -19,8 +19,10 @@ package connectors
 import connectors.httpParsers.GetVatSubscriptionHttpParser.GetVatSubscriptionResponse
 import connectors.httpParsers.UpdateVatSubscriptionHttpParser.UpdateVatSubscriptionResponse
 import helpers.IntegrationBaseSpec
-import models.{CustomerInformation, ErrorModel, MTDfBMandated, UpdateVatSubscription}
+import models._
 import play.api.http.Status.INTERNAL_SERVER_ERROR
+import play.api.mvc.AnyContentAsEmpty
+import play.api.test.FakeRequest
 import stubs.VatSubscriptionStub
 
 class VatSubscriptionConnectorISpec extends IntegrationBaseSpec {
@@ -28,6 +30,8 @@ class VatSubscriptionConnectorISpec extends IntegrationBaseSpec {
   private trait Test {
     val connector: VatSubscriptionConnector = app.injector.instanceOf[VatSubscriptionConnector]
   }
+
+  implicit val user: User[AnyContentAsEmpty.type] = User("999999999")(FakeRequest())
 
   "Calling .getCustomerInfo" when {
 
