@@ -17,12 +17,14 @@
 package controllers
 
 import assets.BaseTestConstants.{errorModel, updateVatSubscriptionModel}
-import common.SessionKeys.{inflightMandationStatus, mandationStatus, optOutSuccessful}
+import common.SessionKeys._
 import connectors.httpParsers.UpdateVatSubscriptionHttpParser.UpdateVatSubscriptionResponse
+import models.{MTDfBMandated, NonMTDfB}
 import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{reset, when, verify}
+import org.mockito.Mockito.{reset, verify, when}
 import org.mockito.stubbing.OngoingStubbing
 import play.api.http.Status
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import utils.MockAuth
 
@@ -75,10 +77,16 @@ class ConfirmOptOutControllerSpec extends MockAuth {
 
     "the Mandation Status has been updated Successfully" should {
 
+      lazy val request = FakeRequest().withSession(
+        mandationStatus -> MTDfBMandated.value,
+        inflightMandationStatus -> "false",
+        turnoverThreshold -> "no"
+      )
+
       lazy val result = {
         mockIndividualAuthorised()
         vatSubscriptionUpdateSetUp(Right(updateVatSubscriptionModel))
-        controller.updateMandationStatus()(requestPredicatedClient)
+        controller.updateMandationStatus()(request)
       }
 
       "return 303" in {
@@ -89,16 +97,20 @@ class ConfirmOptOutControllerSpec extends MockAuth {
         redirectLocation(result) shouldBe Some(controllers.routes.ConfirmationController.show().url)
       }
 
-      "remove Mandation status from Session" in {
-        session(result).get(mandationStatus) shouldBe None
+      "remove the answer to the turnover threshold question from session" in {
+        session(result).get(turnoverThreshold) shouldBe None
       }
 
-      "update Inflight Mandation status to true" in {
+      "update the inflight mandation status session value to true" in {
         session(result).get(inflightMandationStatus) shouldBe Some("true")
       }
 
-      "update the Opt Out Successful session value to true" in {
+      "update the opt out successful session value to true" in {
         session(result).get(optOutSuccessful) shouldBe Some("true")
+      }
+
+      "update the mandation status session value to Non MTDfB" in {
+        session(result).get(mandationStatus) shouldBe Some(NonMTDfB.value)
       }
 
       "send an audit event" in {

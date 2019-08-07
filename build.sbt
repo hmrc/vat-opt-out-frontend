@@ -66,7 +66,8 @@ lazy val coverageSettings: Seq[Setting[_]] = {
     "testOnly.*",
     "testOnlyDoNotUseInAppConf.*",
     "views.html.*",
-    ".*feedback*.*")
+    ".*feedback*.*"
+  )
 
   Seq(
     ScoverageKeys.coverageExcludedPackages := excludedPackages.mkString(";"),
