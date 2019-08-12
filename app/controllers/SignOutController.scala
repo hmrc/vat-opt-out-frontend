@@ -20,15 +20,34 @@ import config.AppConfig
 import javax.inject.{Inject, Singleton}
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent}
+import services.EnrolmentsAuthService
+import uk.gov.hmrc.auth.core.AffinityGroup
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.HeaderCarrierConverter
 
 import scala.concurrent.Future
 
 @Singleton
-class SignOutController @Inject()(implicit val messagesApi: MessagesApi,
+class SignOutController @Inject()(enrolmentsAuthService: EnrolmentsAuthService)
+                                 (implicit val messagesApi: MessagesApi,
                                   val appConfig: AppConfig) extends ControllerBase {
 
   def signOut(authorised: Boolean): Action[AnyContent] = Action.async { implicit request =>
-    val redirectUrl: String = if (authorised) appConfig.signOutUrl else appConfig.unauthorisedSignOutUrl
-    Future.successful(Redirect(redirectUrl))
+    implicit val hc: HeaderCarrier =
+      HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
+
+    if(authorised) {
+      enrolmentsAuthService.authorised.retrieve(Retrievals.affinityGroup) {
+        case Some(AffinityGroup.Agent) => Future.successful("VATCA")
+        case _ => Future.successful("VATC")
+      }.map(contactFormIdentifier => Redirect(appConfig.signOutUrl(contactFormIdentifier)))
+    } else {
+      Future.successful(Redirect(appConfig.unauthorisedSignOutUrl))
+    }
+  }
+
+  val timeout: Action[AnyContent] = Action { implicit request =>
+    Redirect(appConfig.unauthorisedSignOutUrl)
   }
 }
