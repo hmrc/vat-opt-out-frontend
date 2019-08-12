@@ -42,14 +42,14 @@ trait AppConfig extends ServicesConfig {
   val agentClientLookupHandoff: String
   val agentClientLookupChoicesPath: String
   val signInUrl: String
-  val signOutUrl: String
+  def signOutUrl(identifier: String): String
   val unauthorisedSignOutUrl: String
   val manageVatSubscriptionServiceUrl: String
   val manageVatSubscriptionServicePath: String
   val thresholdPreviousYearsUrl: String
   val vatSubscriptionHost: String
   def feedbackUrl(redirect: String): String
-  val exitSurveyUrl: String
+  def exitSurveyUrl(identifier: String): String
   val agentServicesGovUkGuidance: String
   val timeoutPeriod: Int
   val timeoutCountdown: Int
@@ -83,7 +83,7 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
   private lazy val signInOrigin = getString("appName")
   override lazy val signInUrl: String = s"$signInBaseUrl?continue=$signInContinueUrl&origin=$signInOrigin"
 
-  override lazy val signOutUrl: String = s"$governmentGatewayHost/gg/sign-out?continue=$exitSurveyUrl"
+  override def signOutUrl(identifier: String): String = s"$governmentGatewayHost/gg/sign-out?continue=${exitSurveyUrl(identifier)}"
   override lazy val unauthorisedSignOutUrl: String = s"$governmentGatewayHost/gg/sign-out?continue=$signInContinueUrl"
 
   private def whitelistConfig(key: String): Seq[String] = Some(new String(Base64.getDecoder
@@ -115,7 +115,7 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
   override val vatSubscriptionHost: String = baseUrl(Keys.vatSubscription)
 
   private lazy val exitSurveyBase: String = getString(Keys.exitSurveyHost) + getString(Keys.exitSurveyPath)
-  override lazy val exitSurveyUrl: String = s"$exitSurveyBase/$contactFormServiceIdentifier"
+  override def exitSurveyUrl(identifier: String): String = s"$exitSurveyBase/$identifier"
 
   override def feedbackUrl(redirect: String): String = s"$contactHost/contact/beta-feedback?service=$contactFormServiceIdentifier" +
     s"&backUrl=${ContinueUrl(vatOptOutServiceUrl + redirect).encodedUrl}"

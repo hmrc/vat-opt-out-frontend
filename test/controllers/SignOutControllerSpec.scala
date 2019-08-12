@@ -16,37 +16,86 @@
 
 package controllers
 
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.when
 import play.api.http.Status
 import play.api.mvc.Result
 import play.api.test.Helpers._
-import utils.TestUtils
+import uk.gov.hmrc.auth.core.AffinityGroup
+import uk.gov.hmrc.auth.core.retrieve.Retrieval
+import utils.MockAuth
 
 import scala.concurrent.Future
 
-class SignOutControllerSpec extends TestUtils {
+class SignOutControllerSpec extends MockAuth {
 
-  val controller = new SignOutController()
+  val controller = new SignOutController(mockEnrolmentsAuthService)
 
-  "The signOut action" when {
+  def mockAuth(authResult: Option[AffinityGroup]): Any =
+    when(mockAuthConnector.authorise(any(), any[Retrieval[Option[AffinityGroup]]]())(any(), any()))
+      .thenReturn(authResult)
 
-    "authorised" should {
+  "The .signOut action" when {
 
-      "return 303 and navigate to the survey url" in {
-        lazy val result: Future[Result] = controller.signOut(authorised = true)(request)
+    "the user is authorised" when {
 
-        status(result) shouldBe Status.SEE_OTHER
-        redirectLocation(result) shouldBe Some(appConfig.signOutUrl)
+      "the user is an agent" should {
+
+        lazy val result: Future[Result] = {
+          mockAuth(Some(AffinityGroup.Agent))
+          controller.signOut(authorised = true)(request)
+        }
+
+        "return 303" in {
+          status(result) shouldBe Status.SEE_OTHER
+        }
+
+        "redirect to the correct survey url" in {
+          redirectLocation(result) shouldBe Some(appConfig.signOutUrl("VATCA"))
+        }
+      }
+
+      "the user is a principal entity" should {
+
+        lazy val result: Future[Result] = {
+          mockAuth(Some(AffinityGroup.Individual))
+          controller.signOut(authorised = true)(request)
+        }
+
+        "return 303" in {
+          status(result) shouldBe Status.SEE_OTHER
+        }
+
+        "redirect to the correct survey url" in {
+          redirectLocation(result) shouldBe Some(appConfig.signOutUrl("VATC"))
+        }
       }
     }
 
-    "unauthorised" should {
+    "the user is unauthorised" should {
 
-      "return 303 and navigate to sign out url" in {
-        lazy val result: Future[Result] = controller.signOut(authorised = false)(request)
+      lazy val result: Future[Result] = controller.signOut(authorised = false)(request)
 
+      "return 303" in {
         status(result) shouldBe Status.SEE_OTHER
+      }
+
+      "redirect to the unauthorised sign out URL" in {
         redirectLocation(result) shouldBe Some(appConfig.unauthorisedSignOutUrl)
       }
+    }
+  }
+
+  "The .timeout action" should {
+
+    lazy val result: Future[Result] = controller.timeout(request)
+
+    "return 303" in {
+      status(result) shouldBe Status.SEE_OTHER
+    }
+
+    "redirect to the unauthorised sign out URL" in {
+      redirectLocation(result) shouldBe Some(appConfig.unauthorisedSignOutUrl)
     }
   }
 }
