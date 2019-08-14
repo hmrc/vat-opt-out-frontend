@@ -40,7 +40,7 @@ val content = "Error Template Content"
     }
 
     "have the correct instructions on the page" in {
-      elementText("#content > p") shouldBe content
+      elementText("#content > p:nth-of-type(2)") shouldBe content
     }
   }
 }
