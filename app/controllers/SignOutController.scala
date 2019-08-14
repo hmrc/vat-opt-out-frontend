@@ -21,17 +21,18 @@ import javax.inject.{Inject, Singleton}
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent}
 import services.EnrolmentsAuthService
-import uk.gov.hmrc.auth.core.AffinityGroup
+import uk.gov.hmrc.auth.core.{AffinityGroup, AuthorisationException}
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.HeaderCarrierConverter
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class SignOutController @Inject()(enrolmentsAuthService: EnrolmentsAuthService)
                                  (implicit val messagesApi: MessagesApi,
-                                  val appConfig: AppConfig) extends ControllerBase {
+                                  val appConfig: AppConfig,
+                                  ec: ExecutionContext) extends ControllerBase {
 
   def signOut(authorised: Boolean): Action[AnyContent] = Action.async { implicit request =>
     implicit val hc: HeaderCarrier =
@@ -41,7 +42,9 @@ class SignOutController @Inject()(enrolmentsAuthService: EnrolmentsAuthService)
       enrolmentsAuthService.authorised.retrieve(Retrievals.affinityGroup) {
         case Some(AffinityGroup.Agent) => Future.successful("VATCA")
         case _ => Future.successful("VATC")
-      }.map(contactFormIdentifier => Redirect(appConfig.signOutUrl(contactFormIdentifier)))
+      }.map(contactFormIdentifier => Redirect(appConfig.signOutUrl(contactFormIdentifier))).recover {
+        case _: AuthorisationException => Redirect(appConfig.unauthorisedSignOutUrl)
+      }
     } else {
       Future.successful(Redirect(appConfig.unauthorisedSignOutUrl))
     }
