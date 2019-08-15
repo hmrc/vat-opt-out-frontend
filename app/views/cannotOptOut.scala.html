@@ -34,7 +34,7 @@
 
 <p>@messages("cannotOptOut.explanation")</p>
 
-<a class="button" type="submit" href="@linkOut" data-journey-click="@{if(user.isAgent)"agent_"}opt-out:overview:opt-out">
+<a class="button" role="button" type="submit" href="@linkOut" data-journey-click="@{if(user.isAgent)"agent_"}opt-out:overview:opt-out">
   @messages(s"cannotOptOut.return${if(user.isAgent) ".agent" else ""}")
 </a>
 

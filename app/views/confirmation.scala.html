@@ -58,7 +58,7 @@
   @messages(s"confirmation.aboveThreshold3$agentMessageAffix",appConfig.thresholdAmount)
 </p>
 
-<p><a class="button" type="submit" href="@linkOut">@messages("confirmation.finish")</a></p>
+<p><a class="button" role="button" type="submit" href="@linkOut">@messages("confirmation.finish")</a></p>
 
 @if(user.isAgent) {
   <p><a href="@appConfig.agentClientLookupHandoff">@messages("confirmation.changeClient")</a></p>
