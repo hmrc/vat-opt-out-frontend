@@ -43,6 +43,7 @@
 <p>@messages(s"confirmOptOut.notCancellingRegistration$agentMessageAffix")</p>
 
 <a class="button"
+   role="button"
    type="submit"
    href="@controllers.routes.ConfirmOptOutController.updateMandationStatus().url"
    data-journey-click="@{if(user.isAgent)"agent_"}opt-out:submit:opt-out">@messages("confirmOptOut.confirm")</a>
