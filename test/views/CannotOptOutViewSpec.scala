@@ -27,7 +27,7 @@ class CannotOptOutViewSpec extends ViewBaseSpec {
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct title" in {
-      document.title shouldBe "The business cannot opt out of Making Tax Digital for VAT"
+      document.title shouldBe "The business cannot opt out of Making Tax Digital for VAT - Business tax account - GOV.UK"
     }
 
     "have a heading" which {
@@ -77,6 +77,10 @@ class CannotOptOutViewSpec extends ViewBaseSpec {
 
     lazy val view = views.html.cannotOptOut()(request, messages, appConfig, agentUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
+
+    "have the correct document title" in {
+      document.title shouldBe "The business cannot opt out of Making Tax Digital for VAT - Your client’s VAT details - GOV.UK"
+    }
 
     "have the correct GA tag on the heading" in {
       element("h1").attr("data-journey") shouldBe "agent_opt-out:threshold-error:opt-out"

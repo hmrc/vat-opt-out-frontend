@@ -27,7 +27,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct title" in {
-      document.title shouldBe "You have opted out of Making Tax Digital for VAT"
+      document.title shouldBe "You have opted out of Making Tax Digital for VAT - Business tax account - GOV.UK"
     }
 
     "have a heading" which {
@@ -89,7 +89,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct title" in {
-      document.title shouldBe "You have opted your client out of Making Tax Digital for VAT"
+      document.title shouldBe "You have opted your client out of Making Tax Digital for VAT - Your client’s VAT details - GOV.UK"
     }
 
     "have a heading" which {

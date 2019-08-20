@@ -51,7 +51,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
       lazy implicit val document: Document = Jsoup.parse(view.body)
 
       "have the correct document title" in {
-        document.title shouldBe "Has the business’s taxable turnover been above £85,000 since 1 April 2019?"
+        document.title shouldBe "Has the business’s taxable turnover been above £85,000 since 1 April 2019? - Business tax account - GOV.UK"
       }
 
       "have a back link" which {
@@ -116,7 +116,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
       lazy implicit val document: Document = Jsoup.parse(view.body)
 
       "have the correct title" in {
-        document.title shouldBe "Error: Has the business’s taxable turnover been above £85,000 since 1 April 2019?"
+        document.title shouldBe "Error: Has the business’s taxable turnover been above £85,000 since 1 April 2019? - Business tax account - GOV.UK"
       }
 
       "display the error summary" in {
@@ -167,6 +167,10 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
     lazy val view: Html = views.html.turnoverThreshold(emptyForm)(request, messages, appConfig, agentUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
+
+    "have the correct document title" in {
+      document.title shouldBe "Has the business’s taxable turnover been above £85,000 since 1 April 2019? - Your client’s VAT details - GOV.UK"
+    }
 
     "have the correct GA tag on the heading" in {
       element(Selectors.pageHeading).attr("data-journey") shouldBe "agent_opt-out:view:change-opt-out"

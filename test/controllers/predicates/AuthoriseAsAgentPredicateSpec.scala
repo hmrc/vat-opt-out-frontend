@@ -53,7 +53,7 @@ class AuthoriseAsAgentPredicateSpec extends MockAuth {
         }
 
         "render the Session Timeout page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "Your session has timed out"
+          Jsoup.parse(bodyOf(result)).title shouldBe "Your session has timed out - Business tax account - GOV.UK"
         }
       }
 
@@ -67,7 +67,7 @@ class AuthoriseAsAgentPredicateSpec extends MockAuth {
         }
 
         "render the Unauthorised For Client page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "You’re not authorised for this client"
+          Jsoup.parse(bodyOf(result)).title shouldBe "You’re not authorised for this client - Business tax account - GOV.UK"
         }
       }
 
@@ -81,7 +81,7 @@ class AuthoriseAsAgentPredicateSpec extends MockAuth {
         }
 
         "render the Internal Server Error page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "There is a problem with the service - VAT reporting through software - GOV.UK"
+          Jsoup.parse(bodyOf(result)).title shouldBe "There is a problem with the service - Business tax account - GOV.UK"
         }
       }
     }

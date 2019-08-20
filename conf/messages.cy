@@ -8,13 +8,14 @@ base.continue = Yn eich blaen
 base.signOut = Allgofnodi
 base.fullStop = .
 base.errorPrefix = Gwall: {0}
+base.pageTitle = {0} - {1} - GOV.UK
 
 betaBanner.phaseName = BETA
 betaBanner.newService = Gwasanaeth newydd yw hwn – bydd eich
 betaBanner.feedback = adborth
 betaBanner.feedbackImprove = yn ein helpu i’w wella.
 
-standardError.title = Mae problem gyda’r gwasanaeth – Rhoi gwybod am TAW drwy feddalwedd – GOV.UK
+standardError.title = Mae problem gyda’r gwasanaeth
 standardError.heading = Mae’n ddrwg gennym – mae problem gyda’r gwasanaeth
 standardError.message = Rhowch gynnig arall arni yn nes ymlaen.
 
