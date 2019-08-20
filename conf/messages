@@ -8,13 +8,14 @@ base.continue = Continue
 base.signOut = Sign out
 base.fullStop = .
 base.errorPrefix = Error: {0}
+base.pageTitle = {0} - {1} - GOV.UK
 
 betaBanner.phaseName = BETA
 betaBanner.newService = This is a new service – your
 betaBanner.feedback = feedback
 betaBanner.feedbackImprove = will help us to improve it.
 
-standardError.title = There is a problem with the service - VAT reporting through software - GOV.UK
+standardError.title = There is a problem with the service
 standardError.heading = Sorry, there is a problem with the service
 standardError.message = Try again later.
 

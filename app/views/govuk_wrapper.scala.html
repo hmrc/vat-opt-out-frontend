@@ -54,9 +54,13 @@
   }
 }
 
+@dynamicNavTitle = @{
+  user.map(u => if(u.isAgent) messages("base.agentNavTitle") else messages("base.bta"))
+}
+
 @insideHeader = {
     @uiLayouts.header_nav(
-      navTitle = user.map(u => if(u.isAgent) messages("base.agentNavTitle") else messages("base.bta")),
+      navTitle = dynamicNavTitle,
       navTitleLink = None,
       showBetaLink = false,
       navLinks = Some(headerNavLinks))
@@ -131,4 +135,8 @@
       sidebar = sidebar)
 }
 
-@hmrcGovUkTemplate(Some(title), bodyClasses)(head, bodyEnd, insideHeader, afterHeader, footerTop, Some(uiLayouts.footer_links()), true)(content)
+@pageTitle = @{
+  messages("base.pageTitle", title, dynamicNavTitle.getOrElse(messages("base.bta")))
+}
+
+@hmrcGovUkTemplate(Some(pageTitle), bodyClasses)(head, bodyEnd, insideHeader, afterHeader, footerTop, Some(uiLayouts.footer_links()), true)(content)

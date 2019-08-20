@@ -29,7 +29,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {
-      document.title shouldBe "Are you sure you want to opt out of Making Tax Digital for VAT?"
+      document.title shouldBe "Are you sure you want to opt out of Making Tax Digital for VAT? - Business tax account - GOV.UK"
     }
 
     "have the correct heading" in {
@@ -91,6 +91,10 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
 
     lazy val view = views.html.confirmOptOut()(request, messages, appConfig, agentUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
+
+    "have the correct document title" in {
+     document.title shouldBe "Are you sure you want to opt your client out of Making Tax Digital for VAT? - Your client’s VAT details - GOV.UK"
+    }
 
     "have the correct GA tag on the button" in {
       element(".button").attr("data-journey-click") shouldBe "agent_opt-out:submit:opt-out"

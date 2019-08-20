@@ -54,7 +54,7 @@ class AuthPredicateSpec extends MockAuth {
           }
 
           "render the Session Timeout page" in {
-            Jsoup.parse(bodyOf(result)).title shouldBe "Your session has timed out"
+            Jsoup.parse(bodyOf(result)).title shouldBe "Your session has timed out - Business tax account - GOV.UK"
           }
         }
 
@@ -68,7 +68,7 @@ class AuthPredicateSpec extends MockAuth {
           }
 
           "render the Standard Error page" in {
-            Jsoup.parse(bodyOf(result)).title shouldBe "There is a problem with the service - VAT reporting through software - GOV.UK"
+            Jsoup.parse(bodyOf(result)).title shouldBe "There is a problem with the service - Business tax account - GOV.UK"
           }
         }
       }
@@ -83,7 +83,7 @@ class AuthPredicateSpec extends MockAuth {
         }
 
         "render the Standard Error page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "You can’t use this service yet"
+          Jsoup.parse(bodyOf(result)).title shouldBe "You can’t use this service yet - Business tax account - GOV.UK"
         }
       }
     }
@@ -108,7 +108,7 @@ class AuthPredicateSpec extends MockAuth {
         }
 
         "render the Unauthorised page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "You are not authorised to use this service"
+          Jsoup.parse(bodyOf(result)).title shouldBe "You are not authorised to use this service - Business tax account - GOV.UK"
         }
       }
 
@@ -122,7 +122,7 @@ class AuthPredicateSpec extends MockAuth {
         }
 
         "render the Standard Error page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "There is a problem with the service - VAT reporting through software - GOV.UK"
+          Jsoup.parse(bodyOf(result)).title shouldBe "There is a problem with the service - Business tax account - GOV.UK"
         }
       }
     }
