@@ -24,7 +24,7 @@ class UnauthorisedAgentViewSpec extends ViewBaseSpec {
 
   "Rendering the unauthorised agent page" should {
 
-    lazy val view = views.html.errors.unauthorisedAgent()
+    lazy val view = views.html.errors.unauthorisedAgent()(agentUser, messages, appConfig)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {

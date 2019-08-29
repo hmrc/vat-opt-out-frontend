@@ -26,7 +26,7 @@ import scala.concurrent.Future
 
 class AuthPredicateSpec extends MockAuth {
 
-  def target: Action[AnyContent] = mockAuthPredicate.async {
+  val target: Action[AnyContent] = mockAuthPredicate.async {
     implicit request => Future.successful(Ok("test"))
   }
 
@@ -46,7 +46,7 @@ class AuthPredicateSpec extends MockAuth {
 
         "a no active session result is returned from Auth" should {
 
-          lazy val result = await(target(requestWithClientVRN))
+          lazy val result = await(target(agentUserWithClient))
 
           "return Unauthorised (401)" in {
             mockMissingBearerToken()
@@ -54,13 +54,13 @@ class AuthPredicateSpec extends MockAuth {
           }
 
           "render the Session Timeout page" in {
-            Jsoup.parse(bodyOf(result)).title shouldBe "Your session has timed out - Business tax account - GOV.UK"
+            Jsoup.parse(bodyOf(result)).title shouldBe "Your session has timed out - VAT - GOV.UK"
           }
         }
 
         "an authorization exception is returned from Auth" should {
 
-          lazy val result = await(target(requestWithClientVRN))
+          lazy val result = await(target(agentUserWithClient))
 
           "return Internal Server Error (500)" in {
             mockUnauthorised()
@@ -68,14 +68,14 @@ class AuthPredicateSpec extends MockAuth {
           }
 
           "render the Standard Error page" in {
-            Jsoup.parse(bodyOf(result)).title shouldBe "There is a problem with the service - Business tax account - GOV.UK"
+            Jsoup.parse(bodyOf(result)).title shouldBe "There is a problem with the service - VAT - GOV.UK"
           }
         }
       }
 
       "the Agent does NOT have an Active HMRC-AS-AGENT enrolment" should {
 
-        lazy val result = await(target(requestWithClientVRN))
+        lazy val result = await(target(agentUserWithClient))
 
         "return Forbidden (403)" in {
           mockAgentWithoutEnrolment()
@@ -100,7 +100,7 @@ class AuthPredicateSpec extends MockAuth {
 
       "they do NOT have an active HMRC-MTD-VAT enrolment" should {
 
-        lazy val result = await(target(request))
+        lazy val result = await(target(clientUser))
 
         "return Forbidden (403)" in {
           mockIndividualWithoutEnrolment()
@@ -114,7 +114,7 @@ class AuthPredicateSpec extends MockAuth {
 
       "the user does not have affinity group" should {
 
-        lazy val result = await(target(request))
+        lazy val result = await(target(clientUser))
 
         "return Internal Server Error (500)" in {
           mockUserWithoutAffinity()

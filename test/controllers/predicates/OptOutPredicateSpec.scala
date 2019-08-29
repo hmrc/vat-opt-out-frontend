@@ -289,7 +289,7 @@ class OptOutPredicateSpec extends MockAuth {
         }
 
         "show the generic error page" in {
-          document.title shouldBe "There is a problem with the service - Business tax account - GOV.UK"
+          document.title shouldBe "There is a problem with the service - VAT - GOV.UK"
         }
       }
     }

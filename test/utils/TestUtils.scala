@@ -58,5 +58,7 @@ trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
     FakeRequest().withSession(
       SessionKeys.mandationStatus -> MTDfBMandated.value, SessionKeys.inflightMandationStatus -> "false")
 
+  lazy val agentUserWithClient: User[AnyContentAsEmpty.type] = User("999999999", arn = Some("XARN1234567"))(requestWithClientVRN)
+
   lazy val mockErrorHandler: ErrorHandler = new ErrorHandler(messagesApi, appConfig)
 }

@@ -1,5 +1,6 @@
 base.bta = Cyfrif Treth Busnes
 base.agentNavTitle = Manylion TAW eich cleient
+base.vatNavTitle = TAW
 base.yes = Iawn
 base.no = Na
 base.error.heading = Mae problem wedi codi
