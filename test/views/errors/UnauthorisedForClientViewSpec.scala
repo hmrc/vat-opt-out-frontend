@@ -30,7 +30,7 @@ class UnauthorisedForClientViewSpec extends ViewBaseSpec {
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {
-      document.title shouldBe "You’re not authorised for this client - Business tax account - GOV.UK"
+      document.title shouldBe "You’re not authorised for this client - VAT - GOV.UK"
     }
 
     "have a the correct page heading" in {
