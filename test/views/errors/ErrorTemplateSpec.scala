@@ -32,7 +32,7 @@ val content = "Error Template Content"
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {
-      document.title shouldBe title + " - Business tax account - GOV.UK"
+      document.title shouldBe title + " - VAT - GOV.UK"
     }
 
     "have the correct page heading" in {

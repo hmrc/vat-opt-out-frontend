@@ -1,5 +1,6 @@
 base.bta = Business tax account
 base.agentNavTitle = Your client’s VAT details
+base.vatNavTitle = VAT
 base.yes = Yes
 base.no = No
 base.error.heading = There is a problem

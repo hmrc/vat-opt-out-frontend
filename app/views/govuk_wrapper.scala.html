@@ -55,12 +55,12 @@
 }
 
 @dynamicNavTitle = @{
-  user.map(u => if(u.isAgent) messages("base.agentNavTitle") else messages("base.bta"))
+  user.fold(messages("base.vatNavTitle"))(u => if(u.isAgent) messages("base.agentNavTitle") else messages("base.bta"))
 }
 
 @insideHeader = {
     @uiLayouts.header_nav(
-      navTitle = dynamicNavTitle,
+      navTitle = Some(dynamicNavTitle),
       navTitleLink = None,
       showBetaLink = false,
       navLinks = Some(headerNavLinks))
@@ -136,7 +136,7 @@
 }
 
 @pageTitle = @{
-  messages("base.pageTitle", title, dynamicNavTitle.getOrElse(messages("base.bta")))
+  messages("base.pageTitle", title, dynamicNavTitle)
 }
 
-@hmrcGovUkTemplate(Some(pageTitle), bodyClasses)(head, bodyEnd, insideHeader, afterHeader, footerTop, Some(uiLayouts.footer_links()), true)(content)
+@hmrcGovUkTemplate(Some(pageTitle), bodyClasses)(head, bodyEnd, insideHeader, afterHeader, footerTop, Some(uiLayouts.footer_links()), nav = true)(content)
