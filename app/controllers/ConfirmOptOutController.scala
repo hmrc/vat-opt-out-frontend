@@ -23,9 +23,10 @@ import controllers.predicates.{AuthPredicate, OptOutPredicate}
 import javax.inject.Inject
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent}
-import models.NonMTDfB
+import models.{ErrorModel, NonMTDfB}
 import services.VatSubscriptionService
 import common.SessionKeys._
+import play.api.Logger
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -56,6 +57,11 @@ class ConfirmOptOutController @Inject()(authenticate: AuthPredicate,
         Redirect(routes.ConfirmationController.show())
           .removingFromSession(turnoverThreshold)
           .addingToSession(inflightMandationStatus -> "true", optOutSuccessful -> "true", mandationStatus -> NonMTDfB.value)
+
+      case Left(ErrorModel(CONFLICT, _)) =>
+        Logger.warn("[ConfirmOptOutController][updateMandationStatus] - " +
+          "There is already a mandation status update in progress. Redirecting user to vat-overview page.")
+        Redirect(appConfig.vatSummaryServicePath).addingToSession(inflightMandationStatus -> "true")
 
       case Left(_) =>
         errorHandler.showInternalServerError

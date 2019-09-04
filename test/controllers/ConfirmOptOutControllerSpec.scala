@@ -19,7 +19,7 @@ package controllers
 import assets.BaseTestConstants.{errorModel, updateVatSubscriptionModel}
 import common.SessionKeys._
 import connectors.httpParsers.UpdateVatSubscriptionHttpParser.UpdateVatSubscriptionResponse
-import models.{MTDfBMandated, NonMTDfB}
+import models.{ErrorModel, MTDfBMandated, NonMTDfB}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{reset, verify, when}
 import org.mockito.stubbing.OngoingStubbing
@@ -75,7 +75,7 @@ class ConfirmOptOutControllerSpec extends MockAuth {
 
   "calling .updateMandationStatus()" when {
 
-    "the Mandation Status has been updated Successfully" should {
+    "the mandation status has been updated successfully" should {
 
       lazy val request = FakeRequest().withSession(
         mandationStatus -> MTDfBMandated.value,
@@ -118,7 +118,24 @@ class ConfirmOptOutControllerSpec extends MockAuth {
       }
     }
 
-    "the Mandation Status update was unsuccessful" should {
+    "there is already a mandation status update in progress" should {
+
+      lazy val result = {
+        mockIndividualAuthorised()
+        vatSubscriptionUpdateSetUp(Left(ErrorModel(CONFLICT, "conflict")))
+        controller.updateMandationStatus()(requestPredicatedClient)
+      }
+
+      "return 303" in {
+        status(result) shouldBe Status.SEE_OTHER
+      }
+
+      "redirect the user to the vat-overview page" in {
+        redirectLocation(result) shouldBe Some(appConfig.vatSummaryServicePath)
+      }
+    }
+
+    "the mandation status update was unsuccessful" should {
 
       lazy val result = {
         mockIndividualAuthorised()
@@ -127,12 +144,12 @@ class ConfirmOptOutControllerSpec extends MockAuth {
       }
 
       "return 500" in  {
-         status(result) shouldBe Status.INTERNAL_SERVER_ERROR
+        status(result) shouldBe Status.INTERNAL_SERVER_ERROR
       }
 
       "return HTML" in {
-         contentType(result) shouldBe Some("text/html")
-         charset(result) shouldBe Some("utf-8")
+        contentType(result) shouldBe Some("text/html")
+        charset(result) shouldBe Some("utf-8")
       }
     }
   }
