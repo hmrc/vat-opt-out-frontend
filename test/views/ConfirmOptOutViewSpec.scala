@@ -16,10 +16,8 @@
 
 package views
 
-import models.User
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import play.api.mvc.AnyContentAsEmpty
 
 class ConfirmOptOutViewSpec extends ViewBaseSpec {
 
@@ -93,7 +91,36 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {
-     document.title shouldBe "Are you sure you want to opt your client out of Making Tax Digital for VAT? - Your client’s VAT details - GOV.UK"
+      document.title shouldBe "Are you sure you want to opt your client out of Making Tax Digital for VAT? " +
+        "- Your client’s VAT details - GOV.UK"
+    }
+
+    "have the correct heading" in {
+      elementText("h1") shouldBe "Are you sure you want to opt your client out of Making Tax Digital for VAT?"
+    }
+
+    "have the correct initial paragraph" in {
+      elementText("#content > article > p:nth-of-type(1)") shouldBe "If you choose to opt your client out, you must:"
+    }
+
+    "have the correct first bullet point" in {
+      elementText("#content li:nth-of-type(1)") shouldBe "continue to use software compatible with Making " +
+        "Tax Digital to submit your client’s VAT Returns for their current return period"
+    }
+
+    "have the correct second bullet point" in {
+      elementText("#content li:nth-of-type(2)") shouldBe
+        "submit your client’s VAT Returns online from their next return period"
+    }
+
+    "have the correct third bullet point" in {
+      elementText("#content li:nth-of-type(3)") shouldBe
+        "sign your client up for Making Tax Digital again if their taxable turnover goes above £85,000"
+    }
+
+    "have the correct final paragraph" in {
+      elementText("#content > article > p:nth-of-type(2)") shouldBe
+        "By opting your client out of Making Tax Digital, you will not be cancelling their VAT registration."
     }
 
     "have the correct GA tag on the button" in {
