@@ -61,8 +61,11 @@ class ConfirmOptOutController @Inject()(authenticate: AuthPredicate,
       case Left(ErrorModel(CONFLICT, _)) =>
         Logger.warn("[ConfirmOptOutController][updateMandationStatus] - " +
           "There is already a mandation status update in progress. Redirecting user to vat-overview page.")
-        Redirect(appConfig.vatSummaryServicePath).addingToSession(inflightMandationStatus -> "true")
-
+        if (user.isAgent) {
+          Redirect(appConfig.manageVatSubscriptionServicePath).addingToSession(inflightMandationStatus -> "true")
+        } else {
+          Redirect(appConfig.vatSummaryServicePath).addingToSession(inflightMandationStatus -> "true")
+        }
       case Left(_) =>
         errorHandler.showInternalServerError
     }

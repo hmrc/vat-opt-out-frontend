@@ -118,20 +118,40 @@ class ConfirmOptOutControllerSpec extends MockAuth {
       }
     }
 
-    "there is already a mandation status update in progress" should {
+    "there is already a mandation status update in progress" when {
 
-      lazy val result = {
-        mockIndividualAuthorised()
-        vatSubscriptionUpdateSetUp(Left(ErrorModel(CONFLICT, "conflict")))
-        controller.updateMandationStatus()(requestPredicatedClient)
+      "the user is a principal entity" should {
+
+        lazy val result = {
+          mockIndividualAuthorised()
+          vatSubscriptionUpdateSetUp(Left(ErrorModel(CONFLICT, "conflict")))
+          controller.updateMandationStatus()(requestPredicatedClient)
+        }
+
+        "return 303" in {
+          status(result) shouldBe Status.SEE_OTHER
+        }
+
+        "redirect the user to the vat-overview page" in {
+          redirectLocation(result) shouldBe Some(appConfig.vatSummaryServicePath)
+        }
       }
 
-      "return 303" in {
-        status(result) shouldBe Status.SEE_OTHER
-      }
+      "the user is an agent" should {
 
-      "redirect the user to the vat-overview page" in {
-        redirectLocation(result) shouldBe Some(appConfig.vatSummaryServicePath)
+        lazy val result = {
+          mockAgentAuthorised()
+          vatSubscriptionUpdateSetUp(Left(ErrorModel(CONFLICT, "conflict")))
+          controller.updateMandationStatus()(requestPredicatedAgent)
+        }
+
+        "return 303" in {
+          status(result) shouldBe Status.SEE_OTHER
+        }
+
+        "redirect the user to the chocs overview page" in {
+          redirectLocation(result) shouldBe Some(appConfig.manageVatSubscriptionServicePath)
+        }
       }
     }
 
