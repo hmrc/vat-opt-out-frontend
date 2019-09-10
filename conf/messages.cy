@@ -42,7 +42,7 @@ unauthorisedForClient.tryAgain = roi cynnig arall arni
 confirmOptOut.title = A ydych yn sicr eich bod am optio allan o’r cynllun Troi Treth yn Ddigidol ar gyfer TAW?
 confirmOptOut.title.agent = A ydych yn sicr eich bod am optio’ch cleient allan o’r cynllun Troi Treth yn Ddigidol ar gyfer TAW?
 confirmOptOut.chooseToOptOut = Os ydych yn dewis optio allan, mae’n rhaid i chi wneud y canlynol:
-confirmOptOut.chooseToOptOut.agent = Os ydych yn dewis optio’ch cleient allan, mae’n rhaid i chi:
+confirmOptOut.chooseToOptOut.agent = Os ydych yn dewis optio’ch cleient allan, mae’n rhaid i chi wneud y canlynol:
 confirmOptOut.bullet1 = parhau i ddefnyddio meddalwedd sy’n cydweddu â’r cynllun Troi Treth yn Ddigidol ar gyfer eich cyfnod Ffurflen TAW bresennol
 confirmOptOut.bullet1.agent = parhau i ddefnyddio meddalwedd sy’n cydweddu â’r cynllun Troi Treth yn Ddigidol er mwyn cyflwyno Ffurflenni TAW eich cleient ar gyfer ei gyfnod Ffurflen TAW bresennol
 confirmOptOut.bullet2 = defnyddio’ch cyfrif ar-lein i gyflwyno Ffurflenni TAW o’ch cyfnod Ffurflen TAW nesaf ymlaen
@@ -50,7 +50,7 @@ confirmOptOut.bullet2.agent = cyflwyno Ffurflenni TAW eich cleient ar-lein o’i
 confirmOptOut.bullet3 = cysylltu â ni er mwyn cofrestru ar gyfer y cynllun Troi Treth yn Ddigidol os yw’ch trosiant trethadwy’n mynd dros {0}
 confirmOptOut.bullet3.agent = cofrestru’ch cleient ar gyfer y cynllun Troi Treth yn Ddigidol eto os yw ei drosiant trethadwy’n mynd dros {0}
 confirmOptOut.notCancellingRegistration = Drwy optio allan ni fyddwch yn canslo’ch cofrestriad TAW.
-confirmOptOut.notCancellingRegistration.agent = Drwy optio allan o’r cynllun Troi Treth yn Ddigidol ar ran eich cleient, ni fyddwch yn dileu ei gofrestriad TAW.
+confirmOptOut.notCancellingRegistration.agent = Drwy optio’ch cleient allan o’r cynllun Troi Treth yn Ddigidol, ni fyddwch yn dileu ei gofrestriad TAW.
 confirmOptOut.confirm = Cadarnhau ac optio allan
 
 confirmation.title = Rydych wedi optio allan o’r cynllun Troi Treth yn Ddigidol ar gyfer TAW
