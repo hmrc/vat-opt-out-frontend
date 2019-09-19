@@ -24,7 +24,7 @@ val appName = "vat-opt-out-frontend"
 
 val compile = Seq(
   "uk.gov.hmrc"             %% "govuk-template"           % "5.30.0-play-25",
-  "uk.gov.hmrc"             %% "play-ui"                  % "8.1.0-play-25",
+  "uk.gov.hmrc"             %% "play-ui"                  % "8.2.0-play-25",
   "uk.gov.hmrc"             %% "play-whitelist-filter"    % "2.0.0",
   "uk.gov.hmrc"             %% "auth-client"              % "2.29.0-play-25",
   "uk.gov.hmrc"             %% "bootstrap-play-25"        % "5.0.0",
