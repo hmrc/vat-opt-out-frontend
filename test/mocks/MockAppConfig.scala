@@ -44,6 +44,7 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override val agentClientLookupHandoff: String = "/agent-client-lookup"
   override val agentClientLookupChoicesPath: String = "/choices"
   override val agentInvitationsFastTrack: String = "/agent-fast-track"
+  override val accessibilityLinkUrl: String = "/accessibility"
   override def feedbackUrl(redirect: String): String = s"feedback/$redirect"
   override def exitSurveyUrl(identifier: String): String = s"/exit-survey/$identifier"
   override val agentServicesGovUkGuidance: String = "/agent-guidance"
