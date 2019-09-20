@@ -22,6 +22,7 @@ import org.jsoup.nodes.Document
 class GovUkWrapperSpec extends ViewBaseSpec {
 
   val navTitleSelector = ".header__menu__proposition-name"
+  val accessibilityLinkSelector = "#footer > div > div > div.footer-meta-inner > ul > li:nth-child(2) > a"
 
   "The GOV UK Wrapper" when {
 
@@ -33,26 +34,39 @@ class GovUkWrapperSpec extends ViewBaseSpec {
       "have the client nav title" in {
         elementText(navTitleSelector) shouldBe "Business tax account"
       }
-    }
 
-    "the user is an agent" should {
-
-      lazy val view = views.html.govuk_wrapper(appConfig, "", afterFeedbackRedirect = "", user = Some(agentUser))
-      lazy implicit val document: Document = Jsoup.parse(view.body)
-
-      "have the agent nav title" in {
-        elementText(navTitleSelector) shouldBe "Your client’s VAT details"
+      "have the correct Accessibility link" in {
+        element(accessibilityLinkSelector).attr("href") shouldBe "/accessibility-statement"
       }
     }
 
-    "the user is not known" should {
+      "the user is an agent" should {
 
-      lazy val view = views.html.govuk_wrapper(appConfig, "", afterFeedbackRedirect = "", user = None)
-      lazy implicit val document: Document = Jsoup.parse(view.body)
+        lazy val view = views.html.govuk_wrapper(appConfig, "", afterFeedbackRedirect = "", user = Some(agentUser))
+        lazy implicit val document: Document = Jsoup.parse(view.body)
 
-      "have no nav title" in {
-        elementText(navTitleSelector) shouldBe "VAT"
+        "have the agent nav title" in {
+          elementText(navTitleSelector) shouldBe "Your client’s VAT details"
+        }
+
+        "have the correct Accessibility link" in {
+          element(accessibilityLinkSelector).attr("href") shouldBe "/accessibility-statement"
+        }
+      }
+
+        "the user is not known" should {
+
+          lazy val view = views.html.govuk_wrapper(appConfig, "", afterFeedbackRedirect = "", user = None)
+          lazy implicit val document: Document = Jsoup.parse(view.body)
+
+          "have no nav title" in {
+            elementText(navTitleSelector) shouldBe "VAT"
+          }
+
+          "have the correct Accessibility link" in {
+            element(accessibilityLinkSelector).attr("href") shouldBe "/accessibility-statement"
+          }
+        }
       }
     }
-  }
-}
+

@@ -60,6 +60,7 @@ trait AppConfig extends ServicesConfig {
   val govUkContactUs: String
   val thresholdAmount: String
   val vatSummaryServicePath: String
+  val accessibilityLinkUrl: String
 }
 
 @Singleton
@@ -139,4 +140,6 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
 
   private val vatSummaryServiceUrl: String = getString(Keys.vatSummaryServiceUrl)
   override val vatSummaryServicePath: String = vatSummaryServiceUrl + getString(Keys.vatSummaryServicePath)
+
+  override val accessibilityLinkUrl: String = getString(ConfigKeys.vatSummaryServiceUrl) + getString(ConfigKeys.vatSummaryAccessibilityUrl)
 }

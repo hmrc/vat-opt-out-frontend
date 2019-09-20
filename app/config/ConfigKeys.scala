@@ -46,4 +46,5 @@ object  ConfigKeys {
   val thresholdAmount: String = "threshold.amount"
   val vatSummaryServiceUrl: String = "vat-summary-frontend.url"
   val vatSummaryServicePath: String = "vat-summary-frontend.path"
+  val vatSummaryAccessibilityUrl: String = "vat-summary-frontend.accessibilityUrl"
 }
