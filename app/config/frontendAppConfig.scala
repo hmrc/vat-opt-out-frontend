@@ -30,8 +30,6 @@ import uk.gov.hmrc.play.config.ServicesConfig
 trait AppConfig extends ServicesConfig {
   val contactHost: String
   val assetsPrefix: String
-  val analyticsToken: String
-  val analyticsHost: String
   val reportAProblemPartialUrl: String
   val reportAProblemNonJSUrl: String
   val whitelistEnabled: Boolean
@@ -71,8 +69,6 @@ class FrontendAppConfig @Inject()(val runModeConfiguration: Configuration, envir
   lazy val contactFormServiceIdentifier = "VATC"
 
   lazy val assetsPrefix: String = getString(s"assets.url") + getString(s"assets.version")
-  lazy val analyticsToken: String = getString(s"google-analytics.token")
-  lazy val analyticsHost: String = getString(s"google-analytics.host")
 
   lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
   lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"

@@ -70,10 +70,6 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
         "has the correct text" in {
           elementText(Selectors.pageHeading) shouldBe "Has the business’s taxable turnover been above £85,000 since 1 April 2019?"
         }
-
-        "has the correct GA tag" in {
-          element(Selectors.pageHeading).attr("data-journey") shouldBe "opt-out:view:change-opt-out"
-        }
       }
 
       "have the turnover threshold form with the correct form action" in {
@@ -100,10 +96,6 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
         "has the correct text" in {
           elementText(Selectors.continueButton) shouldBe "Continue"
-        }
-
-        "has the correct GA tag" in {
-          element(Selectors.continueButton).attr("data-journey-click") shouldBe "opt-out:continue:opt-out"
         }
       }
     }
@@ -170,14 +162,6 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
     "have the correct document title" in {
       document.title shouldBe "Has the business’s taxable turnover been above £85,000 since 1 April 2019? - Your client’s VAT details - GOV.UK"
-    }
-
-    "have the correct GA tag on the heading" in {
-      element(Selectors.pageHeading).attr("data-journey") shouldBe "agent_opt-out:view:change-opt-out"
-    }
-
-    "have the correct GA tag on the continue button" in {
-      element(Selectors.continueButton).attr("data-journey-click") shouldBe "agent_opt-out:continue:opt-out"
     }
 
     "have a back link with the correct link location" in {

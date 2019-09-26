@@ -35,10 +35,6 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       "has the correct text" in {
         elementText("h1") shouldBe "You have opted out of Making Tax Digital for VAT"
       }
-
-      "has the correct GA tag" in {
-        element("h1").attr("data-journey") shouldBe "opt-out:confirm:opt-out"
-      }
     }
 
     "have the correct subheading" in {
@@ -96,10 +92,6 @@ class ConfirmationViewSpec extends ViewBaseSpec {
 
       "has the correct text" in {
         elementText("h1") shouldBe "You have opted your client out of Making Tax Digital for VAT"
-      }
-
-      "has the correct GA tag" in {
-        element("h1").attr("data-journey") shouldBe "agent_opt-out:confirm:opt-out"
       }
     }
 

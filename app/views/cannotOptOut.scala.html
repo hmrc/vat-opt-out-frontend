@@ -30,11 +30,11 @@
 
 <a class="link-back" href="@routes.TurnoverThresholdController.show().url">@messages("base.back")</a>
 
-<h1 data-journey="@{if(user.isAgent)"agent_"}opt-out:threshold-error:opt-out">@messages("cannotOptOut.title")</h1>
+<h1>@messages("cannotOptOut.title")</h1>
 
 <p>@messages("cannotOptOut.explanation")</p>
 
-<a class="button" role="button" type="submit" href="@linkOut" data-journey-click="@{if(user.isAgent)"agent_"}opt-out:overview:opt-out">
+<a class="button" role="button" type="submit" href="@linkOut">
   @messages(s"cannotOptOut.return${if(user.isAgent) ".agent" else ""}")
 </a>
 

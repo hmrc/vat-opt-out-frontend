@@ -25,8 +25,6 @@ import play.api.i18n.Lang
 class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mode.Test) extends AppConfig {
   override val contactHost = ""
   override val assetsPrefix = ""
-  override val analyticsToken = ""
-  override val analyticsHost = ""
   override val reportAProblemPartialUrl = ""
   override val reportAProblemNonJSUrl = ""
   override val whitelistEnabled: Boolean = false

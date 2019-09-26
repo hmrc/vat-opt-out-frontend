@@ -67,10 +67,6 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
       "has the correct href" in {
         element(".button").attr("href") shouldBe controllers.routes.ConfirmOptOutController.updateMandationStatus().url
       }
-
-      "has the correct GA tag" in {
-        element(".button").attr("data-journey-click") shouldBe "opt-out:submit:opt-out"
-      }
     }
 
     "have a back link" which {
@@ -121,10 +117,6 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
     "have the correct final paragraph" in {
       elementText("#content > article > p:nth-of-type(2)") shouldBe
         "By opting your client out of Making Tax Digital, you will not be cancelling their VAT registration."
-    }
-
-    "have the correct GA tag on the button" in {
-      element(".button").attr("data-journey-click") shouldBe "agent_opt-out:submit:opt-out"
     }
   }
 }

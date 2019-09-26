@@ -34,11 +34,10 @@
   <input type="hidden" name="clientIdentifierType" id="clientIdentifierType" value="@{EnrolmentKeys.vatIdentifierId.toLowerCase}">
   <input type="hidden" name="clientIdentifier" id="clientIdentifier" value="@vrn">
 
-  <p data-journey="agent_unauthorised:view:unauthorised-for-client">
+  <p>
     @messages("unauthorisedForClient.useThisService")
 
-    <a data-journey-click="unauthorised:click-authorise-as-agent:unauthorised-for-client"
-       onclick="document.getElementById('agentInviteForm').submit();"
+    <a onclick="document.getElementById('agentInviteForm').submit();"
        href="#"
        type="submit">@messages("unauthorisedForClient.authoriseForClient")</a>@messages("base.fullStop")
   </p>
@@ -46,13 +45,11 @@
 
 <p>
   @messages("unauthorisedForClient.enterDetails")
-  <a data-journey-click="unauthorised:try-again:unauthorised-for-client"
-     href="@appConfig.agentClientLookupHandoff">
+  <a href="@appConfig.agentClientLookupHandoff">
     @messages("unauthorisedForClient.tryAgain")</a>@messages("base.fullStop")
 </p>
 
-<a data-journey-click="unauthorised:sign-out:unauthorised-for-client"
-   class="button"
+<a class="button"
    role="button"
    href="@controllers.routes.SignOutController.signOut(authorised = true)">@messages("base.signOut")</a>
 }
