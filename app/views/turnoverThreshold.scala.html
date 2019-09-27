@@ -22,8 +22,6 @@
 
 @(turnoverThresholdForm: Form[String])(implicit request: Request[_], messages: Messages, appConfig: AppConfig, user: User[_])
 
-@headingGATag = @{{if(user.isAgent) {"agent_"} else {""}} + "opt-out:view:change-opt-out"}
-
 @pageHeading = @{
   <h1 class="heading-large">
     {messages("turnoverThreshold.title", appConfig.thresholdAmount)}
