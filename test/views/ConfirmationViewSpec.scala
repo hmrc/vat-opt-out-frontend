@@ -184,11 +184,11 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       "have a change client link which" should {
 
         "have the correct text" in {
-          elementText("#content > article > p:nth-of-type(6) > a") shouldBe "Change client"
+          elementText("#content > article > p:nth-of-type(5) > a") shouldBe "Change client"
         }
 
         "have the correct link location" in {
-          element("#content > article > p:nth-of-type(6) > a").attr("href") shouldBe appConfig.agentClientLookupHandoff
+          element("#content > article > p:nth-of-type(5) > a").attr("href") shouldBe appConfig.agentClientLookupHandoff
         }
       }
 
