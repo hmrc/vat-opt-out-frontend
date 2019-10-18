@@ -40,16 +40,20 @@
 
 <h2>@messages("confirmation.subheading")</h2>
 
+<p>@messages(s"confirmation.cancel$agentMessageAffix")</p>
+
 <p>@messages(s"confirmation.useSoftware$agentMessageAffix")</p>
 
 @if(user.isAgent) {
   <p>
-    @messages("confirmation.submitOnline.agent1")
-    <a href="@appConfig.govUkManageClientsDetails" target="_blank">@messages("confirmation.submitOnline.agent2")</a>
-    @messages("confirmation.submitOnline.agent3")
+    @messages("confirmation.submitOnline1.agent")
+    <a href="@appConfig.agentClientLookupChoicesPath">@messages("confirmation.submitOnline2.agent")</a>@messages("confirmation.submitOnline3.agent")
   </p>
 } else {
-  <p>@messages("confirmation.submitOnline")</p>
+<p>
+    @messages("confirmation.submitOnline1")
+    <a href="@appConfig.vatSummaryServicePath">@messages("confirmation.submitOnline2")</a>@messages("confirmation.submitOnline3")
+</p>
 }
 
 <p>
@@ -58,10 +62,10 @@
   @messages(s"confirmation.aboveThreshold3$agentMessageAffix",appConfig.thresholdAmount)
 </p>
 
-<p><a class="button" role="button" type="submit" href="@linkOut">@messages("confirmation.finish")</a></p>
-
 @if(user.isAgent) {
-  <p><a href="@appConfig.agentClientLookupHandoff">@messages("confirmation.changeClient")</a></p>
+<p><a href="@appConfig.agentClientLookupHandoff">@messages("confirmation.changeClient")</a></p>
 }
+
+<p><a class="button" role="button" type="submit" href="@linkOut">@messages("confirmation.finish")</a></p>
 
 }
