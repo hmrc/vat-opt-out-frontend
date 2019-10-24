@@ -18,13 +18,16 @@ package views.errors
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import views.html.errors.UnauthorisedView
 import views.ViewBaseSpec
 
 class UnauthorisedViewSpec extends ViewBaseSpec {
 
+  val injectedView: UnauthorisedView = injector.instanceOf[UnauthorisedView]
+
   "Rendering the unauthorised page" should {
 
-    lazy val view = views.html.errors.unauthorised()
+    lazy val view = injectedView()
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {

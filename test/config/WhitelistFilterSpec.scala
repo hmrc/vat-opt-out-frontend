@@ -16,15 +16,16 @@
 
 package config
 
+import javax.inject.Inject
 import play.api.{Application, Configuration}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.Results.Ok
-import play.api.mvc.{Action, Call}
+import play.api.mvc.{Call, DefaultActionBuilder}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import utils.TestUtils
 
-class WhitelistFilterSpec extends TestUtils {
+class WhitelistFilterSpec @Inject()(action: DefaultActionBuilder) extends TestUtils {
 
   override implicit lazy val app: Application =
     new GuiceApplicationBuilder()
@@ -32,8 +33,12 @@ class WhitelistFilterSpec extends TestUtils {
         "whitelist.enabled" -> true
       ))
       .routes({
-        case ("GET", "/hello-world") => Action(Ok("success"))
-        case _ => Action(Ok("failure"))
+        case ("GET", "/hello-world") => action {
+          Ok("success")
+        }
+        case _ => action {
+          Ok("failure")
+        }
       })
       .build()
 

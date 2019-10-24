@@ -16,6 +16,8 @@
 
 @import models.User
 
+@this(mainTemplate: MainTemplate)
+
 @()(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig, user: User[_])
 
 @agentMessageAffix = @{
@@ -26,7 +28,7 @@
   if(user.isAgent) appConfig.manageVatSubscriptionServicePath else appConfig.vatSummaryServicePath
 }
 
-@main_template(
+@mainTemplate(
   title = messages(s"confirmation.title$agentMessageAffix"),
   feedbackRedirect = Some(controllers.routes.ConfirmationController.show().url),
   user = Some(user)

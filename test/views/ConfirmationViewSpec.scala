@@ -18,12 +18,15 @@ package views
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import views.html.ConfirmationView
 
 class ConfirmationViewSpec extends ViewBaseSpec {
 
+  val injectedView: ConfirmationView = injector.instanceOf[ConfirmationView]
+
   "The confirmation page for a client" should {
 
-    lazy val view = views.html.confirmation()(request, messages, appConfig, clientUser)
+    lazy val view = injectedView()(request, messages, appConfig, clientUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct title" in {
@@ -110,7 +113,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
 
   "The confirmation page for an agent" should {
 
-    lazy val view = views.html.confirmation()(request, messages, appConfig, agentUser)
+    lazy val view = injectedView()(request, messages, appConfig, agentUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct title" in {

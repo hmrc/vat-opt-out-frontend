@@ -23,10 +23,11 @@ import play.api.mvc.Results.Ok
 import utils.MockAuth
 
 import scala.concurrent.Future
+import scala.concurrent.duration.{Duration, TimeUnit}
 
 class AuthoriseAsAgentPredicateSpec extends MockAuth {
 
-  def target: Action[AnyContent] = mockAuthAsAgentWithClient.async {
+  val target: Action[AnyContent] = mockAuthAsAgentWithClient.async {
     implicit user => Future.successful(Ok("Test"))
   }
 
@@ -45,7 +46,7 @@ class AuthoriseAsAgentPredicateSpec extends MockAuth {
 
       "the agent is not authenticated" should {
 
-        lazy val result = target(requestWithClientVRN)
+        lazy val result = await(target(requestWithClientVRN))
 
         "return Unauthorised (401)" in {
           mockMissingBearerToken()
@@ -53,13 +54,13 @@ class AuthoriseAsAgentPredicateSpec extends MockAuth {
         }
 
         "render the Session Timeout page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "Your session has timed out - VAT - GOV.UK"
+          messages(Jsoup.parse(bodyOf(result)).title) shouldBe "Your session has timed out - VAT - GOV.UK"
         }
       }
 
       "the agent is not authorised for the client (insufficient client enrolment)" should {
 
-        lazy val result = target(requestWithClientVRN)
+        lazy val result = await(target(requestWithClientVRN))
 
         "return Internal Server Error (500)" in {
           mockUnauthorised()
@@ -67,7 +68,7 @@ class AuthoriseAsAgentPredicateSpec extends MockAuth {
         }
 
         "render the Unauthorised For Client page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "You’re not authorised for this client - VAT - GOV.UK"
+          messages(Jsoup.parse(bodyOf(result)).title) shouldBe "You’re not authorised for this client - VAT - GOV.UK"
         }
       }
 
@@ -81,7 +82,7 @@ class AuthoriseAsAgentPredicateSpec extends MockAuth {
         }
 
         "render the Internal Server Error page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "There is a problem with the service - VAT - GOV.UK"
+          messages(Jsoup.parse(bodyOf(result)).title) shouldBe "There is a problem with the service - VAT - GOV.UK"
         }
       }
     }

@@ -29,7 +29,7 @@ import scala.concurrent.Future
 
 class SignOutControllerSpec extends MockAuth {
 
-  val controller = new SignOutController(mockEnrolmentsAuthService)
+  val controller = new SignOutController(mockEnrolmentsAuthService)(mcc, appConfig)
 
   def mockAuth(authResult: Future[Option[AffinityGroup]]): Any =
     when(mockAuthConnector.authorise(any(), any[Retrieval[Option[AffinityGroup]]]())(any(), any()))

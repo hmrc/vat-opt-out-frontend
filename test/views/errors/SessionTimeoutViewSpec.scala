@@ -19,12 +19,15 @@ package views.errors
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import views.ViewBaseSpec
+import views.html.errors.SessionTimeoutView
 
 class SessionTimeoutViewSpec extends ViewBaseSpec {
 
+  val injectedView: SessionTimeoutView = injector.instanceOf[SessionTimeoutView]
+
   "Rendering the session timeout page" should {
 
-    lazy val view = views.html.errors.sessionTimeout()(agentUser, messages, appConfig)
+    lazy val view = injectedView()(agentUser, messages, appConfig)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {

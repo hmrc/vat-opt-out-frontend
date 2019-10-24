@@ -18,8 +18,11 @@ package views
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import views.html.GovukWrapper
 
 class GovUkWrapperSpec extends ViewBaseSpec {
+
+  val injectedView: GovukWrapper = injector.instanceOf[GovukWrapper]
 
   val navTitleSelector = ".header__menu__proposition-name"
   val accessibilityLinkSelector = "#footer > div > div > div.footer-meta-inner > ul > li:nth-child(2) > a"
@@ -28,7 +31,7 @@ class GovUkWrapperSpec extends ViewBaseSpec {
 
     "the user is an individual or organisation" should {
 
-      lazy val view = views.html.govuk_wrapper(appConfig, "", afterFeedbackRedirect = "", user = Some(clientUser))
+      lazy val view = injectedView(appConfig, "", afterFeedbackRedirect = "", user = Some(clientUser))
       lazy implicit val document: Document = Jsoup.parse(view.body)
 
       "have the client nav title" in {
@@ -42,7 +45,7 @@ class GovUkWrapperSpec extends ViewBaseSpec {
 
       "the user is an agent" should {
 
-        lazy val view = views.html.govuk_wrapper(appConfig, "", afterFeedbackRedirect = "", user = Some(agentUser))
+        lazy val view = injectedView(appConfig, "", afterFeedbackRedirect = "", user = Some(agentUser))
         lazy implicit val document: Document = Jsoup.parse(view.body)
 
         "have the agent nav title" in {
@@ -56,7 +59,7 @@ class GovUkWrapperSpec extends ViewBaseSpec {
 
         "the user is not known" should {
 
-          lazy val view = views.html.govuk_wrapper(appConfig, "", afterFeedbackRedirect = "", user = None)
+          lazy val view = injectedView(appConfig, "", afterFeedbackRedirect = "", user = None)
           lazy implicit val document: Document = Jsoup.parse(view.body)
 
           "have no nav title" in {

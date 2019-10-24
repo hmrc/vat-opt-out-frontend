@@ -54,7 +54,7 @@ class AuthPredicateSpec extends MockAuth {
           }
 
           "render the Session Timeout page" in {
-            Jsoup.parse(bodyOf(result)).title shouldBe "Your session has timed out - VAT - GOV.UK"
+            messages(Jsoup.parse(bodyOf(result)).title) shouldBe "Your session has timed out - VAT - GOV.UK"
           }
         }
 
@@ -68,7 +68,7 @@ class AuthPredicateSpec extends MockAuth {
           }
 
           "render the Standard Error page" in {
-            Jsoup.parse(bodyOf(result)).title shouldBe "There is a problem with the service - VAT - GOV.UK"
+            messages(Jsoup.parse(bodyOf(result)).title) shouldBe "There is a problem with the service - VAT - GOV.UK"
           }
         }
       }
@@ -83,7 +83,7 @@ class AuthPredicateSpec extends MockAuth {
         }
 
         "render the Standard Error page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "You can’t use this service yet - VAT - GOV.UK"
+          messages(Jsoup.parse(bodyOf(result)).title) shouldBe "You can’t use this service yet - VAT - GOV.UK"
         }
       }
     }
@@ -108,7 +108,7 @@ class AuthPredicateSpec extends MockAuth {
         }
 
         "render the Unauthorised page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "You are not authorised to use this service - VAT - GOV.UK"
+          messages(Jsoup.parse(bodyOf(result)).title) shouldBe "You are not authorised to use this service - VAT - GOV.UK"
         }
       }
 
@@ -122,7 +122,7 @@ class AuthPredicateSpec extends MockAuth {
         }
 
         "render the Standard Error page" in {
-          Jsoup.parse(bodyOf(result)).title shouldBe "There is a problem with the service - VAT - GOV.UK"
+          messages(Jsoup.parse(bodyOf(result)).title) shouldBe "There is a problem with the service - VAT - GOV.UK"
         }
       }
     }

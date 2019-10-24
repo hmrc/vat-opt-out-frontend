@@ -19,7 +19,6 @@ package mocks
 import play.api.mvc.Call
 import config.AppConfig
 import play.api.{Configuration, Mode}
-import play.api.Mode.Mode
 import play.api.i18n.Lang
 
 class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mode.Test) extends AppConfig {

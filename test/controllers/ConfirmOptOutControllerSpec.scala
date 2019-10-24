@@ -27,10 +27,13 @@ import play.api.http.Status
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import utils.MockAuth
+import views.html.ConfirmOptOutView
 
 import scala.concurrent.Future
 
 class ConfirmOptOutControllerSpec extends MockAuth {
+
+  implicit val confirmOptOutView: ConfirmOptOutView = injector.instanceOf[ConfirmOptOutView]
 
   def vatSubscriptionUpdateSetUp(result: UpdateVatSubscriptionResponse): OngoingStubbing[Future[UpdateVatSubscriptionResponse]] = {
     reset(mockVatSubscriptionService)

@@ -18,8 +18,7 @@ package controllers
 
 import config.AppConfig
 import javax.inject.{Inject, Singleton}
-import play.api.i18n.MessagesApi
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.EnrolmentsAuthService
 import uk.gov.hmrc.auth.core.{AffinityGroup, AuthorisationException}
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
@@ -30,9 +29,10 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class SignOutController @Inject()(enrolmentsAuthService: EnrolmentsAuthService)
-                                 (implicit val messagesApi: MessagesApi,
-                                  val appConfig: AppConfig,
-                                  ec: ExecutionContext) extends ControllerBase {
+                                 (override val mcc: MessagesControllerComponents,
+                                  val appConfig: AppConfig
+                                 ) extends ControllerBase(mcc) {
+  implicit val ec: ExecutionContext = mcc.executionContext
 
   def signOut(authorised: Boolean): Action[AnyContent] = Action.async { implicit request =>
     implicit val hc: HeaderCarrier =

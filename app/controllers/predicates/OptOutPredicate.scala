@@ -25,7 +25,7 @@ import models.{NonMTDfB, User}
 import play.api.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Results.Redirect
-import play.api.mvc.{ActionRefiner, Result}
+import play.api.mvc.{ActionRefiner, MessagesControllerComponents, Result}
 import services.VatSubscriptionService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.HeaderCarrierConverter
@@ -36,9 +36,10 @@ import scala.concurrent.{ExecutionContext, Future}
 class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
                                 val errorHandler: ErrorHandler,
                                 val messagesApi: MessagesApi,
+                                val mcc: MessagesControllerComponents,
                                 auditService: AuditService,
                                 implicit val appConfig: AppConfig,
-                                implicit val ec: ExecutionContext)
+                                override implicit val executionContext: ExecutionContext)
   extends ActionRefiner[User, User] with I18nSupport {
 
   override def refine[A](request: User[A]): Future[Either[Result, User[A]]] = {

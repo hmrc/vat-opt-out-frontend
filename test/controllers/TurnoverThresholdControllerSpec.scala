@@ -20,11 +20,12 @@ import common.SessionKeys
 import play.api.http.Status
 import play.api.test.Helpers._
 import utils.MockAuth
-import common.Constants.{optionYes, optionNo}
+import common.Constants.{optionNo, optionYes}
+import views.html.TurnoverThresholdView
 
 class TurnoverThresholdControllerSpec extends MockAuth {
 
-
+  implicit val turnoverThresholdView: TurnoverThresholdView = injector.instanceOf[TurnoverThresholdView]
   val controller = new TurnoverThresholdController(mockAuthPredicate, mockOptOutPredicate)
 
   ".show() with no turnover value in session" should {

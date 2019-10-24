@@ -19,13 +19,15 @@
 @import uk.gov.hmrc.play.binders.ContinueUrl
 @import uk.gov.hmrc.play.views.html.helpers._
 
+@this(mainTemplate: MainTemplate)
+
 @(vrn: String)(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig)
 
 @postToInvitations = @{
   s"${appConfig.agentInvitationsFastTrack}?continue=${ContinueUrl(appConfig.vatOptOutServicePath).encodedUrl}"
 }
 
-@views.html.main_template(title = messages("unauthorisedForClient.title")) {
+@mainTemplate(title = messages("unauthorisedForClient.title")) {
 
 <h1>@messages("unauthorisedForClient.title")</h1>
 

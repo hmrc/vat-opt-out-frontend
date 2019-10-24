@@ -23,23 +23,24 @@ import config.ErrorHandler
 import mocks.MockAppConfig
 import models.{MTDfBMandated, User}
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.i18n.{Lang, Messages, MessagesApi}
+import play.api.i18n.{Lang, Messages, MessagesApi, MessagesImpl}
 import play.api.inject.Injector
-import play.api.mvc.AnyContentAsEmpty
+import play.api.mvc.{AnyContentAsEmpty, MessagesControllerComponents}
 import play.api.test.FakeRequest
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.test.UnitSpec
-
+import views.html.errors.ErrorTemplate
+import uk.gov.hmrc.play.bootstrap.tools.Stubs.stubMessagesControllerComponents
 import scala.concurrent.ExecutionContext
 
 trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
 
   lazy val injector: Injector = app.injector
-
+  implicit lazy val mcc: MessagesControllerComponents = stubMessagesControllerComponents()
   implicit lazy val messagesApi: MessagesApi = injector.instanceOf[MessagesApi]
-  implicit lazy val messages: Messages = Messages(Lang("en-GB"), messagesApi)
+  implicit lazy val messages: Messages = MessagesImpl(Lang("en-GB"), messagesApi)
   implicit val hc: HeaderCarrier = HeaderCarrier()
-  implicit val ec: ExecutionContext = injector.instanceOf[ExecutionContext]
+  implicit val ec: ExecutionContext = mcc.executionContext
   implicit val appConfig: MockAppConfig = new MockAppConfig(app.configuration)
   implicit val system: ActorSystem = ActorSystem("Sys")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
@@ -60,5 +61,5 @@ trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
 
   lazy val agentUserWithClient: User[AnyContentAsEmpty.type] = User("999999999", arn = Some("XARN1234567"))(requestWithClientVRN)
 
-  lazy val mockErrorHandler: ErrorHandler = new ErrorHandler(messagesApi, appConfig)
+  lazy val mockErrorHandler: ErrorHandler = new ErrorHandler(messagesApi, appConfig, injector.instanceOf[ErrorTemplate])
 }
