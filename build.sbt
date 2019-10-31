@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-import uk.gov.hmrc.DefaultBuildSettings.{integrationTestSettings,addTestReportOption}
-import uk.gov.hmrc.SbtArtifactory
-import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin.publishingSettings
 import play.core.PlayVersion.current
 import sbt.Tests.{Group, SubProcess}
+import uk.gov.hmrc.DefaultBuildSettings.{addTestReportOption, integrationTestSettings}
+import uk.gov.hmrc.SbtArtifactory
+import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin.publishingSettings
 
 val appName = "vat-opt-out-frontend"
 
 val compile = Seq(
   "uk.gov.hmrc"             %% "govuk-template"           % "5.43.0-play-26",
   "uk.gov.hmrc"             %% "play-ui"                  % "8.3.0-play-26",
-  "uk.gov.hmrc"             %% "play-whitelist-filter"    % "2.0.0",
   "uk.gov.hmrc"             %% "auth-client"              % "2.31.0-play-26",
   "uk.gov.hmrc"             %% "bootstrap-play-26"        % "1.1.0",
   "uk.gov.hmrc"             %% "play-language"            % "4.2.0-play-26",

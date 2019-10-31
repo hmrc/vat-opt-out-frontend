@@ -16,8 +16,6 @@
 
 package config
 
-import java.util.Base64
-
 import config.{ConfigKeys => Keys}
 import javax.inject.{Inject, Singleton}
 import play.api.Configuration
@@ -31,10 +29,6 @@ trait AppConfig {
   val assetsPrefix: String
   val reportAProblemPartialUrl: String
   val reportAProblemNonJSUrl: String
-  val whitelistEnabled: Boolean
-  val whitelistedIps: Seq[String]
-  val whitelistExcludedPaths: Seq[Call]
-  val shutterPage: String
   val vatOptOutServicePath: String
   val agentClientLookupHandoff: String
   val agentClientLookupChoicesPath: String
@@ -80,15 +74,6 @@ class FrontendAppConfig @Inject()(configuration: Configuration, sc: ServicesConf
 
   override def signOutUrl(identifier: String): String = s"$governmentGatewayHost/gg/sign-out?continue=${exitSurveyUrl(identifier)}"
   override lazy val unauthorisedSignOutUrl: String = s"$governmentGatewayHost/gg/sign-out?continue=$signInContinueUrl"
-
-  private def whitelistConfig(key: String): Seq[String] = Some(new String(Base64.getDecoder
-    .decode(sc.getString(key)), "UTF-8"))
-    .map(_.split(",")).getOrElse(Array.empty).toSeq
-
-  override lazy val whitelistEnabled: Boolean = sc.getBoolean(Keys.whitelistEnabled)
-  override lazy val whitelistedIps: Seq[String] = whitelistConfig(Keys.whitelistedIps)
-  override lazy val whitelistExcludedPaths: Seq[Call] = whitelistConfig(Keys.whitelistExcludedPaths).map(path => Call("GET", path))
-  override lazy val shutterPage: String = sc.getString(Keys.whitelistShutterPage)
 
   private lazy val vatOptOutServiceUrl: String = sc.getString(Keys.vatOptOutServiceUrl)
   override lazy val vatOptOutServicePath: String =

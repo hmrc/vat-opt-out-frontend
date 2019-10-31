@@ -18,10 +18,6 @@ package config
 
 object  ConfigKeys {
 
-  val whitelistEnabled: String = "whitelist.enabled"
-  val whitelistedIps: String = "whitelist.allowedIps"
-  val whitelistExcludedPaths: String = "whitelist.excludedPaths"
-  val whitelistShutterPage: String = "whitelist.shutter-page-url"
   val vatOptOutServiceUrl: String = "vat-opt-out-frontend.url"
   val vatOptOutServicePath: String = "vat-opt-out-frontend.path"
   val agentClientLookupUrl: String = "vat-agent-client-lookup-frontend.url"
