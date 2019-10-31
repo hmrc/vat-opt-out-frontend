@@ -18,20 +18,20 @@ package controllers
 
 import config.AppConfig
 import javax.inject.Inject
-import play.api.i18n.{Lang, MessagesApi}
-import play.api.mvc.{Action, AnyContent, Call}
-import uk.gov.hmrc.play.language.LanguageUtils
+import play.api.i18n.Lang
+import play.api.mvc.{Action, AnyContent, Call, Flash, MessagesControllerComponents}
 
 class LanguageController @Inject()(implicit val appConfig: AppConfig,
-                                   val messagesApi: MessagesApi) extends ControllerBase {
+                                   override val mcc: MessagesControllerComponents
+                                  ) extends ControllerBase {
 
   def langToCall: String => Call = appConfig.routeToSwitchLanguage
 
   def languageMap: Map[String, Lang] = appConfig.languageMap
 
   def switchToLanguage(language: String): Action[AnyContent] = Action { implicit request =>
-    val lang = languageMap.getOrElse(language, LanguageUtils.getCurrentLang)
+    val lang = languageMap.getOrElse(language, Lang("en"))
     val redirectURL = request.headers.get(REFERER).getOrElse(controllers.routes.TurnoverThresholdController.show().url)
-    Redirect(redirectURL).withLang(Lang.apply(lang.code)).flashing(LanguageUtils.FlashWithSwitchIndicator)
+    Redirect(redirectURL).withLang(Lang.apply(lang.code)).flashing(Flash(Map("switching-language" -> "true")))
   }
 }

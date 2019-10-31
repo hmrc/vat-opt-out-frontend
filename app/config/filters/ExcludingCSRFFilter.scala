@@ -20,6 +20,7 @@ import akka.util.ByteString
 import javax.inject.Inject
 import play.api.libs.streams.Accumulator
 import play.api.mvc._
+import play.api.routing.Router
 import play.filters.csrf._
 
 /*
@@ -35,7 +36,7 @@ class ExcludingCSRFFilter @Inject()(filter: CSRFFilter) extends EssentialFilter 
 
     override def apply(rh: RequestHeader): Accumulator[ByteString, Result] = {
       val chainedFilter = filter.apply(nextFilter)
-      if (rh.tags.getOrElse("ROUTE_COMMENTS", "").contains("NOCSRF")) {
+      if (rh.attrs(Router.Attrs.HandlerDef).path.contains("NOCSRF")) {
         nextFilter(rh)
       } else {
         chainedFilter(rh)

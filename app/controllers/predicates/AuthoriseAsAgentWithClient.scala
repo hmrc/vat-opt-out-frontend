@@ -17,7 +17,6 @@
 package controllers.predicates
 
 import javax.inject.{Inject, Singleton}
-
 import common.{EnrolmentKeys, SessionKeys}
 import config.{AppConfig, ErrorHandler}
 import models.{Agent, User}
@@ -27,16 +26,21 @@ import play.api.mvc._
 import services.EnrolmentsAuthService
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.retrieve._
+import views.html.errors.{SessionTimeoutView, UnauthorisedForClientView}
 
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class AuthoriseAsAgentWithClient @Inject()(enrolmentsAuthService: EnrolmentsAuthService,
                                            val errorHandler: ErrorHandler,
-                                           implicit val messagesApi: MessagesApi,
+                                           sessionTimeoutView: SessionTimeoutView,
+                                           unauthorisedForClient: UnauthorisedForClientView,
                                            implicit val appConfig: AppConfig,
-                                           implicit val ec: ExecutionContext)
-  extends AuthBasePredicate with ActionBuilder[User] with ActionFunction[Request, User] {
+                                           override implicit val mcc: MessagesControllerComponents)
+  extends AuthBasePredicate with ActionBuilder[User, AnyContent] with ActionFunction[Request, User] {
+
+  override implicit val executionContext: ExecutionContext = mcc.executionContext
+  override val parser: BodyParser[AnyContent] = mcc.parsers.defaultBodyParser
 
   private def delegatedAuthRule(vrn: String): Enrolment =
     Enrolment(EnrolmentKeys.vatEnrolmentId)
@@ -61,12 +65,12 @@ class AuthoriseAsAgentWithClient @Inject()(enrolmentsAuthService: EnrolmentsAuth
             case _: NoActiveSession =>
               Logger.debug(s"[AuthoriseAsAgentWithClient][invokeBlock] - Agent does not have an active session, " +
                 s"rendering Session Timeout")
-              Unauthorized(views.html.errors.sessionTimeout())
+              Unauthorized(sessionTimeoutView())
 
             case _: AuthorisationException =>
               Logger.warn(s"[AuthoriseAsAgentWithClient][invokeBlock] - Agent does not have " +
                 s"delegated authority for Client")
-              Forbidden(views.html.errors.unauthorisedForClient(vrn))
+              Forbidden(unauthorisedForClient(vrn))
 
           }
         case _ =>

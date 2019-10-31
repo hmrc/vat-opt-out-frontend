@@ -22,29 +22,33 @@ import config.AppConfig
 import controllers.predicates.{AuthPredicate, OptOutPredicate}
 import forms.TurnoverThresholdForm._
 import javax.inject.{Inject, Singleton}
-import play.api.i18n.MessagesApi
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import views.html.TurnoverThresholdView
 
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class TurnoverThresholdController @Inject()(authenticate: AuthPredicate, val optOutPredicate: OptOutPredicate)
+class TurnoverThresholdController @Inject()(authenticate: AuthPredicate,
+                                            val optOutPredicate: OptOutPredicate,
+                                            turnoverThresholdView: TurnoverThresholdView)
                                            (implicit val appConfig: AppConfig,
-                                            val messagesApi: MessagesApi, val ec: ExecutionContext) extends ControllerBase {
+                                            override val mcc: MessagesControllerComponents
+                                           ) extends ControllerBase {
+  implicit val ec: ExecutionContext = mcc.executionContext
 
   val show: Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>
     user.session.get(turnoverThreshold) match {
       case Some(turnoverOption) =>
-        Future.successful(Ok(views.html.turnoverThreshold(turnoverThresholdForm(appConfig.thresholdAmount).fill(turnoverOption))))
+        Future.successful(Ok(turnoverThresholdView(turnoverThresholdForm(appConfig.thresholdAmount).fill(turnoverOption))))
       case _ =>
-        Future.successful(Ok(views.html.turnoverThreshold(turnoverThresholdForm(appConfig.thresholdAmount))))
+        Future.successful(Ok(turnoverThresholdView(turnoverThresholdForm(appConfig.thresholdAmount))))
     }
   }
 
   def submit: Action[AnyContent] = (authenticate andThen optOutPredicate) { implicit user =>
     turnoverThresholdForm(appConfig.thresholdAmount).bindFromRequest().fold(
       error => {
-              BadRequest(views.html.turnoverThreshold(error))
+              BadRequest(turnoverThresholdView(error))
       },
       {
         case formData@Constants.optionYes => Redirect(controllers.routes.CannotOptOutController.show())

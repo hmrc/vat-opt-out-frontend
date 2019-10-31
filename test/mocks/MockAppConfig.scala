@@ -16,21 +16,16 @@
 
 package mocks
 
-import play.api.mvc.Call
 import config.AppConfig
-import play.api.{Configuration, Mode}
-import play.api.Mode.Mode
 import play.api.i18n.Lang
+import play.api.mvc.Call
+import play.api.{Configuration, Mode}
 
 class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mode.Test) extends AppConfig {
   override val contactHost = ""
   override val assetsPrefix = ""
   override val reportAProblemPartialUrl = ""
   override val reportAProblemNonJSUrl = ""
-  override val whitelistEnabled: Boolean = false
-  override val whitelistedIps: Seq[String] = Seq("")
-  override val whitelistExcludedPaths: Seq[Call] = Nil
-  override val shutterPage: String = "https://www.tax.service.gov.uk/shutter/vat-through-software"
   override val vatOptOutServicePath = "/opt-out"
   override val signInUrl = "/sign-in-url"
   override def signOutUrl(identifier: String): String = s"/sign-out/$identifier"

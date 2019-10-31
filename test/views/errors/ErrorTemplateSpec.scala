@@ -19,16 +19,18 @@ package views.errors
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import views.ViewBaseSpec
+import views.html.errors.ErrorTemplate
 
 class ErrorTemplateSpec extends ViewBaseSpec{
 
-val title = "Error Template Title"
-val heading = "Error Template Heading"
-val content = "Error Template Content"
+  val injectedView: ErrorTemplate = injector.instanceOf[ErrorTemplate]
+  val title = "Error Template Title"
+  val heading = "Error Template Heading"
+  val content = "Error Template Content"
 
   "Rendering the error template page" should {
 
-    lazy val view = views.html.errors.error_template(title,heading,content)
+    lazy val view = injectedView(title,heading,content)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {

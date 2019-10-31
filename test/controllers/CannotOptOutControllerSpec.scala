@@ -19,10 +19,13 @@ package controllers
 import play.api.http.Status
 import play.api.test.Helpers._
 import utils.MockAuth
+import views.html.CannotOptOutView
 
 class CannotOptOutControllerSpec extends MockAuth {
 
-  val controller = new CannotOptOutController(mockAuthPredicate, mockOptOutPredicate)
+  implicit val cannotOptOutView: CannotOptOutView = injector.instanceOf[CannotOptOutView]
+
+  val controller = new CannotOptOutController(mockAuthPredicate, mockOptOutPredicate, cannotOptOutView)
 
   ".show() for an individual fulfilling predicate sessions checks" should {
 

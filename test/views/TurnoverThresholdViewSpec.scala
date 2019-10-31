@@ -22,8 +22,11 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import play.api.data.Form
 import play.twirl.api.Html
+import views.html.TurnoverThresholdView
 
 class TurnoverThresholdViewSpec extends ViewBaseSpec {
+
+  val injectedView: TurnoverThresholdView = injector.instanceOf[TurnoverThresholdView]
 
   object Selectors {
     val pageHeading = "#content h1"
@@ -47,7 +50,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
     "the form has no errors" should {
 
-      lazy val view: Html = views.html.turnoverThreshold(emptyForm)(request, messages, appConfig, clientUser)
+      lazy val view: Html = injectedView(emptyForm)(request, messages, appConfig, clientUser)
       lazy implicit val document: Document = Jsoup.parse(view.body)
 
       "have the correct document title" in {
@@ -102,7 +105,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
     "the form has errors" should {
 
-      lazy val view = views.html.turnoverThreshold(
+      lazy val view = injectedView(
         turnoverThresholdForm(appConfig.thresholdAmount).bind(Map[String,String]())
       )(request, messages, appConfig, clientUser)
       lazy implicit val document: Document = Jsoup.parse(view.body)
@@ -127,7 +130,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
   "Rendering the turnover threshold page for a client with a populated yes option" should {
 
-    lazy val view = views.html.turnoverThreshold(
+    lazy val view = injectedView(
       turnoverThresholdForm(appConfig.thresholdAmount).bind(Map("threshold" -> optionYes))
     )(request, messages, appConfig, clientUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
@@ -142,7 +145,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
   "Rendering the turnover threshold page for a client with aa populated no value" should {
 
-    lazy val view = views.html.turnoverThreshold(
+    lazy val view = injectedView(
       turnoverThresholdForm(appConfig.thresholdAmount).bind(Map("threshold" -> optionNo))
     )(request, messages, appConfig, clientUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
@@ -157,7 +160,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
   "Rendering the turnover threshold page for an agent" should {
 
-    lazy val view: Html = views.html.turnoverThreshold(emptyForm)(request, messages, appConfig, agentUser)
+    lazy val view: Html = injectedView(emptyForm)(request, messages, appConfig, agentUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {

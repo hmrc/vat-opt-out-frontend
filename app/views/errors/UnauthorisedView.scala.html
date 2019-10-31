@@ -14,21 +14,14 @@
  * limitations under the License.
  *@
 
+@this(mainTemplate: MainTemplate)
+
 @()(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig)
 
-@views.html.main_template(title = messages("unauthorisedAgent.title"), feedbackOnSignOut = false) {
+@mainTemplate(title = messages("unauthorised.title"), feedbackOnSignOut = false) {
 
-<h1>@messages("unauthorisedAgent.title")</h1>
-
-<p>
-  @messages("unauthorisedAgent.useThisService")
-  <a href="@appConfig.agentServicesGovUkGuidance">
-    @messages("unauthorisedAgent.setUpAccount")</a>@messages("base.fullStop")
-</p>
-
-<a class="button"
-   role="button"
-   href="@controllers.routes.SignOutController.signOut(authorised = false)">
-  @messages("base.signOut")
-</a>
+<h1>@messages("unauthorised.title")</h1>
+<p>@messages("unauthorised.signUpWithSoftware")</p>
+<p>@messages("unauthorised.alreadySignedUp")</p>
+<p><a class="button" role="button" href="@routes.SignOutController.signOut(authorised = false)">@messages("base.signOut")</a></p>
 }

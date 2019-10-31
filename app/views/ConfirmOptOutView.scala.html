@@ -16,13 +16,16 @@
 
 @import models.User
 
+@this(mainTemplate: MainTemplate)
+
 @()(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig, user: User[_])
 
 @agentMessageAffix = @{
   if(user.isAgent) ".agent" else ""
 }
 
-@main_template(
+
+@mainTemplate(
   title = messages(s"confirmOptOut.title$agentMessageAffix"),
   feedbackRedirect = Some(routes.ConfirmOptOutController.show().url),
   user = Some(user)

@@ -21,26 +21,27 @@ import audit.models.UpdateVatSubscriptionAuditModel
 import config.{AppConfig, ErrorHandler}
 import controllers.predicates.{AuthPredicate, OptOutPredicate}
 import javax.inject.Inject
-import play.api.i18n.MessagesApi
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import models.{ErrorModel, NonMTDfB}
 import services.VatSubscriptionService
 import common.SessionKeys._
 import play.api.Logger
-
+import views.html.ConfirmOptOutView
 import scala.concurrent.{ExecutionContext, Future}
 
 class ConfirmOptOutController @Inject()(authenticate: AuthPredicate,
                                         optOutPredicate: OptOutPredicate,
                                         errorHandler: ErrorHandler,
                                         vatSubscriptionService: VatSubscriptionService,
-                                        auditService: AuditService)
+                                        auditService: AuditService,
+                                        confirmOptOutView: ConfirmOptOutView)
                                         (implicit val appConfig: AppConfig,
-                                        val messagesApi: MessagesApi,
-                                        val ec: ExecutionContext) extends ControllerBase {
+                                         override val mcc: MessagesControllerComponents
+                                        ) extends ControllerBase {
+  implicit val ec: ExecutionContext = mcc.executionContext
 
   def show(): Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>
-    Future.successful(Ok(views.html.confirmOptOut()))
+    Future.successful(Ok(confirmOptOutView()))
   }
 
   def updateMandationStatus(): Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>

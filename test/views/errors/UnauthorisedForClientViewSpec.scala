@@ -21,12 +21,15 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import uk.gov.hmrc.play.binders.ContinueUrl
 import views.ViewBaseSpec
+import views.html.errors.UnauthorisedForClientView
 
 class UnauthorisedForClientViewSpec extends ViewBaseSpec {
 
+  val injectedView: UnauthorisedForClientView = injector.instanceOf[UnauthorisedForClientView]
+
   "The unauthorised for client page" should {
 
-    lazy val view = views.html.errors.unauthorisedForClient("123456789")
+    lazy val view = injectedView("123456789")
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {

@@ -16,6 +16,10 @@
 
 @import config.AppConfig
 @import models.User
+@import uk.gov.hmrc.play.views.html.layouts.Sidebar
+@import uk.gov.hmrc.play.views.html.layouts.Article
+
+@this(GovukWrapper: GovukWrapper, article: Article, sidebar: Sidebar)
 
 @(title: String,
   sidebarLinks: Option[Html] = None,
@@ -29,25 +33,24 @@
   user: Option[User[_]] = None
 )(mainContent: Html)(implicit request : Request[_], messages: Messages, appConfig: AppConfig)
 
-@import uk.gov.hmrc.play.views.html.layouts
 
 
 @serviceInfoContent = {}
 
-@sidebar = {
+@sidebarContent = {
     @if(sidebarLinks.isDefined) {
-        @layouts.sidebar(sidebarLinks.get, Some("sidebar"))
+        @sidebar(sidebarLinks.get, Some("sidebar"))
     }
 }
 
 
-@govuk_wrapper(appConfig = appConfig,
+@GovukWrapper(appConfig = appConfig,
                title = title,
                mainClass = mainClass,
                bodyClasses = bodyClasses,
-               sidebar = sidebar,
+               sidebar = sidebarContent,
                contentHeader = contentHeader,
-               mainContent = layouts.article(mainContent),
+               mainBody = article(mainContent),
                serviceInfoContent = serviceInfoContent,
                scriptElem = scriptElem,
                afterFeedbackRedirect = feedbackRedirect.getOrElse(appConfig.manageVatSubscriptionServicePath),
