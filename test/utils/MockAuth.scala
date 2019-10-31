@@ -35,43 +35,38 @@ trait MockAuth extends TestUtils with MockitoSugar {
   val mockAuditService: AuditService = mock[AuditService]
   val mockVatSubscriptionService: VatSubscriptionService = mock[VatSubscriptionService]
 
-  val sessionTimeout: SessionTimeoutView = injector.instanceOf[SessionTimeoutView]
-  val unauthorisedAgent: UnauthorisedAgentView = injector.instanceOf[UnauthorisedAgentView]
-  val unauthorisedForClient: UnauthorisedForClientView = injector.instanceOf[UnauthorisedForClientView]
-  val unauthorised: UnauthorisedView = injector.instanceOf[UnauthorisedView]
+  val sessionTimeoutView: SessionTimeoutView = injector.instanceOf[SessionTimeoutView]
+  val unauthorisedAgentView: UnauthorisedAgentView = injector.instanceOf[UnauthorisedAgentView]
+  val unauthorisedForClientView: UnauthorisedForClientView = injector.instanceOf[UnauthorisedForClientView]
+  val unauthorisedView: UnauthorisedView = injector.instanceOf[UnauthorisedView]
 
   val mockAuthAsAgentWithClient = new AuthoriseAsAgentWithClient(
     mockEnrolmentsAuthService,
     mockErrorHandler,
-    sessionTimeout,
-    unauthorisedForClient,
-    mcc,
-    messagesApi,
+    sessionTimeoutView,
+    unauthorisedForClientView,
     appConfig,
-    ec
+    mcc
   )
 
   val mockAuthPredicate = new AuthPredicate(
     mockEnrolmentsAuthService,
-    mcc,
-    messagesApi,
     mockErrorHandler,
-    sessionTimeout,
-    unauthorisedAgent,
-    unauthorised,
+    sessionTimeoutView,
+    unauthorisedAgentView,
+    unauthorisedView,
     mockAuthAsAgentWithClient,
     appConfig,
-    ec
+    mcc
   )
 
   val mockOptOutPredicate = new OptOutPredicate(
     mockVatSubscriptionService,
     mockErrorHandler,
     messagesApi,
-    mcc,
     mockAuditService,
     appConfig,
-    ec
+    mcc
   )
 
   def setupAuthResponse(authResult: Future[~[Option[AffinityGroup], Enrolments]]): OngoingStubbing[Future[~[Option[AffinityGroup], Enrolments]]] = {

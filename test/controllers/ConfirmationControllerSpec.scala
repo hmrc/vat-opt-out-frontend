@@ -29,7 +29,7 @@ class ConfirmationControllerSpec extends MockAuth {
   implicit val confirmationView: ConfirmationView = injector.instanceOf[ConfirmationView]
 
   def controller: ConfirmationController = new ConfirmationController(
-    mockAuthPredicate, mockErrorHandler
+    mockAuthPredicate, mockErrorHandler, confirmationView
   )
 
   ".show()" when {

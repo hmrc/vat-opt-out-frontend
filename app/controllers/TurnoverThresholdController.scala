@@ -28,11 +28,12 @@ import views.html.TurnoverThresholdView
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class TurnoverThresholdController @Inject()(authenticate: AuthPredicate, val optOutPredicate: OptOutPredicate)
+class TurnoverThresholdController @Inject()(authenticate: AuthPredicate,
+                                            val optOutPredicate: OptOutPredicate,
+                                            turnoverThresholdView: TurnoverThresholdView)
                                            (implicit val appConfig: AppConfig,
-                                            override val mcc: MessagesControllerComponents,
-                                            turnoverThresholdView: TurnoverThresholdView
-                                           ) extends ControllerBase(mcc) {
+                                            override val mcc: MessagesControllerComponents
+                                           ) extends ControllerBase {
   implicit val ec: ExecutionContext = mcc.executionContext
 
   val show: Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>

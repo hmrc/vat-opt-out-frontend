@@ -43,7 +43,7 @@ class ConfirmOptOutControllerSpec extends MockAuth {
   }
 
   val controller = new ConfirmOptOutController(
-    mockAuthPredicate, mockOptOutPredicate, mockErrorHandler, mockVatSubscriptionService, mockAuditService
+    mockAuthPredicate, mockOptOutPredicate, mockErrorHandler, mockVatSubscriptionService, mockAuditService, confirmOptOutView
   )
 
   ".show() for an individual fulfilling predicate sessions checks" should {

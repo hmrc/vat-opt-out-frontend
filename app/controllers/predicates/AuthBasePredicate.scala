@@ -21,7 +21,7 @@ import controllers.ControllerBase
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AffinityGroup
 
-abstract class AuthBasePredicate(override val mcc: MessagesControllerComponents) extends ControllerBase(mcc) {
+abstract class AuthBasePredicate(override implicit val mcc: MessagesControllerComponents) extends ControllerBase {
 
   def isAgent(group: AffinityGroup): Boolean = group.toString.contains(EnrolmentKeys.agentAffinityGroup)
 

@@ -29,9 +29,9 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class SignOutController @Inject()(enrolmentsAuthService: EnrolmentsAuthService)
-                                 (override val mcc: MessagesControllerComponents,
-                                  val appConfig: AppConfig
-                                 ) extends ControllerBase(mcc) {
+                                 (implicit val appConfig: AppConfig,
+                                  override val mcc: MessagesControllerComponents
+                                 ) extends ControllerBase {
   implicit val ec: ExecutionContext = mcc.executionContext
 
   def signOut(authorised: Boolean): Action[AnyContent] = Action.async { implicit request =>

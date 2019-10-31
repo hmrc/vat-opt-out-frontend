@@ -33,11 +33,11 @@ class ConfirmOptOutController @Inject()(authenticate: AuthPredicate,
                                         optOutPredicate: OptOutPredicate,
                                         errorHandler: ErrorHandler,
                                         vatSubscriptionService: VatSubscriptionService,
-                                        auditService: AuditService)
+                                        auditService: AuditService,
+                                        confirmOptOutView: ConfirmOptOutView)
                                         (implicit val appConfig: AppConfig,
-                                         override val mcc: MessagesControllerComponents,
-                                         confirmOptOutView: ConfirmOptOutView
-                                        ) extends ControllerBase(mcc) {
+                                         override val mcc: MessagesControllerComponents
+                                        ) extends ControllerBase {
   implicit val ec: ExecutionContext = mcc.executionContext
 
   def show(): Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>

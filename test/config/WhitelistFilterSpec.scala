@@ -16,37 +16,29 @@
 
 package config
 
-import javax.inject.Inject
+import org.jsoup.Jsoup
 import play.api.{Application, Configuration}
 import play.api.inject.guice.GuiceApplicationBuilder
-import play.api.mvc.Results.Ok
-import play.api.mvc.{Call, DefaultActionBuilder}
+import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import utils.TestUtils
 
-class WhitelistFilterSpec @Inject()(action: DefaultActionBuilder) extends TestUtils {
+class WhitelistFilterSpec extends TestUtils {
+
+  val controllerRoute: String = controllers.routes.TurnoverThresholdController.show().url
 
   override implicit lazy val app: Application =
     new GuiceApplicationBuilder()
       .configure(Configuration(
         "whitelist.enabled" -> true
-      ))
-      .routes({
-        case ("GET", "/hello-world") => action {
-          Ok("success")
-        }
-        case _ => action {
-          Ok("failure")
-        }
-      })
-      .build()
+      )).build()
 
   "WhitelistFilter" when {
 
     "supplied with a non-whitelisted IP" should {
 
-      lazy val fakeRequest = FakeRequest("GET", "/hello-world").withHeaders(
+      lazy val fakeRequest = FakeRequest("GET", controllerRoute).withHeaders(
         "True-Client-IP" -> "127.0.0.2"
       )
 
@@ -65,18 +57,18 @@ class WhitelistFilterSpec @Inject()(action: DefaultActionBuilder) extends TestUt
 
     "supplied with a whitelisted IP" should {
 
-      lazy val fakeRequest = FakeRequest("GET", "/hello-world").withHeaders(
+      lazy val fakeRequest = FakeRequest("GET", controllerRoute).withHeaders(
         "True-Client-IP" -> "127.0.0.1"
       )
 
       lazy val Some(result) = route(app, fakeRequest)
 
-      "return status of 200" in {
-        status(result) shouldBe 200
+      "return status of 401" in {
+        status(result) shouldBe 401
       }
 
-      "return success" in {
-        contentAsString(result) shouldBe "success"
+      "return the session timeout page" in {
+        Jsoup.parse(bodyOf(result)).select("h1").text() shouldBe "Your session has timed out"
       }
     }
   }

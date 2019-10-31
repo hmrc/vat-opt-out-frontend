@@ -26,7 +26,7 @@ import views.html.TurnoverThresholdView
 class TurnoverThresholdControllerSpec extends MockAuth {
 
   implicit val turnoverThresholdView: TurnoverThresholdView = injector.instanceOf[TurnoverThresholdView]
-  val controller = new TurnoverThresholdController(mockAuthPredicate, mockOptOutPredicate)
+  val controller = new TurnoverThresholdController(mockAuthPredicate, mockOptOutPredicate, turnoverThresholdView)
 
   ".show() with no turnover value in session" should {
 

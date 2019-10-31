@@ -35,12 +35,11 @@ class AuthoriseAsAgentWithClient @Inject()(enrolmentsAuthService: EnrolmentsAuth
                                            val errorHandler: ErrorHandler,
                                            sessionTimeoutView: SessionTimeoutView,
                                            unauthorisedForClient: UnauthorisedForClientView,
-                                           override val mcc: MessagesControllerComponents,
-                                           override val messagesApi: MessagesApi,
                                            implicit val appConfig: AppConfig,
-                                           override implicit val executionContext: ExecutionContext)
-  extends AuthBasePredicate(mcc) with ActionBuilder[User, AnyContent] with ActionFunction[Request, User] {
+                                           override implicit val mcc: MessagesControllerComponents)
+  extends AuthBasePredicate with ActionBuilder[User, AnyContent] with ActionFunction[Request, User] {
 
+  override implicit val executionContext: ExecutionContext = mcc.executionContext
   override val parser: BodyParser[AnyContent] = mcc.parsers.defaultBodyParser
 
   private def delegatedAuthRule(vrn: String): Enrolment =

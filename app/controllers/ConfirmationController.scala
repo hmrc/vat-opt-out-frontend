@@ -25,11 +25,11 @@ import views.html.ConfirmationView
 import scala.concurrent.ExecutionContext
 
 class ConfirmationController @Inject()(authenticate: AuthPredicate,
-                                       errorHandler: ErrorHandler)
+                                       errorHandler: ErrorHandler,
+                                       confirmationView: ConfirmationView)
                                       (implicit val appConfig: AppConfig,
-                                       override val mcc: MessagesControllerComponents,
-                                       confirmationView: ConfirmationView
-                                      ) extends ControllerBase(mcc) {
+                                       override val mcc: MessagesControllerComponents
+                                      ) extends ControllerBase {
   implicit val ec: ExecutionContext = mcc.executionContext
 
   def show(): Action[AnyContent] = authenticate { implicit user =>

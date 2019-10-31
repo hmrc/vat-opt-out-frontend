@@ -18,12 +18,11 @@ package controllers.predicates
 
 import org.jsoup.Jsoup
 import play.api.http.Status
-import play.api.mvc.{Action, AnyContent}
 import play.api.mvc.Results.Ok
+import play.api.mvc.{Action, AnyContent}
 import utils.MockAuth
 
 import scala.concurrent.Future
-import scala.concurrent.duration.{Duration, TimeUnit}
 
 class AuthoriseAsAgentPredicateSpec extends MockAuth {
 
@@ -54,7 +53,7 @@ class AuthoriseAsAgentPredicateSpec extends MockAuth {
         }
 
         "render the Session Timeout page" in {
-          messages(Jsoup.parse(bodyOf(result)).title) shouldBe "Your session has timed out - VAT - GOV.UK"
+          messages(Jsoup.parse(bodyOf(result)).select("h1").text) shouldBe "Your session has timed out"
         }
       }
 
@@ -68,7 +67,7 @@ class AuthoriseAsAgentPredicateSpec extends MockAuth {
         }
 
         "render the Unauthorised For Client page" in {
-          messages(Jsoup.parse(bodyOf(result)).title) shouldBe "You’re not authorised for this client - VAT - GOV.UK"
+          messages(Jsoup.parse(bodyOf(result)).select("h1").text) shouldBe "You’re not authorised for this client"
         }
       }
 
@@ -82,7 +81,7 @@ class AuthoriseAsAgentPredicateSpec extends MockAuth {
         }
 
         "render the Internal Server Error page" in {
-          messages(Jsoup.parse(bodyOf(result)).title) shouldBe "There is a problem with the service - VAT - GOV.UK"
+          messages(Jsoup.parse(bodyOf(result)).select("h1").text) shouldBe "Sorry, there is a problem with the service"
         }
       }
     }

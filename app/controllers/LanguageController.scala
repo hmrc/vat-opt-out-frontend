@@ -23,7 +23,7 @@ import play.api.mvc.{Action, AnyContent, Call, Flash, MessagesControllerComponen
 
 class LanguageController @Inject()(implicit val appConfig: AppConfig,
                                    override val mcc: MessagesControllerComponents
-                                  ) extends ControllerBase(mcc) {
+                                  ) extends ControllerBase {
 
   def langToCall: String => Call = appConfig.routeToSwitchLanguage
 

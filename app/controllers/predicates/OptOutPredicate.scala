@@ -36,12 +36,12 @@ import scala.concurrent.{ExecutionContext, Future}
 class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
                                 val errorHandler: ErrorHandler,
                                 val messagesApi: MessagesApi,
-                                val mcc: MessagesControllerComponents,
                                 auditService: AuditService,
                                 implicit val appConfig: AppConfig,
-                                override implicit val executionContext: ExecutionContext)
+                                implicit val mcc: MessagesControllerComponents)
   extends ActionRefiner[User, User] with I18nSupport {
 
+  override implicit val executionContext: ExecutionContext = mcc.executionContext
   override def refine[A](request: User[A]): Future[Either[Result, User[A]]] = {
 
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))

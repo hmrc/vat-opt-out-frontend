@@ -21,7 +21,6 @@ import common.EnrolmentKeys
 import config.{AppConfig, ErrorHandler}
 import models.User
 import play.api.Logger
-import play.api.i18n.MessagesApi
 import play.api.mvc._
 import services.EnrolmentsAuthService
 import uk.gov.hmrc.auth.core.{AuthorisationException, Enrolments, NoActiveSession}
@@ -32,17 +31,16 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class AuthPredicate @Inject()(enrolmentsAuthService: EnrolmentsAuthService,
-                              override val mcc: MessagesControllerComponents,
-                              override val messagesApi: MessagesApi,
                               val errorHandler: ErrorHandler,
                               sessionTimeout: SessionTimeoutView,
                               unauthorisedAgent: UnauthorisedAgentView,
                               unauthorised: UnauthorisedView,
                               val authenticateAsAgentWithClient: AuthoriseAsAgentWithClient,
                               implicit val appConfig: AppConfig,
-                              override implicit val executionContext: ExecutionContext)
-  extends AuthBasePredicate(mcc) with ActionBuilder[User, AnyContent] with ActionFunction[Request, User] {
+                              override implicit val mcc: MessagesControllerComponents)
+  extends AuthBasePredicate with ActionBuilder[User, AnyContent] with ActionFunction[Request, User] {
 
+  override implicit val executionContext: ExecutionContext = mcc.executionContext
   override val parser: BodyParser[AnyContent] = mcc.parsers.defaultBodyParser
 
   override def invokeBlock[A](request: Request[A], block: User[A] => Future[Result]): Future[Result] = {

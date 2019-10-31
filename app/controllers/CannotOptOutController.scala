@@ -23,11 +23,12 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import views.html.CannotOptOutView
 import scala.concurrent.{ExecutionContext, Future}
 
-class CannotOptOutController @Inject()(authenticate: AuthPredicate, val optOutPredicate: OptOutPredicate)
+class CannotOptOutController @Inject()(authenticate: AuthPredicate,
+                                       val optOutPredicate: OptOutPredicate,
+                                       cannotOptOutView: CannotOptOutView)
                                       (implicit val appConfig: AppConfig,
-                                       override val mcc: MessagesControllerComponents,
-                                       cannotOptOutView: CannotOptOutView
-                                      ) extends ControllerBase(mcc) {
+                                       override val mcc: MessagesControllerComponents
+                                      ) extends ControllerBase {
   implicit val ec: ExecutionContext = mcc.executionContext
 
   def show(): Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>

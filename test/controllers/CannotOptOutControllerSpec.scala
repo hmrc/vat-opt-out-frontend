@@ -25,7 +25,7 @@ class CannotOptOutControllerSpec extends MockAuth {
 
   implicit val cannotOptOutView: CannotOptOutView = injector.instanceOf[CannotOptOutView]
 
-  val controller = new CannotOptOutController(mockAuthPredicate, mockOptOutPredicate)
+  val controller = new CannotOptOutController(mockAuthPredicate, mockOptOutPredicate, cannotOptOutView)
 
   ".show() for an individual fulfilling predicate sessions checks" should {
 
