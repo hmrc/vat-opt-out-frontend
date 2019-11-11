@@ -34,6 +34,10 @@ class GovUkWrapperSpec extends ViewBaseSpec {
       lazy val view = injectedView(appConfig, "", afterFeedbackRedirect = "", user = Some(clientUser))
       lazy implicit val document: Document = Jsoup.parse(view.body)
 
+      "not contain a logo" in {
+        document.select(".organisation-logo") shouldBe empty
+      }
+
       "have the client nav title" in {
         elementText(navTitleSelector) shouldBe "Business tax account"
       }
