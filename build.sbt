@@ -23,7 +23,7 @@ import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin.publishingSettings
 val appName = "vat-opt-out-frontend"
 
 val compile = Seq(
-  "uk.gov.hmrc"             %% "govuk-template"           % "5.43.0-play-26",
+  "uk.gov.hmrc"             %% "govuk-template"           % "5.44.0-play-26",
   "uk.gov.hmrc"             %% "play-ui"                  % "8.3.0-play-26",
   "uk.gov.hmrc"             %% "auth-client"              % "2.31.0-play-26",
   "uk.gov.hmrc"             %% "bootstrap-play-26"        % "1.1.0",
