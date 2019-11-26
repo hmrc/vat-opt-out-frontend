@@ -33,34 +33,21 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       document.title shouldBe "You have opted out of Making Tax Digital for VAT - Business tax account - GOV.UK"
     }
 
-    "have a heading" which {
-
-      "has the correct text" in {
-        elementText("h1") shouldBe "You have opted out of Making Tax Digital for VAT"
-      }
+    "have the correct heaading" in {
+      elementText("h1") shouldBe "You have opted out of Making Tax Digital for VAT"
     }
 
-    "have a subheading" which {
-
-      "have the correct subheading" in {
-        elementText("h2") shouldBe "What happens next"
-      }
+    "have the correct subheading" in {
+      elementText("h2") shouldBe "What happens next"
     }
 
-    "have a first paragraph" which {
-
-      "have the correct first paragraph" in {
-        elementText("#content > article > p:nth-of-type(1)") shouldBe "This does not cancel your VAT registration."
-      }
+    "have the correct first paragraph" in {
+      elementText("#content > article > p:nth-of-type(1)") shouldBe "This does not cancel your VAT registration."
     }
 
-    "have a second paragraph" which {
-
-      "have the correct second paragraph" in {
-        elementText("#content > article > p:nth-of-type(2)") shouldBe
-          "For your current return period, you must continue to submit your VAT Returns " +
-            "using software compatible with Making Tax Digital."
-      }
+    "have the correct second paragraph" in {
+      elementText("#content > article > p:nth-of-type(2)") shouldBe "For your current return period, you must " +
+        "continue to submit your VAT Returns using software compatible with Making Tax Digital."
     }
 
     "have a third paragraph" which {
@@ -81,21 +68,9 @@ class ConfirmationViewSpec extends ViewBaseSpec {
       }
     }
 
-    "have a fourth paragraph" which {
-
-      "has the correct text" in {
-        elementText("#content > article > p:nth-of-type(4)") shouldBe
-          "If your taxable turnover goes above £85,000, you must contact us (opens in a new tab) to sign up " +
-          "again for Making Tax Digital."
-      }
-
-      "has the correct link text for contact us" in {
-        elementText("#content > article > p:nth-of-type(4) > a") shouldBe "contact us (opens in a new tab)"
-      }
-
-      "has the correct link location for contact us" in {
-        element("#content > article > p:nth-of-type(4) > a").attr("href") shouldBe appConfig.govUkContactUs
-      }
+    "have the correct fourth paragraph" in {
+      elementText("#content > article > p:nth-of-type(4)") shouldBe
+        "If your taxable turnover goes above £85,000, you must sign up again for Making Tax Digital."
     }
 
 
@@ -117,86 +92,62 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct title" in {
-      document.title shouldBe "You have opted your client out of Making Tax Digital for VAT - Your client’s VAT details - GOV.UK"
+      document.title shouldBe
+        "You have opted your client out of Making Tax Digital for VAT - Your client’s VAT details - GOV.UK"
     }
 
-    "have a heading" which {
+    "have the correct heading" in {
+      elementText("h1") shouldBe "You have opted your client out of Making Tax Digital for VAT"
+    }
+
+    "have the correct subheading" in {
+      elementText("h2") shouldBe "What happens next"
+    }
+
+    "have the correct first paragraph" in {
+      elementText("#content > article > p:nth-of-type(1)") shouldBe "This does not cancel your client’s VAT registration."
+    }
+
+    "have the correct second paragraph" in {
+      elementText("#content > article > p:nth-of-type(2)") shouldBe "For your client’s current return period, you " +
+        "must continue to submit their VAT Returns using software compatible with Making Tax Digital."
+    }
+
+    "have a third paragraph" which {
 
       "has the correct text" in {
-        elementText("h1") shouldBe "You have opted your client out of Making Tax Digital for VAT"
+        elementText("#content > article > p:nth-of-type(3)") shouldBe
+          "Future VAT Returns must be submitted online, starting from your client’s next " +
+            "return period. This change can take 2 days to come into effect."
+      }
+
+      "has the correct link text" in {
+        elementText("#content > article > p:nth-of-type(3) > a") shouldBe "online"
+      }
+
+      "has the correct link location" in {
+        element("#content > article > p:nth-of-type(3) > a").attr("href") shouldBe appConfig.agentClientLookupChoicesPath
       }
     }
 
-    "have a subheading" which {
+    "have the correct fourth paragraph" in {
+      elementText("#content > article > p:nth-of-type(4)") shouldBe "If your client’s taxable turnover goes above " +
+        "£85,000, you must sign them up again for Making Tax Digital."
+    }
 
-      "have the correct subheading" in {
-        elementText("h2") shouldBe "What happens next"
+    "have a change client link which" should {
+
+      "have the correct text" in {
+        elementText("#content > article > p:nth-of-type(5) > a") shouldBe "Change client"
+      }
+
+      "have the correct link location" in {
+        element("#content > article > p:nth-of-type(5) > a").attr("href") shouldBe appConfig.agentClientLookupHandoff
       }
     }
 
-    "have a first paragraph" which {
-
-      "have the correct first paragraph" in {
-        elementText("#content > article > p:nth-of-type(1)") shouldBe "This does not cancel your client’s VAT registration."
-      }
+    "have a button with the correct link location" in {
+      element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
     }
-
-    "have a second paragraph" which {
-
-      "has the correct text" in {
-        elementText("#content > article > p:nth-of-type(2)") shouldBe
-          "For your client’s current return period, you must continue to submit their VAT " +
-            "Returns using software compatible with Making Tax Digital."
-      }
-    }
-
-      "have a third paragraph" which {
-
-        "has the correct text" in {
-          elementText("#content > article > p:nth-of-type(3)") shouldBe
-            "Future VAT Returns must be submitted online, starting from your client’s next " +
-              "return period. This change can take 2 days to come into effect."
-        }
-
-        "has the correct link text" in {
-          elementText("#content > article > p:nth-of-type(3) > a") shouldBe "online"
-        }
-
-        "has the correct link location" in {
-          element("#content > article > p:nth-of-type(3) > a").attr("href") shouldBe appConfig.agentClientLookupChoicesPath
-        }
-      }
-
-      "have a fourth paragraph" which {
-
-        "has the correct text" in {
-          elementText("#content > article > p:nth-of-type(4)") shouldBe
-            "If your client’s taxable turnover goes above £85,000, you must contact us (opens in a new tab) " +
-              "to sign them up again for Making Tax Digital."
-        }
-
-        "has the correct link text" in {
-          elementText("#content > article > p:nth-of-type(4) > a") shouldBe "contact us (opens in a new tab)"
-        }
-
-        "has the correct link location" in {
-          element("#content > article > p:nth-of-type(4) > a").attr("href") shouldBe appConfig.govUkContactUs
-        }
-      }
-
-      "have a change client link which" should {
-
-        "have the correct text" in {
-          elementText("#content > article > p:nth-of-type(5) > a") shouldBe "Change client"
-        }
-
-        "have the correct link location" in {
-          element("#content > article > p:nth-of-type(5) > a").attr("href") shouldBe appConfig.agentClientLookupHandoff
-        }
-      }
-
-      "have a button with the correct link location" in {
-        element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
-      }
-    }
+  }
 }
