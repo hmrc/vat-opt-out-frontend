@@ -53,7 +53,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
 
     "have the correct third bullet point" in {
       elementText("#content li:nth-of-type(3)") shouldBe
-        "contact us to sign up for Making Tax Digital if your taxable turnover goes above £85,000"
+        "sign up for Making Tax Digital if your taxable turnover goes above £85,000"
     }
 
     "have the correct final paragraph" in {
