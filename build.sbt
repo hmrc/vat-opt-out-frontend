@@ -26,13 +26,13 @@ val compile = Seq(
   "uk.gov.hmrc"             %% "govuk-template"           % "5.44.0-play-26",
   "uk.gov.hmrc"             %% "play-ui"                  % "8.3.0-play-26",
   "uk.gov.hmrc"             %% "auth-client"              % "2.31.0-play-26",
-  "uk.gov.hmrc"             %% "bootstrap-play-26"        % "1.1.0",
+  "uk.gov.hmrc"             %% "bootstrap-play-26"        % "1.3.0",
   "uk.gov.hmrc"             %% "play-language"            % "4.2.0-play-26",
   "com.typesafe.play"       %% "play-json-joda"           % "2.6.0-RC1"
 )
 
 def test(scope:String = "test,it"): Seq[ModuleID] = Seq(
-  "uk.gov.hmrc"             %% "bootstrap-play-26"           % "1.1.0"                 % scope classifier "tests",
+  "uk.gov.hmrc"             %% "bootstrap-play-26"           % "1.3.0"                 % scope classifier "tests",
   "org.scalatest"           %% "scalatest"                   % "3.0.8"                 % scope,
   "org.jsoup"               %  "jsoup"                       % "1.12.1"                % scope,
   "com.typesafe.play"       %% "play-test"                   % current                 % scope,
