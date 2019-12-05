@@ -31,7 +31,7 @@
 }
 
 @linkBack = @{
-  if(user.isAgent) appConfig.manageVatSubscriptionServicePath else appConfig.vatSummaryServicePath
+  if(user.isAgent) appConfig.agentClientLookupChoicesPath else appConfig.vatSummaryServicePath
 }
 
 @mainTemplate(
