@@ -147,7 +147,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     }
 
     "have a button with the correct link location" in {
-      element(".button").attr("href") shouldBe appConfig.manageVatSubscriptionServicePath
+      element(".button").attr("href") shouldBe appConfig.agentClientLookupChoicesPath
     }
   }
 }
