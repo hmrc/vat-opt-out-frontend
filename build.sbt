@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,8 @@ val appName = "vat-opt-out-frontend"
 
 val compile = Seq(
   "uk.gov.hmrc"             %% "govuk-template"           % "5.44.0-play-26",
-  "uk.gov.hmrc"             %% "play-ui"                  % "8.3.0-play-26",
-  "uk.gov.hmrc"             %% "auth-client"              % "2.31.0-play-26",
+  "uk.gov.hmrc"             %% "play-ui"                  % "8.5.0-play-26",
+  "uk.gov.hmrc"             %% "auth-client"              % "2.32.1-play-26",
   "uk.gov.hmrc"             %% "bootstrap-play-26"        % "1.3.0",
   "uk.gov.hmrc"             %% "play-language"            % "4.2.0-play-26",
   "com.typesafe.play"       %% "play-json-joda"           % "2.6.0-RC1"

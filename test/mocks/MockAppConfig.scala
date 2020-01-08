@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override val thresholdPreviousYearsUrl: String = "/some-link"
   override val vatSubscriptionHost: String = "vat-subscription"
   override val agentClientLookupHandoff: String = "/agent-client-lookup"
-  override val agentClientLookupChoicesPath: String = "/representative/agent-action"
+  override val agentClientLookupChoicesPath: String = "/representative/client-vat-account"
   override val agentInvitationsFastTrack: String = "/agent-fast-track"
   override val accessibilityLinkUrl: String = "/accessibility-statement"
   override def feedbackUrl(redirect: String): String = s"feedback/$redirect"
