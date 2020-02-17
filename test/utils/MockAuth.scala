@@ -25,7 +25,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import services.{EnrolmentsAuthService, VatSubscriptionService}
 import uk.gov.hmrc.auth.core.retrieve.{Retrieval, ~}
 import uk.gov.hmrc.auth.core._
-import views.html.errors.{SessionTimeoutView, UnauthorisedView, UnauthorisedAgentView, UnauthorisedForClientView}
+import views.html.errors.{SessionTimeoutView, UnauthorisedView, UnauthorisedAgentView}
 import scala.concurrent.Future
 
 trait MockAuth extends TestUtils with MockitoSugar {
@@ -37,14 +37,12 @@ trait MockAuth extends TestUtils with MockitoSugar {
 
   val sessionTimeoutView: SessionTimeoutView = injector.instanceOf[SessionTimeoutView]
   val unauthorisedAgentView: UnauthorisedAgentView = injector.instanceOf[UnauthorisedAgentView]
-  val unauthorisedForClientView: UnauthorisedForClientView = injector.instanceOf[UnauthorisedForClientView]
   val unauthorisedView: UnauthorisedView = injector.instanceOf[UnauthorisedView]
 
   val mockAuthAsAgentWithClient = new AuthoriseAsAgentWithClient(
     mockEnrolmentsAuthService,
     mockErrorHandler,
     sessionTimeoutView,
-    unauthorisedForClientView,
     appConfig,
     mcc
   )

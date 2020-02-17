@@ -21,6 +21,7 @@ import play.api.http.Status
 import play.api.mvc.Results.Ok
 import play.api.mvc.{Action, AnyContent}
 import utils.MockAuth
+import play.api.test.Helpers._
 
 import scala.concurrent.Future
 
@@ -57,17 +58,16 @@ class AuthoriseAsAgentPredicateSpec extends MockAuth {
         }
       }
 
-      "the agent is not authorised for the client (insufficient client enrolment)" should {
+      "the agent is not authorised for the client" should {
 
         lazy val result = await(target(requestWithClientVRN))
 
-        "return Internal Server Error (500)" in {
+        "Return See Other (303)" in {
           mockUnauthorised()
-          status(result) shouldBe Status.FORBIDDEN
+          status(result) shouldBe Status.SEE_OTHER
         }
-
-        "render the Unauthorised For Client page" in {
-          messages(Jsoup.parse(bodyOf(result)).select("h1").text) shouldBe "You’re not authorised for this client"
+        "have the correct redirect location" in {
+         redirectLocation(result) shouldBe Some(appConfig.vatAgentClientLookupUnauthorised)
         }
       }
 

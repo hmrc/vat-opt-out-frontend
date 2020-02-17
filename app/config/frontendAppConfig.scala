@@ -30,6 +30,7 @@ trait AppConfig {
   val reportAProblemPartialUrl: String
   val reportAProblemNonJSUrl: String
   val vatOptOutServicePath: String
+  val vatAgentClientLookupUnauthorised:String
   val agentClientLookupHandoff: String
   val agentClientLookupChoicesPath: String
   val signInUrl: String
@@ -46,7 +47,6 @@ trait AppConfig {
   val timeoutCountdown: Int
   def routeToSwitchLanguage: String => Call
   def languageMap: Map[String, Lang]
-  val agentInvitationsFastTrack: String
   val govUkManageClientsDetails: String
   val govUkContactUs: String
   val thresholdAmount: String
@@ -82,6 +82,9 @@ class FrontendAppConfig @Inject()(configuration: Configuration, sc: ServicesConf
   private lazy val agentClientLookupServiceUrl: String = sc.getString(Keys.agentClientLookupUrl)
   private lazy val agentClientLookupServicePath: String =
     agentClientLookupServiceUrl + sc.getString(Keys.agentClientLookupPath)
+  override val vatAgentClientLookupUnauthorised: String =
+    agentClientLookupServiceUrl + sc.getString(Keys.vatAgentClientLookupServiceUnauthPath)
+
   override lazy val agentClientLookupHandoff: String =
     agentClientLookupServicePath + s"/client-vat-number?redirectUrl=$signInContinueUrl"
   override lazy val agentClientLookupChoicesPath: String =
@@ -109,9 +112,6 @@ class FrontendAppConfig @Inject()(configuration: Configuration, sc: ServicesConf
     "english" -> Lang("en"),
     "cymraeg" -> Lang("cy")
   )
-
-  override val agentInvitationsFastTrack: String =
-    sc.getString(Keys.agentInvitationsFastTrackUrl) + sc.getString(Keys.agentInvitationsFastTrackPath)
 
   override val govUkManageClientsDetails: String = sc.getString(Keys.govUkManageClientsDetails)
   override val govUkContactUs: String = sc.getString(Keys.govUkContactUs)

@@ -37,12 +37,6 @@ unauthorised.agent.title = Ni allwch ddefnyddio’r gwasanaeth hwn eto
 unauthorised.agent.useThisService = I ddefnyddio’r gwasanaeth hwn, bydd angen i chi
 unauthorised.agent.setUpAccount = agor cyfrif gwasanaethau asiantau
 
-unauthorisedForClient.title = Nid ydych wedi’ch awdurdodi ar gyfer y cleient hwn
-unauthorisedForClient.useThisService = I ddefnyddio’r gwasanaeth hwn, mae angen i’ch cleient
-unauthorisedForClient.authoriseForClient = eich awdurdodi fel ei asiant
-unauthorisedForClient.enterDetails = Os ydych yn credu eich bod wedi nodi’r manylion anghywir, gallwch
-unauthorisedForClient.tryAgain = roi cynnig arall arni
-
 confirmOptOut.title = A ydych yn sicr eich bod am optio allan o’r cynllun Troi Treth yn Ddigidol ar gyfer TAW?
 confirmOptOut.title.agent = A ydych yn sicr eich bod am optio’ch cleient allan o’r cynllun Troi Treth yn Ddigidol ar gyfer TAW?
 confirmOptOut.chooseToOptOut = Os ydych yn dewis optio allan, mae’n rhaid i chi wneud y canlynol:
