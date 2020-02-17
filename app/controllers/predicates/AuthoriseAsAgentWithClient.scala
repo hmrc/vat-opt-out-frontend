@@ -21,12 +21,11 @@ import common.{EnrolmentKeys, SessionKeys}
 import config.{AppConfig, ErrorHandler}
 import models.{Agent, User}
 import play.api.Logger
-import play.api.i18n.MessagesApi
 import play.api.mvc._
 import services.EnrolmentsAuthService
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.retrieve._
-import views.html.errors.{SessionTimeoutView, UnauthorisedForClientView}
+import views.html.errors.{SessionTimeoutView}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -34,7 +33,6 @@ import scala.concurrent.{ExecutionContext, Future}
 class AuthoriseAsAgentWithClient @Inject()(enrolmentsAuthService: EnrolmentsAuthService,
                                            val errorHandler: ErrorHandler,
                                            sessionTimeoutView: SessionTimeoutView,
-                                           unauthorisedForClient: UnauthorisedForClientView,
                                            implicit val appConfig: AppConfig,
                                            override implicit val mcc: MessagesControllerComponents)
   extends AuthBasePredicate with ActionBuilder[User, AnyContent] with ActionFunction[Request, User] {
@@ -70,7 +68,7 @@ class AuthoriseAsAgentWithClient @Inject()(enrolmentsAuthService: EnrolmentsAuth
             case _: AuthorisationException =>
               Logger.warn(s"[AuthoriseAsAgentWithClient][invokeBlock] - Agent does not have " +
                 s"delegated authority for Client")
-              Forbidden(unauthorisedForClient(vrn))
+            Redirect(appConfig.vatAgentClientLookupUnauthorised)
 
           }
         case _ =>
