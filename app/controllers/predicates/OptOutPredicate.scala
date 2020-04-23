@@ -21,7 +21,7 @@ import audit.models.GetCustomerInfoAuditModel
 import common.SessionKeys.{inflightMandationStatus, mandationStatus}
 import config.{AppConfig, ErrorHandler}
 import javax.inject.{Inject, Singleton}
-import models.{NonDigital, NonMTDfB, User}
+import models.{MTDfBExempt, NonDigital, NonMTDfB, User}
 import play.api.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Results.Redirect
@@ -50,7 +50,7 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
     val getSessionAttribute: String => Option[String] = req.session.get
 
     (getSessionAttribute(inflightMandationStatus), getSessionAttribute(mandationStatus)) match {
-      case (_, Some(NonMTDfB.value)) | (_, Some(NonDigital.value)) | (Some("true"), _) =>
+      case (_, Some(NonMTDfB.value)) | (_, Some(NonDigital.value)) | (_, Some(MTDfBExempt.value)) | (Some("true"), _) =>
         Future.successful(Left(redirectOutOfJourney))
       case (Some("false"), _) =>
         Future.successful(Right(req))
@@ -81,7 +81,11 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
           case (_, NonDigital) =>
             Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
               "Mandation status is NonDigital. Redirecting user out of journey.")
-            Left(redirectOutOfJourney.addingToSession(mandationStatus -> NonMTDfB.value))
+            Left(redirectOutOfJourney.addingToSession(mandationStatus -> NonDigital.value))
+          case (_, MTDfBExempt) =>
+            Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
+              "Mandation status is MTDfBExempt. Redirecting user out of journey.")
+            Left(redirectOutOfJourney.addingToSession(mandationStatus -> MTDfBExempt.value))
           case (true, _) =>
             Logger.warn("[OptOutPredicate][getCustomerInfoCall] - " +
               "Mandation status is inflight. Redirecting user out of journey.")

@@ -43,6 +43,16 @@ case object NonDigital extends MandationStatus {
   override val value: String = "Non Digital"
 }
 
+case object MTDfBExempt extends MandationStatus {
+  override val desValue: String = "1"
+  override val value: String = "MTDfB Exempt"
+}
+
+case object MTDfB extends MandationStatus {
+  override val desValue: String = "2"
+  override val value: String = "MTDfB"
+}
+
 object MandationStatus {
 
   def unapply(arg: MandationStatus): Option[String] = Some(arg.value)
@@ -53,6 +63,8 @@ object MandationStatus {
       case MTDfBVoluntary.value => MTDfBVoluntary
       case NonMTDfB.value => NonMTDfB
       case NonDigital.value => NonDigital
+      case MTDfBExempt.value => MTDfBExempt
+      case MTDfB.value => MTDfB
     }
   } yield status
 

@@ -51,6 +51,20 @@ class MandationStatusSpec extends TestUtils {
       }
     }
 
+    "the status is MTDfB Exempt" should {
+
+      "have the correct value" in {
+        JsString("MTDfB Exempt").as[MandationStatus] shouldBe MTDfBExempt
+      }
+    }
+
+    "the status is MTDfB" should {
+
+      "have the correct value" in {
+        JsString("MTDfB").as[MandationStatus] shouldBe MTDfB
+      }
+    }
+
     "the status is not recognised" should {
 
       "throw an exception" in {
@@ -62,7 +76,7 @@ class MandationStatusSpec extends TestUtils {
   "Serializing MandationStatus to JSON" should {
 
     "write the object's value" in {
-      Json.toJson(MTDfBMandated) shouldBe JsString(MTDfBMandated.desValue)
+      Json.toJson(NonMTDfB) shouldBe JsString(NonMTDfB.desValue)
     }
   }
 
