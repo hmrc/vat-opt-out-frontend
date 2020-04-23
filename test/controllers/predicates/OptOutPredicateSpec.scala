@@ -191,6 +191,45 @@ class OptOutPredicateSpec extends MockAuth {
           }
         }
       }
+
+      s"The mandationStatus is $MTDfBExempt" when {
+
+        "the user is an agent" should {
+
+          lazy val result =
+            await(mockOptOutPredicate.refine(agentWithSession(inflightMandation = false, MTDfBExempt))).left.get
+
+          "return 303" in {
+            status(result) shouldBe Status.SEE_OTHER
+          }
+
+          "redirect the user to the client choices page" in {
+            redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
+          }
+
+          "not call the VatSubscriptionService" in {
+            verify(mockVatSubscriptionService, never()).getCustomerInfo(any())(any(), any())
+          }
+        }
+
+        "the user is an individual or organisation" should {
+
+          lazy val result =
+            await(mockOptOutPredicate.refine(userWithSession(inflightMandation = false, MTDfBExempt))).left.get
+
+          "return 303" in {
+            status(result) shouldBe Status.SEE_OTHER
+          }
+
+          "redirect the user to the VAT overview page" in {
+            redirectLocation(result) shouldBe Some(appConfig.vatSummaryServicePath)
+          }
+
+          "not call the VatSubscriptionService" in {
+            verify(mockVatSubscriptionService, never()).getCustomerInfo(any())(any(), any())
+          }
+        }
+      }
     }
 
     "The user does not have a session containing the opt-out keys" when {
@@ -272,105 +311,180 @@ class OptOutPredicateSpec extends MockAuth {
 
       s"The mandationStatus is $NonMTDfB" when {
 
-          "the user is an agent" should {
+        "the user is an agent" should {
 
-            lazy val result = {
-              setup(Right(CustomerInformation(NonMTDfB, inflightMandationStatus = false)))
-              await(mockOptOutPredicate.refine(agentUser)).left.get
-            }
-
-            "return 303" in {
-              status(result) shouldBe Status.SEE_OTHER
-            }
-
-            "redirect the user to the client choices page" in {
-              redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
-            }
-
-            "call the VatSubscriptionService" in {
-              verify(mockVatSubscriptionService).getCustomerInfo(any())(any(), any())
-            }
-
-            "send an audit event" in {
-              verify(mockAuditService).audit(any(), any())(any(), any())
-            }
+          lazy val result = {
+            setup(Right(CustomerInformation(NonMTDfB, inflightMandationStatus = false)))
+            await(mockOptOutPredicate.refine(agentUser)).left.get
           }
 
-          "the user is an individual or organisation" should {
+          "return 303" in {
+            status(result) shouldBe Status.SEE_OTHER
+          }
 
-            lazy val result = {
-              setup(Right(CustomerInformation(NonMTDfB, inflightMandationStatus = false)))
-              await(mockOptOutPredicate.refine(clientUser)).left.get
-            }
+          "redirect the user to the client choices page" in {
+            redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
+          }
 
-            "return 303" in {
-              status(result) shouldBe Status.SEE_OTHER
-            }
+          "call the VatSubscriptionService" in {
+            verify(mockVatSubscriptionService).getCustomerInfo(any())(any(), any())
+          }
 
-            "redirect the user to the VAT overview page" in {
-              redirectLocation(result) shouldBe Some(appConfig.vatSummaryServicePath)
-            }
+          "send an audit event" in {
+            verify(mockAuditService).audit(any(), any())(any(), any())
+          }
 
-            "call the VatSubscriptionService" in {
-              verify(mockVatSubscriptionService).getCustomerInfo(any())(any(), any())
-            }
-
-            "send an audit event" in {
-              verify(mockAuditService).audit(any(), any())(any(), any())
-            }
+          s"add the value of $NonMTDfB to the session" in {
+            session(result).get(SessionKeys.mandationStatus) shouldBe Some(NonMTDfB.value)
           }
         }
+
+        "the user is an individual or organisation" should {
+
+          lazy val result = {
+            setup(Right(CustomerInformation(NonMTDfB, inflightMandationStatus = false)))
+            await(mockOptOutPredicate.refine(clientUser)).left.get
+          }
+
+          "return 303" in {
+            status(result) shouldBe Status.SEE_OTHER
+          }
+
+          "redirect the user to the VAT overview page" in {
+            redirectLocation(result) shouldBe Some(appConfig.vatSummaryServicePath)
+          }
+
+          "call the VatSubscriptionService" in {
+            verify(mockVatSubscriptionService).getCustomerInfo(any())(any(), any())
+          }
+
+          "send an audit event" in {
+            verify(mockAuditService).audit(any(), any())(any(), any())
+          }
+
+          s"add the value of $NonMTDfB to the session" in {
+            session(result).get(SessionKeys.mandationStatus) shouldBe Some(NonMTDfB.value)
+          }
+        }
+      }
 
       s"The mandationStatus is $NonDigital" when {
 
-          "the user is an agent" should {
+        "the user is an agent" should {
 
-            lazy val result = {
-              setup(Right(CustomerInformation(NonDigital, inflightMandationStatus = false)))
-              await(mockOptOutPredicate.refine(agentUser)).left.get
-            }
-
-            "return 303" in {
-              status(result) shouldBe Status.SEE_OTHER
-            }
-
-            "redirect the user to the client choices page" in {
-              redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
-            }
-
-            "call the VatSubscriptionService" in {
-              verify(mockVatSubscriptionService).getCustomerInfo(any())(any(), any())
-            }
-
-            "send an audit event" in {
-              verify(mockAuditService).audit(any(), any())(any(), any())
-            }
+          lazy val result = {
+            setup(Right(CustomerInformation(NonDigital, inflightMandationStatus = false)))
+            await(mockOptOutPredicate.refine(agentUser)).left.get
           }
 
-          "the user is an individual or organisation" should {
+          "return 303" in {
+            status(result) shouldBe Status.SEE_OTHER
+          }
 
-            lazy val result = {
-              setup(Right(CustomerInformation(NonDigital, inflightMandationStatus = false)))
-              await(mockOptOutPredicate.refine(clientUser)).left.get
-            }
+          "redirect the user to the client choices page" in {
+            redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
+          }
 
-            "return 303" in {
-              status(result) shouldBe Status.SEE_OTHER
-            }
+          "call the VatSubscriptionService" in {
+            verify(mockVatSubscriptionService).getCustomerInfo(any())(any(), any())
+          }
 
-            "redirect the user to the VAT overview page" in {
-              redirectLocation(result) shouldBe Some(appConfig.vatSummaryServicePath)
-            }
+          "send an audit event" in {
+            verify(mockAuditService).audit(any(), any())(any(), any())
+          }
 
-            "call the VatSubscriptionService" in {
-              verify(mockVatSubscriptionService).getCustomerInfo(any())(any(), any())
-            }
-
-            "send an audit event" in {
-              verify(mockAuditService).audit(any(), any())(any(), any())
-            }
+          s"add the value of $NonDigital to the session" in {
+            session(result).get(SessionKeys.mandationStatus) shouldBe Some(NonDigital.value)
           }
         }
+
+        "the user is an individual or organisation" should {
+
+          lazy val result = {
+            setup(Right(CustomerInformation(NonDigital, inflightMandationStatus = false)))
+            await(mockOptOutPredicate.refine(clientUser)).left.get
+          }
+
+          "return 303" in {
+            status(result) shouldBe Status.SEE_OTHER
+          }
+
+          "redirect the user to the VAT overview page" in {
+            redirectLocation(result) shouldBe Some(appConfig.vatSummaryServicePath)
+          }
+
+          "call the VatSubscriptionService" in {
+            verify(mockVatSubscriptionService).getCustomerInfo(any())(any(), any())
+          }
+
+          "send an audit event" in {
+            verify(mockAuditService).audit(any(), any())(any(), any())
+          }
+
+          s"add the value of $NonDigital to the session" in {
+            session(result).get(SessionKeys.mandationStatus) shouldBe Some(NonDigital.value)
+          }
+        }
+      }
+
+      s"The mandationStatus is $MTDfBExempt" when {
+
+        "the user is an agent" should {
+
+          lazy val result = {
+            setup(Right(CustomerInformation(MTDfBExempt, inflightMandationStatus = false)))
+            await(mockOptOutPredicate.refine(agentUser)).left.get
+          }
+
+          "return 303" in {
+            status(result) shouldBe Status.SEE_OTHER
+          }
+
+          "redirect the user to the client choices page" in {
+            redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
+          }
+
+          "call the VatSubscriptionService" in {
+            verify(mockVatSubscriptionService).getCustomerInfo(any())(any(), any())
+          }
+
+          "send an audit event" in {
+            verify(mockAuditService).audit(any(), any())(any(), any())
+          }
+
+          s"add the value of $MTDfBExempt to the session" in {
+            session(result).get(SessionKeys.mandationStatus) shouldBe Some(MTDfBExempt.value)
+          }
+        }
+
+        "the user is an individual or organisation" should {
+
+          lazy val result = {
+            setup(Right(CustomerInformation(MTDfBExempt, inflightMandationStatus = false)))
+            await(mockOptOutPredicate.refine(clientUser)).left.get
+          }
+
+          "return 303" in {
+            status(result) shouldBe Status.SEE_OTHER
+          }
+
+          "redirect the user to the VAT overview page" in {
+            redirectLocation(result) shouldBe Some(appConfig.vatSummaryServicePath)
+          }
+
+          "call the VatSubscriptionService" in {
+            verify(mockVatSubscriptionService).getCustomerInfo(any())(any(), any())
+          }
+
+          "send an audit event" in {
+            verify(mockAuditService).audit(any(), any())(any(), any())
+          }
+
+          s"add the value of $MTDfBExempt to the session" in {
+            session(result).get(SessionKeys.mandationStatus) shouldBe Some(MTDfBExempt.value)
+          }
+        }
+      }
 
       "The call for customer info fails" should {
 
