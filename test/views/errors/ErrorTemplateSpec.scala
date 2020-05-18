@@ -42,7 +42,7 @@ class ErrorTemplateSpec extends ViewBaseSpec{
     }
 
     "have the correct instructions on the page" in {
-      elementText("#content > p:nth-of-type(2)") shouldBe content
+      elementText("#content > p") shouldBe content
     }
   }
 }

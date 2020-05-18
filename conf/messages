@@ -76,3 +76,9 @@ cannotOptOut.return.agent = View your client options
 
 turnoverThreshold.error.empty = Select yes if the business’s taxable turnover is above {0}
 turnoverThreshold.title = Has the business’s taxable turnover been above {0} since 1 April 2019?
+
+footerLinks.cookies = Cookies
+footerLinks.accessibility = Accessibility
+footerLinks.privacyPolicy = Privacy policy
+footerLinks.termsAndConditions = Terms and conditions
+footerLinks.help = Help using GOV.UK

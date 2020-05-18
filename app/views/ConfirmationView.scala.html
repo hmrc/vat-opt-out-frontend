@@ -16,7 +16,8 @@
 
 @import models.User
 
-@this(mainTemplate: MainTemplate)
+@this(mainTemplate: MainTemplate,
+      govukButton: GovukButton)
 
 @()(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig, user: User[_])
 
@@ -29,41 +30,45 @@
 }
 
 @mainTemplate(
-  title = messages(s"confirmation.title$agentMessageAffix"),
+  pageTitle = messages(s"confirmation.title$agentMessageAffix"),
   feedbackRedirect = Some(controllers.routes.ConfirmationController.show().url),
   user = Some(user)
 ) {
 
-<div class="govuk-box-highlight">
-  <h1 class="heading-xlarge">
-    @messages(s"confirmation.title$agentMessageAffix")
-  </h1>
-</div>
+  <div class="govuk-panel govuk-panel--confirmation">
+    <h1 class="govuk-panel__title">
+      @messages(s"confirmation.title$agentMessageAffix")
+    </h1>
+  </div>
 
-<h2>@messages("confirmation.subheading")</h2>
+  <h2 class="govuk-heading-m">@messages("confirmation.subheading")</h2>
 
-<p>@messages(s"confirmation.cancel$agentMessageAffix")</p>
+  <p class="govuk-body">@messages(s"confirmation.cancel$agentMessageAffix")</p>
 
-<p>@messages(s"confirmation.useSoftware$agentMessageAffix")</p>
+  <p class="govuk-body">@messages(s"confirmation.useSoftware$agentMessageAffix")</p>
 
-@if(user.isAgent) {
-  <p>
-    @messages("confirmation.submitOnline1.agent")
-    <a href="@appConfig.agentClientLookupChoicesPath">@messages("confirmation.submitOnline2.agent")</a>@messages("confirmation.submitOnline3.agent")
+  <p class="govuk-body">
+    @if(user.isAgent) {
+      @messages("confirmation.submitOnline1.agent")
+      <a class="govuk-link" href="@appConfig.agentClientLookupChoicesPath">
+        @messages("confirmation.submitOnline2.agent")</a>@messages("confirmation.submitOnline3.agent")
+    } else {
+      @messages("confirmation.submitOnline1")
+      <a class="govuk-link" href="@appConfig.vatSummaryServicePath">
+        @messages("confirmation.submitOnline2")</a>@messages("confirmation.submitOnline3")
+    }
   </p>
-} else {
-<p>
-    @messages("confirmation.submitOnline1")
-    <a href="@appConfig.vatSummaryServicePath">@messages("confirmation.submitOnline2")</a>@messages("confirmation.submitOnline3")
-</p>
-}
 
-<p>@messages(s"confirmation.aboveThreshold$agentMessageAffix", appConfig.thresholdAmount)</p>
+  <p class="govuk-body">@messages(s"confirmation.aboveThreshold$agentMessageAffix", appConfig.thresholdAmount)</p>
 
-@if(user.isAgent) {
-<p><a href="@appConfig.agentClientLookupHandoff">@messages("confirmation.changeClient")</a></p>
-}
+  @if(user.isAgent) {
+    <p class="govuk-body">
+      <a class="govuk-link" href="@appConfig.agentClientLookupHandoff">@messages("confirmation.changeClient")</a>
+    </p>
+  }
 
-<p><a class="button" role="button" type="submit" href="@linkOut">@messages("confirmation.finish")</a></p>
-
+  @govukButton(Button(
+    href = Some(linkOut),
+    content = Text(messages("confirmation.finish"))
+  ))
 }

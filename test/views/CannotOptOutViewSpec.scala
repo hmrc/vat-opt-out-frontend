@@ -41,29 +41,29 @@ class CannotOptOutViewSpec extends ViewBaseSpec {
     }
 
     "have the correct paragraph" in {
-      elementText("#content > article > p") shouldBe
+      elementText("#content > p") shouldBe
         "This is because the business’s taxable turnover is, or has been, over the VAT threshold."
     }
 
     "have a button" which {
 
       "has the correct text" in {
-        elementText(".button") shouldBe "Return to your VAT account"
+        elementText(".govuk-button") shouldBe "Return to your VAT account"
       }
 
       "has the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.vatSummaryServicePath
+        element(".govuk-button").attr("href") shouldBe appConfig.vatSummaryServicePath
       }
     }
 
     "have a back link" which {
 
       "has the correct text" in {
-        elementText(".link-back") shouldBe "Back"
+        elementText(".govuk-back-link") shouldBe "Back"
       }
 
       "has the correct href" in {
-        element(".link-back").attr("href") shouldBe controllers.routes.TurnoverThresholdController.show().url
+        element(".govuk-back-link").attr("href") shouldBe controllers.routes.TurnoverThresholdController.show().url
       }
     }
   }
@@ -80,11 +80,11 @@ class CannotOptOutViewSpec extends ViewBaseSpec {
     "have a button" which {
 
       "has the correct text" in {
-        elementText(".button") shouldBe "View your client options"
+        elementText(".govuk-button") shouldBe "View your client options"
       }
 
       "has the correct href" in {
-        element(".button").attr("href") shouldBe appConfig.agentClientLookupChoicesPath
+        element(".govuk-button").attr("href") shouldBe appConfig.agentClientLookupChoicesPath
       }
     }
   }

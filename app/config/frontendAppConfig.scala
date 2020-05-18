@@ -26,9 +26,8 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 trait AppConfig {
   val contactHost: String
+  val contactFormServiceIdentifier: String
   val assetsPrefix: String
-  val reportAProblemPartialUrl: String
-  val reportAProblemNonJSUrl: String
   val vatOptOutServicePath: String
   val vatAgentClientLookupUnauthorised:String
   val agentClientLookupHandoff: String
@@ -51,7 +50,11 @@ trait AppConfig {
   val govUkContactUs: String
   val thresholdAmount: String
   val vatSummaryServicePath: String
-  val accessibilityLinkUrl: String
+  val footerCookiesUrl: String
+  val footerAccessibilityUrl: String
+  val footerPrivacyUrl: String
+  val footerTermsConditionsUrl: String
+  val footerHelpUrl: String
 }
 
 @Singleton
@@ -61,9 +64,6 @@ class FrontendAppConfig @Inject()(configuration: Configuration, sc: ServicesConf
   lazy val contactFormServiceIdentifier = "VATC"
 
   lazy val assetsPrefix: String = sc.getString(s"assets.url") + sc.getString(s"assets.version")
-
-  lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
-  lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
 
   private lazy val governmentGatewayHost: String = sc.getString(Keys.governmentGatewayHost)
 
@@ -120,5 +120,10 @@ class FrontendAppConfig @Inject()(configuration: Configuration, sc: ServicesConf
   private val vatSummaryServiceUrl: String = sc.getString(Keys.vatSummaryServiceUrl)
   override val vatSummaryServicePath: String = vatSummaryServiceUrl + sc.getString(Keys.vatSummaryServicePath)
 
-  override val accessibilityLinkUrl: String = sc.getString(ConfigKeys.vatSummaryServiceUrl) + sc.getString(ConfigKeys.vatSummaryAccessibilityUrl)
+  override val footerCookiesUrl: String = sc.getString(ConfigKeys.footerCookiesUrl)
+  override val footerAccessibilityUrl: String =
+    sc.getString(ConfigKeys.vatSummaryServiceUrl) + sc.getString(ConfigKeys.vatSummaryAccessibilityUrl)
+  override val footerPrivacyUrl: String = sc.getString(ConfigKeys.footerPrivacyUrl)
+  override val footerTermsConditionsUrl: String = sc.getString(ConfigKeys.footerTermsConditionsUrl)
+  override val footerHelpUrl: String = sc.getString(ConfigKeys.footerHelpUrl)
 }

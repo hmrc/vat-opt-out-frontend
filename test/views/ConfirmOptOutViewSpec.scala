@@ -38,7 +38,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
     }
 
     "have the correct initial paragraph" in {
-      elementText("#content > article > p:nth-of-type(1)") shouldBe "If you choose to opt out, you must:"
+      elementText("#content > p:nth-of-type(1)") shouldBe "If you choose to opt out, you must:"
     }
 
     "have the correct first bullet point" in {
@@ -57,29 +57,29 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
     }
 
     "have the correct final paragraph" in {
-      elementText("#content > article > p:nth-of-type(2)") shouldBe
+      elementText("#content > p:nth-of-type(2)") shouldBe
         "By opting out you will not be cancelling your VAT registration."
     }
 
     "have a button" which {
 
       "has the correct text" in {
-        elementText(".button") shouldBe "Confirm and opt out"
+        elementText(".govuk-button") shouldBe "Confirm and opt out"
       }
 
       "has the correct href" in {
-        element(".button").attr("href") shouldBe controllers.routes.ConfirmOptOutController.updateMandationStatus().url
+        element(".govuk-button").attr("href") shouldBe controllers.routes.ConfirmOptOutController.updateMandationStatus().url
       }
     }
 
     "have a back link" which {
 
       "has the correct text" in {
-        elementText(".link-back") shouldBe "Back"
+        elementText(".govuk-back-link") shouldBe "Back"
       }
 
       "has the correct href" in {
-        element(".link-back").attr("href") shouldBe controllers.routes.TurnoverThresholdController.show().url
+        element(".govuk-back-link").attr("href") shouldBe controllers.routes.TurnoverThresholdController.show().url
       }
     }
   }
@@ -99,7 +99,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
     }
 
     "have the correct initial paragraph" in {
-      elementText("#content > article > p:nth-of-type(1)") shouldBe "If you choose to opt your client out, you must:"
+      elementText("#content > p:nth-of-type(1)") shouldBe "If you choose to opt your client out, you must:"
     }
 
     "have the correct first bullet point" in {
@@ -118,7 +118,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
     }
 
     "have the correct final paragraph" in {
-      elementText("#content > article > p:nth-of-type(2)") shouldBe
+      elementText("#content > p:nth-of-type(2)") shouldBe
         "By opting your client out of Making Tax Digital, you will not be cancelling their VAT registration."
     }
   }

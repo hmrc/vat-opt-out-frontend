@@ -39,17 +39,17 @@ class UnauthorisedViewSpec extends ViewBaseSpec {
     }
 
     "have the correct instructions on the page" in {
-      elementText("#content > article p") shouldBe "You need to sign up to use software to submit your VAT Returns."
+      elementText("#content p") shouldBe "You need to sign up to use software to submit your VAT Returns."
     }
 
     "have a button to sign out" which {
 
       "has the correct text" in {
-        elementText(".button") shouldBe "Sign out"
+        elementText(".govuk-button") shouldBe "Sign out"
       }
 
       "have the correct href" in {
-        element(".button").attr("href") shouldBe controllers.routes.SignOutController.signOut(authorised = false).url
+        element(".govuk-button").attr("href") shouldBe controllers.routes.SignOutController.signOut(authorised = false).url
       }
     }
   }

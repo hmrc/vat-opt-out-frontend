@@ -42,34 +42,34 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     }
 
     "have the correct first paragraph" in {
-      elementText("#content > article > p:nth-of-type(1)") shouldBe "This does not cancel your VAT registration."
+      elementText("#content > p:nth-of-type(1)") shouldBe "This does not cancel your VAT registration."
     }
 
     "have the correct second paragraph" in {
-      elementText("#content > article > p:nth-of-type(2)") shouldBe "For your current return period, you must " +
+      elementText("#content > p:nth-of-type(2)") shouldBe "For your current return period, you must " +
         "continue to submit your VAT Returns using software compatible with Making Tax Digital."
     }
 
     "have a third paragraph" which {
 
       "has the correct text" in {
-        elementText("#content > article > p:nth-of-type(3)") shouldBe
+        elementText("#content > p:nth-of-type(3)") shouldBe
           "Future VAT Returns must be submitted using your online VAT account, " +
           "starting from your next return period. This change can take 2 days to come " +
           "into effect."
       }
 
       "has the correct link text for your online VAT account" in {
-        elementText("#content > article > p:nth-of-type(3) > a") shouldBe "online VAT account"
+        elementText("#content > p:nth-of-type(3) > a") shouldBe "online VAT account"
       }
 
       "has the correct link location for your online VAT account" in {
-        element("#content > article > p:nth-of-type(3) > a").attr("href") shouldBe appConfig.vatSummaryServicePath
+        element("#content > p:nth-of-type(3) > a").attr("href") shouldBe appConfig.vatSummaryServicePath
       }
     }
 
     "have the correct fourth paragraph" in {
-      elementText("#content > article > p:nth-of-type(4)") shouldBe
+      elementText("#content > p:nth-of-type(4)") shouldBe
         "If your taxable turnover goes above £85,000, you must sign up again for Making Tax Digital."
     }
 
@@ -77,11 +77,11 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     "have a button which" should {
 
       "have the correct text" in {
-        elementText(".button") shouldBe "Finish"
+        elementText(".govuk-button") shouldBe "Finish"
       }
 
       "have the correct link location" in {
-        element(".button").attr("href") shouldBe appConfig.vatSummaryServicePath
+        element(".govuk-button").attr("href") shouldBe appConfig.vatSummaryServicePath
       }
     }
   }
@@ -105,49 +105,49 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     }
 
     "have the correct first paragraph" in {
-      elementText("#content > article > p:nth-of-type(1)") shouldBe "This does not cancel your client’s VAT registration."
+      elementText("#content > p:nth-of-type(1)") shouldBe "This does not cancel your client’s VAT registration."
     }
 
     "have the correct second paragraph" in {
-      elementText("#content > article > p:nth-of-type(2)") shouldBe "For your client’s current return period, you " +
+      elementText("#content > p:nth-of-type(2)") shouldBe "For your client’s current return period, you " +
         "must continue to submit their VAT Returns using software compatible with Making Tax Digital."
     }
 
     "have a third paragraph" which {
 
       "has the correct text" in {
-        elementText("#content > article > p:nth-of-type(3)") shouldBe
+        elementText("#content > p:nth-of-type(3)") shouldBe
           "Future VAT Returns must be submitted online, starting from your client’s next " +
             "return period. This change can take 2 days to come into effect."
       }
 
       "has the correct link text" in {
-        elementText("#content > article > p:nth-of-type(3) > a") shouldBe "online"
+        elementText("#content > p:nth-of-type(3) > a") shouldBe "online"
       }
 
       "has the correct link location" in {
-        element("#content > article > p:nth-of-type(3) > a").attr("href") shouldBe appConfig.agentClientLookupChoicesPath
+        element("#content > p:nth-of-type(3) > a").attr("href") shouldBe appConfig.agentClientLookupChoicesPath
       }
     }
 
     "have the correct fourth paragraph" in {
-      elementText("#content > article > p:nth-of-type(4)") shouldBe "If your client’s taxable turnover goes above " +
+      elementText("#content > p:nth-of-type(4)") shouldBe "If your client’s taxable turnover goes above " +
         "£85,000, you must sign them up again for Making Tax Digital."
     }
 
     "have a change client link which" should {
 
       "have the correct text" in {
-        elementText("#content > article > p:nth-of-type(5) > a") shouldBe "Change client"
+        elementText("#content > p:nth-of-type(5) > a") shouldBe "Change client"
       }
 
       "have the correct link location" in {
-        element("#content > article > p:nth-of-type(5) > a").attr("href") shouldBe appConfig.agentClientLookupHandoff
+        element("#content > p:nth-of-type(5) > a").attr("href") shouldBe appConfig.agentClientLookupHandoff
       }
     }
 
     "have a button with the correct link location" in {
-      element(".button").attr("href") shouldBe appConfig.agentClientLookupChoicesPath
+      element(".govuk-button").attr("href") shouldBe appConfig.agentClientLookupChoicesPath
     }
   }
 }

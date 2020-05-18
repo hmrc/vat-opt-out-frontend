@@ -39,28 +39,28 @@ class UnauthorisedAgentViewSpec extends ViewBaseSpec {
     }
 
     "have the correct instructions on the page" in {
-      elementText("#content > article p") shouldBe "To use this service, you need to set up an agent services account."
+      elementText("#content p") shouldBe "To use this service, you need to set up an agent services account."
     }
 
     "have a link to set up an agent services account" which {
 
       "has the correct text" in {
-        elementText("#content > article p > a") shouldBe "set up an agent services account"
+        elementText("#content p > a") shouldBe "set up an agent services account"
       }
 
       "have the correct href" in {
-        element("#content >article p > a").attr("href") shouldBe appConfig.agentServicesGovUkGuidance
+        element("#content p > a").attr("href") shouldBe appConfig.agentServicesGovUkGuidance
       }
     }
 
     "have a button to sign out" which {
 
       "has the correct text" in {
-        elementText(".button") shouldBe "Sign out"
+        elementText(".govuk-button") shouldBe "Sign out"
       }
 
       "have the correct href" in {
-        element(".button").attr("href") shouldBe controllers.routes.SignOutController.signOut(authorised = false).url
+        element(".govuk-button").attr("href") shouldBe controllers.routes.SignOutController.signOut(authorised = false).url
       }
     }
   }
