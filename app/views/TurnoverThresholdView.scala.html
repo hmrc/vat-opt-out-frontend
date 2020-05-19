@@ -16,26 +16,24 @@
 
 @import common.Constants
 @import config.AppConfig
-@import forms.TurnoverThresholdForm._
 @import models.User
-@import uk.gov.hmrc.play.views.html.helpers.{FormWithCSRF, ErrorSummary, Input, InputRadioGroup}
+@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
 
-@this(mainTemplate: MainTemplate, form: FormWithCSRF, errorSummary: ErrorSummary, input: Input, input_radio_group: InputRadioGroup)
+@this(mainTemplate: MainTemplate,
+      form: FormWithCSRF,
+      govukBackLink: GovukBackLink,
+      govukRadios: GovukRadios,
+      govukErrorSummary: GovukErrorSummary,
+      govukButton: GovukButton)
 
 @(turnoverThresholdForm: Form[String])(implicit request: Request[_], messages: Messages, appConfig: AppConfig, user: User[_])
-
-@pageHeading = @{
-  <h1 class="heading-large">
-    {messages("turnoverThreshold.title", appConfig.thresholdAmount)}
-  </h1>
-}
 
 @linkBack = @{
   if(user.isAgent) appConfig.agentClientLookupChoicesPath else appConfig.vatSummaryServicePath
 }
 
 @mainTemplate(
-  title = if(turnoverThresholdForm.errors.nonEmpty) {
+  pageTitle = if(turnoverThresholdForm.errors.nonEmpty) {
     messages("base.errorPrefix", messages("turnoverThreshold.title",appConfig.thresholdAmount))
   } else {
     messages("turnoverThreshold.title",appConfig.thresholdAmount)
@@ -44,24 +42,55 @@
   user = Some(user)
 ) {
 
-<a class="link-back" href="@linkBack">@messages("base.back")</a>
+  @govukBackLink(BackLink(
+    href = linkBack
+  ))
 
-@errorSummary(messages("base.error.heading"), turnoverThresholdForm, forceDivToAppear = false)
+  @if(turnoverThresholdForm.hasErrors) {
+    @govukErrorSummary(ErrorSummary(
+      title = Text(messages("base.error.heading")),
+      errorList = turnoverThresholdForm.errors.map { error =>
+        ErrorLink(
+          href = Some(s"#${error.key}-error"),
+          content = Text(messages(error.message, error.args: _*))
+        )
+      }
+    ))
+  }
 
-@form(action = controllers.routes.TurnoverThresholdController.submit) {
-  <div class="form-group" id="threshold">
-    @input_radio_group(
-      turnoverThresholdForm("threshold"),
-      Seq(Constants.optionYes -> messages("base.yes"), Constants.optionNo -> messages("base.no")),
-      '_labelClass -> "block-label radio-label",
-      '_legend -> pageHeading,
-      '_groupClass -> "inline"
-    )
-  </div>
+  @form(action = controllers.routes.TurnoverThresholdController.submit) {
+    @govukRadios(Radios(
+      idPrefix = Some(turnoverThresholdForm("threshold").id),
+      classes = "govuk-radios--inline",
+      name = "threshold",
+      fieldset = Some(Fieldset(
+        legend = Some(Legend(
+          content = Text(messages("turnoverThreshold.title", appConfig.thresholdAmount)),
+          isPageHeading = true,
+          classes = "govuk-fieldset__legend--l"
+        ))
+      )),
+      items = Seq(
+        RadioItem(
+          id = Some(s"threshold-${Constants.optionYes}"),
+          value = Some(Constants.optionYes),
+          content = Text(messages("base.yes")),
+          checked = turnoverThresholdForm("threshold").value.contains(Constants.optionYes)
+        ),
+        RadioItem(
+          id = Some(s"threshold-${Constants.optionNo}"),
+          value = Some(Constants.optionNo),
+          content = Text(messages("base.no")),
+          checked = turnoverThresholdForm("threshold").value.contains(Constants.optionNo)
+        )
+      ),
+      errorMessage = turnoverThresholdForm("threshold").error.map { err =>
+        ErrorMessage(content = Text(messages(err.message, err.args: _*)))
+      }
+    ))
 
-  <div class="form-group">
-    <button class="button"
-            type="submit">@messages("base.continue")</button>
-  </div>
-}
+    @govukButton(Button(
+      content = Text(messages("base.continue"))
+    ))
+  }
 }

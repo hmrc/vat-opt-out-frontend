@@ -16,7 +16,7 @@
 
 package config
 
-object  ConfigKeys {
+object ConfigKeys {
 
   val vatOptOutServiceUrl: String = "vat-opt-out-frontend.url"
   val vatOptOutServicePath: String = "vat-opt-out-frontend.path"
@@ -42,4 +42,9 @@ object  ConfigKeys {
   val vatSummaryServiceUrl: String = "vat-summary-frontend.url"
   val vatSummaryServicePath: String = "vat-summary-frontend.path"
   val vatSummaryAccessibilityUrl: String = "vat-summary-frontend.accessibilityUrl"
+
+  val footerCookiesUrl: String = "mdtp.cookies"
+  val footerPrivacyUrl: String = "mdtp.privacyPolicy"
+  val footerTermsConditionsUrl: String = "mdtp.termsAndConditions"
+  val footerHelpUrl: String = "govuk.helpUsingGovuk"
 }

@@ -16,7 +16,9 @@
 
 @import models.User
 
-@this(mainTemplate: MainTemplate)
+@this(mainTemplate: MainTemplate,
+      govukButton: GovukButton,
+      govukBackLink: GovukBackLink)
 
 @()(implicit request: Request[_], messages: Messages, appConfig: config.AppConfig, user: User[_])
 
@@ -25,19 +27,21 @@
 }
 
 @mainTemplate(
-  title = messages("cannotOptOut.title"),
+  pageTitle = messages("cannotOptOut.title"),
   feedbackRedirect = Some(routes.CannotOptOutController.show().url),
   user = Some(user)
 ) {
 
-<a class="link-back" href="@routes.TurnoverThresholdController.show().url">@messages("base.back")</a>
+  @govukBackLink(BackLink(
+    href = routes.TurnoverThresholdController.show().url
+  ))
 
-<h1>@messages("cannotOptOut.title")</h1>
+  <h1 class="govuk-heading-l">@messages("cannotOptOut.title")</h1>
 
-<p>@messages("cannotOptOut.explanation")</p>
+  <p class="govuk-body">@messages("cannotOptOut.explanation")</p>
 
-<a class="button" role="button" type="submit" href="@linkOut">
-  @messages(s"cannotOptOut.return${if(user.isAgent) ".agent" else ""}")
-</a>
-
+  @govukButton(Button(
+    content = Text(messages(s"cannotOptOut.return${if(user.isAgent) ".agent" else ""}")),
+    href = Some(linkOut)
+  ))
 }

@@ -30,18 +30,18 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
   object Selectors {
     val pageHeading = "#content h1"
-    val backLink = "#content > article > a"
-    val backLinkPreviousYears = "#content > article > div > a"
+    val backLink = ".govuk-back-link"
+    val backLinkPreviousYears = "#content > div > a"
     val hintText = "#label-email-hint"
     val form = "form"
     val radioYesField = "#threshold-yes"
     val radioNoField = "#threshold-no"
-    val continueButton = "button"
-    val errorSummary = "#error-summary-heading"
+    val continueButton = ".govuk-button"
+    val errorSummary = "#error-summary-title"
     val radioYesLabel = "label[for=threshold-yes]"
     val radioNoLabel = "label[for=threshold-no]"
-    val errorSummaryLink = "#threshold-error-summary"
-    val errorRadioText = "span.error-notification"
+    val errorSummaryLink = ".govuk-list > li:nth-child(1) > a:nth-child(1)"
+    val errorRadioText = "#threshold-error"
   }
 
   val emptyForm: Form[String] = turnoverThresholdForm(appConfig.thresholdAmount)
@@ -123,7 +123,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
       }
 
       "display the radio button error text" in {
-        elementText(Selectors.errorRadioText) shouldBe "Select yes if the business’s taxable turnover is above £85,000"
+        elementText(Selectors.errorRadioText) shouldBe "Error: Select yes if the business’s taxable turnover is above £85,000"
       }
     }
   }
@@ -135,26 +135,28 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
     )(request, messages, appConfig, clientUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
-    "have a 'Yes' radio button" which {
+    "have a checked 'Yes' radio option" in {
+      elementAttributes(Selectors.radioYesField).get("checked").isDefined
+    }
 
-      "should be selected" in {
-        element(Selectors.radioYesField).attr("checked") shouldBe "checked"
-      }
+    "have an unchecked 'No' radio option" in {
+      elementAttributes(Selectors.radioNoField).get("checked").isEmpty
     }
   }
 
-  "Rendering the turnover threshold page for a client with aa populated no value" should {
+  "Rendering the turnover threshold page for a client with a populated no option" should {
 
     lazy val view = injectedView(
       turnoverThresholdForm(appConfig.thresholdAmount).bind(Map("threshold" -> optionNo))
     )(request, messages, appConfig, clientUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
-    "have a 'No' radio button" which {
+    "have a checked 'No' radio option" in {
+      elementAttributes(Selectors.radioNoField).get("checked").isDefined
+    }
 
-      "should be selected" in {
-        element(Selectors.radioNoField).attr("checked") shouldBe "checked"
-      }
+    "have an unchecked 'Yes' radio option" in {
+      elementAttributes(Selectors.radioYesField).get("checked").isEmpty
     }
   }
 

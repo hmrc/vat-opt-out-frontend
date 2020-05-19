@@ -23,9 +23,8 @@ import play.api.{Configuration, Mode}
 
 class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mode.Test) extends AppConfig {
   override val contactHost = ""
+  override val contactFormServiceIdentifier: String = ""
   override val assetsPrefix = ""
-  override val reportAProblemPartialUrl = ""
-  override val reportAProblemNonJSUrl = ""
   override val vatOptOutServicePath = "/opt-out"
   override val signInUrl = "/sign-in-url"
   override def signOutUrl(identifier: String): String = s"/sign-out/$identifier"
@@ -37,7 +36,7 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override val agentClientLookupHandoff: String = "/agent-client-lookup"
   override val agentClientLookupChoicesPath: String = "/representative/client-vat-account"
   override val vatAgentClientLookupUnauthorised: String = "mockUnauthVACLF"
-  override val accessibilityLinkUrl: String = "/accessibility-statement"
+  override val footerAccessibilityUrl: String = "/accessibility-statement"
   override def feedbackUrl(redirect: String): String = s"feedback/$redirect"
   override def exitSurveyUrl(identifier: String): String = s"/exit-survey/$identifier"
   override val agentServicesGovUkGuidance: String = "/agent-guidance"
@@ -52,4 +51,8 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override val govUkContactUs: String = "/gov-uk/contact-us"
   override val thresholdAmount: String = "£85,000"
   override val vatSummaryServicePath: String = "/vat-summary"
+  override val footerCookiesUrl: String = "/cookies"
+  override val footerPrivacyUrl: String = "/privacy"
+  override val footerTermsConditionsUrl: String = "/terms"
+  override val footerHelpUrl: String = "/help"
 }

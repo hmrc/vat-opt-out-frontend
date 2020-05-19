@@ -26,13 +26,15 @@ val compile = Seq(
   "uk.gov.hmrc"             %% "govuk-template"           % "5.52.0-play-26",
   "uk.gov.hmrc"             %% "play-ui"                  % "8.8.0-play-26",
   "uk.gov.hmrc"             %% "auth-client"              % "2.35.0-play-26",
-  "uk.gov.hmrc"             %% "bootstrap-play-26"        % "1.5.0",
+  "uk.gov.hmrc"             %% "bootstrap-play-26"        % "1.7.0",
   "uk.gov.hmrc"             %% "play-language"            % "4.2.0-play-26",
-  "com.typesafe.play"       %% "play-json-joda"           % "2.6.0-RC1"
+  "com.typesafe.play"       %% "play-json-joda"           % "2.6.0-RC1",
+  "uk.gov.hmrc"             %% "play-frontend-govuk"      % "0.44.0-play-26",
+  "uk.gov.hmrc"             %% "play-frontend-hmrc"       % "0.14.0-play-26"
 )
 
 def test(scope:String = "test,it"): Seq[ModuleID] = Seq(
-  "uk.gov.hmrc"             %% "bootstrap-play-26"           % "1.5.0"                 % scope classifier "tests",
+  "uk.gov.hmrc"             %% "bootstrap-play-26"           % "1.7.0"                 % scope classifier "tests",
   "org.scalatest"           %% "scalatest"                   % "3.0.8"                 % scope,
   "org.jsoup"               %  "jsoup"                       % "1.12.1"                % scope,
   "com.typesafe.play"       %% "play-test"                   % current                 % scope,
@@ -44,6 +46,12 @@ def test(scope:String = "test,it"): Seq[ModuleID] = Seq(
 )
 
 lazy val appDependencies:Seq[ModuleID] = compile ++ test()
+
+TwirlKeys.templateImports ++= Seq(
+  "uk.gov.hmrc.govukfrontend.views.html.components._",
+  "uk.gov.hmrc.govukfrontend.views.html.helpers._",
+  "uk.gov.hmrc.hmrcfrontend.views.html.components._"
+)
 
 def oneForkedJvmPerTest(tests: Seq[TestDefinition]): Seq[Group] = tests map {
   test => Group(test.name, Seq(test), SubProcess(

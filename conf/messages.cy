@@ -76,3 +76,9 @@ cannotOptOut.return.agent = Bwrw golwg dros opsiynau eich cleient
 
 turnoverThreshold.error.empty = Dewiswch ‘Iawn’ os yw trosiant trethadwy’r busnes dros {0}
 turnoverThreshold.title = A yw trosiant trethadwy’r busnes wedi bod dros {0} ar unrhyw adeg ers 1 Ebrill 2019?
+
+footerLinks.cookies = Cwcis
+footerLinks.accessibility = Hygyrchedd
+footerLinks.privacyPolicy = Polisi preifatrwydd
+footerLinks.termsAndConditions = Telerau ac Amodau
+footerLinks.help = Help wrth ddefnyddio GOV.UK
