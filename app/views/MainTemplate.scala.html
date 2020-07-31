@@ -35,6 +35,9 @@
 
 @head = {
   <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/application.css")' media="screen">
+  <!--[if !IE]>-->
+  <script type="text/javascript" src="@appConfig.trackingConsentUrl"></script>
+  <!--<![endif]-->
 }
 
 @scripts = {
