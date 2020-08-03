@@ -51,6 +51,7 @@ class MockAppConfig(val runModeConfiguration: Configuration, val mode: Mode = Mo
   override val govUkContactUs: String = "/gov-uk/contact-us"
   override val thresholdAmount: String = "£85,000"
   override val vatSummaryServicePath: String = "/vat-summary"
+  override val trackingConsentUrl: String = "/tracking"
   override val footerCookiesUrl: String = "/cookies"
   override val footerPrivacyUrl: String = "/privacy"
   override val footerTermsConditionsUrl: String = "/terms"

@@ -18,7 +18,6 @@ package config
 
 import config.{ConfigKeys => Keys}
 import javax.inject.{Inject, Singleton}
-import play.api.Configuration
 import play.api.i18n.Lang
 import play.api.mvc.Call
 import uk.gov.hmrc.play.bootstrap.binders.SafeRedirectUrl
@@ -50,6 +49,7 @@ trait AppConfig {
   val govUkContactUs: String
   val thresholdAmount: String
   val vatSummaryServicePath: String
+  val trackingConsentUrl: String
   val footerCookiesUrl: String
   val footerAccessibilityUrl: String
   val footerPrivacyUrl: String
@@ -58,7 +58,7 @@ trait AppConfig {
 }
 
 @Singleton
-class FrontendAppConfig @Inject()(configuration: Configuration, sc: ServicesConfig) extends AppConfig {
+class FrontendAppConfig @Inject()(sc: ServicesConfig) extends AppConfig {
 
   lazy val contactHost: String = sc.getString(s"contact-frontend.url")
   lazy val contactFormServiceIdentifier = "VATC"
@@ -119,6 +119,8 @@ class FrontendAppConfig @Inject()(configuration: Configuration, sc: ServicesConf
 
   private val vatSummaryServiceUrl: String = sc.getString(Keys.vatSummaryServiceUrl)
   override val vatSummaryServicePath: String = vatSummaryServiceUrl + sc.getString(Keys.vatSummaryServicePath)
+
+  override val trackingConsentUrl: String = sc.getString(Keys.trackingConsentUrl)
 
   override val footerCookiesUrl: String = sc.getString(ConfigKeys.footerCookiesUrl)
   override val footerAccessibilityUrl: String =
