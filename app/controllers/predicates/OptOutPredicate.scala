@@ -107,7 +107,7 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
 
   private def redirectOutOfJourney[A](implicit user: User[A]): Result =
     if (user.isAgent) {
-      Redirect(appConfig.agentClientLookupChoicesPath)
+      Redirect(appConfig.agentClientHubPath)
     } else {
       Redirect(appConfig.vatSummaryServicePath)
     }

@@ -170,7 +170,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
     }
 
     "have a back link with the correct link location" in {
-      element(Selectors.backLink).attr("href") shouldBe appConfig.agentClientLookupChoicesPath
+      element(Selectors.backLink).attr("href") shouldBe appConfig.agentClientHubPath
     }
   }
 }

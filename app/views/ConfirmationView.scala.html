@@ -24,7 +24,7 @@
 }
 
 @linkOut = @{
-  if(user.isAgent) appConfig.agentClientLookupChoicesPath else appConfig.vatSummaryServicePath
+  if(user.isAgent) appConfig.agentClientHubPath else appConfig.vatSummaryServicePath
 }
 
 @mainTemplate(
@@ -48,7 +48,7 @@
   <p class="govuk-body">
     @if(user.isAgent) {
       @messages("confirmation.submitOnline1.agent")
-      <a class="govuk-link" href="@appConfig.agentClientLookupChoicesPath">
+      <a class="govuk-link" href="@appConfig.agentClientHubPath">
         @messages("confirmation.submitOnline2.agent")</a>@messages("confirmation.submitOnline3.agent")
     } else {
       @messages("confirmation.submitOnline1")
@@ -59,14 +59,8 @@
 
   <p class="govuk-body">@messages(s"confirmation.aboveThreshold$agentMessageAffix", appConfig.thresholdAmount)</p>
 
-  @if(user.isAgent) {
-    <p class="govuk-body">
-      <a class="govuk-link" href="@appConfig.agentClientLookupHandoff">@messages("confirmation.changeClient")</a>
-    </p>
-  }
-
   @govukButton(Button(
     href = Some(linkOut),
-    content = Text(messages("confirmation.finish"))
+    content = Text(messages("confirmation.back"))
   ))
 }

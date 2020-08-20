@@ -86,7 +86,7 @@ class OptOutPredicateSpec extends MockAuth {
             }
 
             "redirect the user to the client choices page" in {
-              redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
+              redirectLocation(result) shouldBe Some(appConfig.agentClientHubPath)
             }
 
             "not call the VatSubscriptionService" in {
@@ -126,7 +126,7 @@ class OptOutPredicateSpec extends MockAuth {
           }
 
           "redirect the user to the client choices page" in {
-            redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
+            redirectLocation(result) shouldBe Some(appConfig.agentClientHubPath)
           }
 
           "not call the VatSubscriptionService" in {
@@ -165,7 +165,7 @@ class OptOutPredicateSpec extends MockAuth {
           }
 
           "redirect the user to the client choices page" in {
-            redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
+            redirectLocation(result) shouldBe Some(appConfig.agentClientHubPath)
           }
 
           "not call the VatSubscriptionService" in {
@@ -204,7 +204,7 @@ class OptOutPredicateSpec extends MockAuth {
           }
 
           "redirect the user to the client choices page" in {
-            redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
+            redirectLocation(result) shouldBe Some(appConfig.agentClientHubPath)
           }
 
           "not call the VatSubscriptionService" in {
@@ -271,7 +271,7 @@ class OptOutPredicateSpec extends MockAuth {
             }
 
             "redirect the user to the client choices page" in {
-              redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
+              redirectLocation(result) shouldBe Some(appConfig.agentClientHubPath)
             }
 
             "call the VatSubscriptionService" in {
@@ -323,7 +323,7 @@ class OptOutPredicateSpec extends MockAuth {
           }
 
           "redirect the user to the client choices page" in {
-            redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
+            redirectLocation(result) shouldBe Some(appConfig.agentClientHubPath)
           }
 
           "call the VatSubscriptionService" in {
@@ -382,7 +382,7 @@ class OptOutPredicateSpec extends MockAuth {
           }
 
           "redirect the user to the client choices page" in {
-            redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
+            redirectLocation(result) shouldBe Some(appConfig.agentClientHubPath)
           }
 
           "call the VatSubscriptionService" in {
@@ -441,7 +441,7 @@ class OptOutPredicateSpec extends MockAuth {
           }
 
           "redirect the user to the client choices page" in {
-            redirectLocation(result) shouldBe Some(appConfig.agentClientLookupChoicesPath)
+            redirectLocation(result) shouldBe Some(appConfig.agentClientHubPath)
           }
 
           "call the VatSubscriptionService" in {

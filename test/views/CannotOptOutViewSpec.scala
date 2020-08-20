@@ -84,7 +84,7 @@ class CannotOptOutViewSpec extends ViewBaseSpec {
       }
 
       "has the correct href" in {
-        element(".govuk-button").attr("href") shouldBe appConfig.agentClientLookupChoicesPath
+        element(".govuk-button").attr("href") shouldBe appConfig.agentClientHubPath
       }
     }
   }
