@@ -66,8 +66,7 @@ confirmation.submitOnline2.agent = online
 confirmation.submitOnline3.agent = , starting from your client’s next return period. This change can take 2 days to come into effect.
 confirmation.aboveThreshold = If your taxable turnover goes above {0}, you must sign up again for Making Tax Digital.
 confirmation.aboveThreshold.agent = If your client’s taxable turnover goes above {0}, you must sign them up again for Making Tax Digital.
-confirmation.finish = Finish
-confirmation.changeClient = Change client
+confirmation.back = Back to client’s details
 
 cannotOptOut.title = The business cannot opt out of Making Tax Digital for VAT
 cannotOptOut.explanation = This is because the business’s taxable turnover is, or has been, over the VAT threshold.

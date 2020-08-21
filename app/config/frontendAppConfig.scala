@@ -30,7 +30,7 @@ trait AppConfig {
   val vatOptOutServicePath: String
   val vatAgentClientLookupUnauthorised:String
   val agentClientLookupHandoff: String
-  val agentClientLookupChoicesPath: String
+  val agentClientHubPath: String
   val signInUrl: String
   def signOutUrl(identifier: String): String
   val unauthorisedSignOutUrl: String
@@ -87,7 +87,7 @@ class FrontendAppConfig @Inject()(sc: ServicesConfig) extends AppConfig {
 
   override lazy val agentClientLookupHandoff: String =
     agentClientLookupServicePath + s"/client-vat-number?redirectUrl=$signInContinueUrl"
-  override lazy val agentClientLookupChoicesPath: String =
+  override lazy val agentClientHubPath: String =
     agentClientLookupServicePath + sc.getString(Keys.agentClientLookupChoices)
 
   override lazy val manageVatSubscriptionServiceUrl: String = sc.getString(Keys.manageVatSubscriptionServiceUrl)

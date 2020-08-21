@@ -28,7 +28,7 @@
 @(turnoverThresholdForm: Form[String])(implicit request: Request[_], messages: Messages, appConfig: AppConfig, user: User[_])
 
 @linkBack = @{
-  if(user.isAgent) appConfig.agentClientLookupChoicesPath else appConfig.vatSummaryServicePath
+  if(user.isAgent) appConfig.agentClientHubPath else appConfig.vatSummaryServicePath
 }
 
 @mainTemplate(

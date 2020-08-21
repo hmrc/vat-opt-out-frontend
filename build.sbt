@@ -15,12 +15,14 @@
  */
 
 import play.core.PlayVersion.current
+import play.sbt.routes.RoutesKeys
 import sbt.Tests.{Group, SubProcess}
 import uk.gov.hmrc.DefaultBuildSettings.{addTestReportOption, integrationTestSettings}
 import uk.gov.hmrc.SbtArtifactory
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin.publishingSettings
 
 val appName = "vat-opt-out-frontend"
+RoutesKeys.routesImport := Seq.empty
 
 val compile = Seq(
   "uk.gov.hmrc"             %% "govuk-template"           % "5.55.0-play-26",
