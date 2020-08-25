@@ -77,7 +77,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     "have a button which" should {
 
       "have the correct text" in {
-        elementText(".govuk-button") shouldBe "Back to client’s details"
+        elementText(".govuk-button") shouldBe "Finish"
       }
 
       "have the correct link location" in {
@@ -133,6 +133,17 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     "have the correct fourth paragraph" in {
       elementText("#content > p:nth-of-type(4)") shouldBe "If your client’s taxable turnover goes above " +
         "£85,000, you must sign them up again for Making Tax Digital."
+    }
+
+    "have a button which" should {
+
+      "have the correct text" in {
+        elementText(".govuk-button") shouldBe "Back to client’s details"
+      }
+
+      "have the correct link location" in {
+        element(".govuk-button").attr("href") shouldBe appConfig.agentClientHubPath
+      }
     }
   }
 }
