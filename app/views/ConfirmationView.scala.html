@@ -59,8 +59,15 @@
 
   <p class="govuk-body">@messages(s"confirmation.aboveThreshold$agentMessageAffix", appConfig.thresholdAmount)</p>
 
-  @govukButton(Button(
-    href = Some(linkOut),
-    content = Text(messages("confirmation.back"))
-  ))
+        @if(user.isAgent){
+            @govukButton(Button(
+            href = Some(linkOut),
+            content = Text(messages("confirmation.agentBack"))
+            ))
+        } else {
+            @govukButton(Button(
+            href = Some(linkOut),
+            content = Text(messages("confirmation.finish"))
+            ))
+        }
 }

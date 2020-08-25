@@ -66,7 +66,8 @@ confirmation.submitOnline2.agent = ar-lein
 confirmation.submitOnline3.agent = , gan ddechrau o gyfnod Ffurflen TAW nesaf eich cleient. Gall y newid hwn gymryd 2 ddiwrnod i ddod i rym.
 confirmation.aboveThreshold = Os yw’ch trosiant trethadwy’n mynd dros {0}, mae’n rhaid i chi gofrestru eto ar gyfer y cynllun Troi Treth yn Ddigidol.
 confirmation.aboveThreshold.agent = Os yw trosiant trethadwy eich cleient yn mynd dros {0}, mae’n rhaid i chi ei gofrestru eto ar gyfer y cynllun Troi Treth yn Ddigidol.
-confirmation.back = Yn ôl i fanylion y cleient
+confirmation.finish = Gorffen
+confirmation.agentBack = Yn ôl i fanylion y cleient
 
 cannotOptOut.title = Nid yw’r busnes yn gallu optio allan o’r cynllun Troi Treth yn Ddigidol ar gyfer TAW
 cannotOptOut.explanation = Mae hyn oherwydd bod trosiant trethadwy’r busnes dros y trothwy TAW, neu wedi bod dros y trothwy ar un adeg.
