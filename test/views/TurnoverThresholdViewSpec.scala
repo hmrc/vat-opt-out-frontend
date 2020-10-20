@@ -118,8 +118,15 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
         element(Selectors.errorSummary).text() shouldBe "There is a problem"
       }
 
-      "display the error summary link" in {
-        elementText(Selectors.errorSummaryLink) shouldBe "Select yes if the business’s taxable turnover is above £85,000"
+      "display the error summary link" which {
+
+        "has the correct text" in {
+          elementText(Selectors.errorSummaryLink) shouldBe "Select yes if the business’s taxable turnover is above £85,000"
+        }
+
+        "has the correct href" in {
+          element(Selectors.errorSummaryLink).attr("href") shouldBe "#threshold-yes"
+        }
       }
 
       "display the radio button error text" in {

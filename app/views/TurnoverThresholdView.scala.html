@@ -51,7 +51,7 @@
       title = Text(messages("base.error.heading")),
       errorList = turnoverThresholdForm.errors.map { error =>
         ErrorLink(
-          href = Some(s"#${error.key}-error"),
+          href = Some(s"#threshold-${Constants.optionYes}"),
           content = Text(messages(error.message, error.args: _*))
         )
       }
