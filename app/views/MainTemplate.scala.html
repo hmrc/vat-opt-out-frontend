@@ -38,11 +38,6 @@
   <!--[if !IE]>-->
   <script type="text/javascript" src="@appConfig.trackingConsentUrl"></script>
   <!--<![endif]-->
-}
-
-@scripts = {
-  <script src='@routes.Assets.at("lib/govuk-frontend/govuk/all.js")'></script>
-  <script src='@routes.Assets.at("lib/hmrc-frontend/hmrc/all.js")'></script>
   @hmrcTimeoutDialog(TimeoutDialog(
     timeout = Some(appConfig.timeoutPeriod),
     countdown = Some(appConfig.timeoutCountdown),
@@ -50,6 +45,11 @@
     keepAliveUrl = Some("#"),
     signOutButtonText = Some(messages("base.signOut"))
   ))
+}
+
+@scripts = {
+  <script src='@routes.Assets.at("lib/govuk-frontend/govuk/all.js")'></script>
+  <script src='@routes.Assets.at("lib/hmrc-frontend/hmrc/all.js")'></script>
   <script>window.GOVUKFrontend.initAll();</script>
   <script>window.HMRCFrontend.initAll();</script>
 }
@@ -59,21 +59,13 @@
     serviceName = Some(dynamicNavTitle),
     serviceUrl = Some("#"),
     navigation =
-      if(feedbackOnSignOut)
+      if(showLogout)
         Some(Seq(HeaderNavigation(
           text = Some(messages("base.signOut")),
           href = Some(routes.SignOutController.signOut(feedbackOnSignOut).url)
         )))
       else None
     ))
-}
-
-@headerNavLinks = {
-  @if(showLogout) {
-    <li>
-      <a id="sign-out" href="@routes.SignOutController.signOut(feedbackOnSignOut)">@messages("base.signOut")</a>
-    </li>
-  }
 }
 
 @dynamicNavTitle = @{
