@@ -30,8 +30,8 @@ val compile = Seq(
   "uk.gov.hmrc"             %% "bootstrap-play-26"        % "1.8.0",
   "uk.gov.hmrc"             %% "play-language"            % "4.3.0-play-26",
   "com.typesafe.play"       %% "play-json-joda"           % "2.6.0-RC1",
-  "uk.gov.hmrc"             %% "play-frontend-govuk"      % "0.44.0-play-26",
-  "uk.gov.hmrc"             %% "play-frontend-hmrc"       % "0.14.0-play-26"
+  "uk.gov.hmrc"             %% "play-frontend-govuk"      % "0.53.0-play-26",
+  "uk.gov.hmrc"             %% "play-frontend-hmrc"       % "0.20.0-play-26"
 )
 
 def test(scope:String = "test,it"): Seq[ModuleID] = Seq(
