@@ -28,7 +28,7 @@ val compile = Seq(
   "uk.gov.hmrc"             %% "play-ui"                  % "8.14.0-play-26",
   "uk.gov.hmrc"             %% "bootstrap-play-26"        % "1.8.0",
   "uk.gov.hmrc"             %% "play-language"            % "4.4.0-play-26",
-  "com.typesafe.play"       %% "play-json-joda"           % "2.6.0-RC1",
+  "com.typesafe.play"       %% "play-json-joda"           % "2.6.14",
   "uk.gov.hmrc"             %% "play-frontend-govuk"      % "0.53.0-play-26",
   "uk.gov.hmrc"             %% "play-frontend-hmrc"       % "0.20.0-play-26"
 )
