@@ -18,17 +18,16 @@ import play.core.PlayVersion.current
 import play.sbt.routes.RoutesKeys
 import sbt.Tests.{Group, SubProcess}
 import uk.gov.hmrc.DefaultBuildSettings.{addTestReportOption, integrationTestSettings}
-import uk.gov.hmrc.SbtArtifactory
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin.publishingSettings
 
 val appName = "vat-opt-out-frontend"
 RoutesKeys.routesImport := Seq.empty
 
 val compile = Seq(
-  "uk.gov.hmrc"             %% "govuk-template"           % "5.55.0-play-26",
-  "uk.gov.hmrc"             %% "play-ui"                  % "8.10.0-play-26",
+  "uk.gov.hmrc"             %% "govuk-template"           % "5.58.0-play-26",
+  "uk.gov.hmrc"             %% "play-ui"                  % "8.14.0-play-26",
   "uk.gov.hmrc"             %% "bootstrap-play-26"        % "1.8.0",
-  "uk.gov.hmrc"             %% "play-language"            % "4.3.0-play-26",
+  "uk.gov.hmrc"             %% "play-language"            % "4.4.0-play-26",
   "com.typesafe.play"       %% "play-json-joda"           % "2.6.0-RC1",
   "uk.gov.hmrc"             %% "play-frontend-govuk"      % "0.53.0-play-26",
   "uk.gov.hmrc"             %% "play-frontend-hmrc"       % "0.20.0-play-26"
@@ -88,7 +87,7 @@ lazy val coverageSettings: Seq[Setting[_]] = {
 }
 
 lazy val microservice = Project(appName, file("."))
-  .enablePlugins(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin, SbtArtifactory)
+  .enablePlugins(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin)
   .disablePlugins(JUnitXmlReportPlugin)
   .settings(
     majorVersion                     := 0,

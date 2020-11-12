@@ -49,7 +49,7 @@ trait AppConfig {
   val govUkContactUs: String
   val thresholdAmount: String
   val vatSummaryServicePath: String
-  val trackingConsentUrl: String
+  val gtmContainer: String
   val footerCookiesUrl: String
   val footerAccessibilityUrl: String
   val footerPrivacyUrl: String
@@ -120,7 +120,7 @@ class FrontendAppConfig @Inject()(sc: ServicesConfig) extends AppConfig {
   private val vatSummaryServiceUrl: String = sc.getString(Keys.vatSummaryServiceUrl)
   override val vatSummaryServicePath: String = vatSummaryServiceUrl + sc.getString(Keys.vatSummaryServicePath)
 
-  override val trackingConsentUrl: String = sc.getString(Keys.trackingConsentUrl)
+  override val gtmContainer: String = sc.getString(Keys.gtmContainer)
 
   override val footerCookiesUrl: String = sc.getString(ConfigKeys.footerCookiesUrl)
   override val footerAccessibilityUrl: String =
