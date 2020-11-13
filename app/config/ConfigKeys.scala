@@ -42,7 +42,7 @@ object ConfigKeys {
   val vatSummaryServiceUrl: String = "vat-summary-frontend.url"
   val vatSummaryServicePath: String = "vat-summary-frontend.path"
   val vatSummaryAccessibilityUrl: String = "vat-summary-frontend.accessibilityUrl"
-  val trackingConsentUrl: String = "tracking-consent-frontend.url"
+  val gtmContainer: String = "tracking-consent-frontend.gtm.container"
 
   val footerCookiesUrl: String = "mdtp.cookies"
   val footerPrivacyUrl: String = "mdtp.privacyPolicy"
