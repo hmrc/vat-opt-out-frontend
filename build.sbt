@@ -24,17 +24,17 @@ val appName = "vat-opt-out-frontend"
 RoutesKeys.routesImport := Seq.empty
 
 val compile = Seq(
-  "uk.gov.hmrc"             %% "govuk-template"           % "5.58.0-play-26",
-  "uk.gov.hmrc"             %% "play-ui"                  % "8.14.0-play-26",
-  "uk.gov.hmrc"             %% "bootstrap-play-26"        % "1.8.0",
+  "uk.gov.hmrc"             %% "govuk-template"           % "5.60.0-play-26",
+  "uk.gov.hmrc"             %% "play-ui"                  % "8.18.0-play-26",
+  "uk.gov.hmrc"             %% "bootstrap-play-26"        % "2.1.0",
   "uk.gov.hmrc"             %% "play-language"            % "4.4.0-play-26",
   "com.typesafe.play"       %% "play-json-joda"           % "2.6.14",
-  "uk.gov.hmrc"             %% "play-frontend-govuk"      % "0.53.0-play-26",
+  "uk.gov.hmrc"             %% "play-frontend-govuk"      % "0.55.0-play-26",
   "uk.gov.hmrc"             %% "play-frontend-hmrc"       % "0.20.0-play-26"
 )
 
 def test(scope:String = "test,it"): Seq[ModuleID] = Seq(
-  "uk.gov.hmrc"             %% "bootstrap-play-26"           % "1.8.0"                 % scope classifier "tests",
+  "uk.gov.hmrc"             %% "bootstrap-play-26"           % "2.1.0"                 % scope classifier "tests",
   "org.scalatest"           %% "scalatest"                   % "3.0.8"                 % scope,
   "org.jsoup"               %  "jsoup"                       % "1.12.1"                % scope,
   "com.typesafe.play"       %% "play-test"                   % current                 % scope,
