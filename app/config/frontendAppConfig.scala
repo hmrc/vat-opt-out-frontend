@@ -72,8 +72,10 @@ class FrontendAppConfig @Inject()(sc: ServicesConfig) extends AppConfig {
   private lazy val signInOrigin = sc.getString("appName")
   override lazy val signInUrl: String = s"$signInBaseUrl?continue=$signInContinueUrl&origin=$signInOrigin"
 
-  override def signOutUrl(identifier: String): String = s"$governmentGatewayHost/gg/sign-out?continue=${exitSurveyUrl(identifier)}"
-  override lazy val unauthorisedSignOutUrl: String = s"$governmentGatewayHost/gg/sign-out?continue=$signInContinueUrl"
+  override def signOutUrl(identifier: String): String =
+    s"$governmentGatewayHost/bas-gateway/sign-out-without-state?continue=${exitSurveyUrl(identifier)}"
+  override lazy val unauthorisedSignOutUrl: String =
+    s"$governmentGatewayHost/bas-gateway/sign-out-without-state?continue=$signInContinueUrl"
 
   private lazy val vatOptOutServiceUrl: String = sc.getString(Keys.vatOptOutServiceUrl)
   override lazy val vatOptOutServicePath: String =
