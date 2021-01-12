@@ -20,19 +20,31 @@ import play.api.libs.functional.syntax._
 import play.api.libs.json._
 
 case class CustomerInformation(mandationStatus: MandationStatus,
-                               inflightMandationStatus: Boolean)
+                               isInsolvent: Boolean,
+                               continueToTrade: Option[Boolean],
+                               inflightMandationStatus: Boolean) {
+
+  val isInsolventWithoutAccess: Boolean = continueToTrade match {
+    case Some(false) => isInsolvent
+    case _ => false
+  }
+}
 
 object CustomerInformation {
 
   def construct(mandationStatus: MandationStatus,
+                isInsolvent: Boolean,
+                continueToTrade: Option[Boolean],
                 inflightMandationStatus: Option[String]): CustomerInformation = {
 
     val isMandationStatusPending = inflightMandationStatus.fold(false)(_ => true)
-    CustomerInformation( mandationStatus, isMandationStatusPending)
+    CustomerInformation( mandationStatus, isInsolvent, continueToTrade, isMandationStatusPending)
   }
 
   implicit val reads: Reads[CustomerInformation] = (
     (JsPath \ "mandationStatus").read[MandationStatus] and
+    (JsPath \ "customerDetails" \ "isInsolvent").read[Boolean] and
+    (JsPath \ "customerDetails" \ "continueToTrade").readNullable[Boolean].orElse(Reads.pure(None)) and
     (JsPath \ "pendingChanges" \ "mandationStatus").readNullable[String].orElse(Reads.pure(None))
   )(construct _)
 }

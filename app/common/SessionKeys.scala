@@ -23,4 +23,5 @@ object SessionKeys {
   val inflightMandationStatus: String = "inflightMandationStatus"
   val optOutSuccessful: String = "vatOptOutSuccessful"
   val verifiedAgentEmail: String = "verifiedAgentEmail"
+  val insolventWithoutAccessKey: String = "insolventWithoutAccess"
 }
