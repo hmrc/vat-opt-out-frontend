@@ -49,6 +49,7 @@ trait MockAuth extends TestUtils with MockitoSugar {
 
   val mockAuthPredicate = new AuthPredicate(
     mockEnrolmentsAuthService,
+    mockVatSubscriptionService,
     mockErrorHandler,
     sessionTimeoutView,
     unauthorisedAgentView,

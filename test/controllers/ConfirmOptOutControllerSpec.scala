@@ -82,6 +82,7 @@ class ConfirmOptOutControllerSpec extends MockAuth {
 
       lazy val request = FakeRequest().withSession(
         mandationStatus -> MTDfBMandated.value,
+        insolventWithoutAccessKey -> "false",
         inflightMandationStatus -> "false",
         turnoverThreshold -> "no"
       )

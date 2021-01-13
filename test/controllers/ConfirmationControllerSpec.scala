@@ -38,7 +38,8 @@ class ConfirmationControllerSpec extends MockAuth {
 
       lazy val optedOutRequest: FakeRequest[AnyContentAsEmpty.type] = FakeRequest().withSession(
         SessionKeys.inflightMandationStatus -> "true",
-        SessionKeys.optOutSuccessful -> "true"
+        SessionKeys.optOutSuccessful -> "true",
+        SessionKeys.insolventWithoutAccessKey -> "false"
       )
       lazy val result = controller.show()(optedOutRequest)
 

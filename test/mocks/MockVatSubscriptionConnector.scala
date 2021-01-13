@@ -40,7 +40,7 @@ trait MockVatSubscriptionConnector extends MockitoSugar {
     when(connector.getCustomerInfo(any())(any(), any())).thenReturn(result)
 
   def mockGetVatSubscriptionSuccess(): VatGetStub =
-    mockGetVatSubscriptionResponse(Future.successful(Right(customerInfoModel(MTDfBMandated))))
+    mockGetVatSubscriptionResponse(Future.successful(Right(customerInfoModel(MTDfBMandated, isInsolvent = false, continueToTrade = Some(true)))))
 
   def mockGetVatSubscriptionFailure(): VatGetStub =
     mockGetVatSubscriptionResponse(Future.successful(Left(errorModel)))

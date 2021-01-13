@@ -40,7 +40,8 @@ class VatSubscriptionConnectorISpec extends IntegrationBaseSpec {
       "return a CustomerInformation model" in new Test {
         VatSubscriptionStub.stubCustomerInfo
 
-        val expected = Right(CustomerInformation(MTDfBMandated, inflightMandationStatus = false))
+        val expected = Right(CustomerInformation(MTDfBMandated, isInsolvent = false,
+          continueToTrade = Some(true), inflightMandationStatus = false))
         val result: GetVatSubscriptionResponse = await(connector.getCustomerInfo("123456789"))
 
         result shouldBe expected

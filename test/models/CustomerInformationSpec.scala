@@ -26,15 +26,18 @@ class CustomerInformationSpec extends TestUtils {
     "successfully parse from JSON" when {
 
       "all expected fields are present and mandation status of MTDfBMandated" in {
-        customerInfoJson(MTDfBMandated.value).as[CustomerInformation] shouldBe customerInfoModel(MTDfBMandated)
+        customerInfoJson(MTDfBMandated.value, isInsolvent = false).as[CustomerInformation] shouldBe customerInfoModel(MTDfBMandated,
+          isInsolvent = false, continueToTrade = Some(true))
       }
 
       "there is a mandation status of MTDfB Voluntary" in {
-          customerInfoJson(MTDfBVoluntary.value).as[CustomerInformation] shouldBe customerInfoModel(MTDfBVoluntary)
+          customerInfoJson(MTDfBVoluntary.value, isInsolvent = false).as[CustomerInformation] shouldBe customerInfoModel(MTDfBVoluntary,
+            isInsolvent = false, continueToTrade = Some(true))
         }
 
       "there is a mandation status of Non MTDfB" in {
-          customerInfoJson(NonMTDfB.value).as[CustomerInformation] shouldBe customerInfoModel(NonMTDfB)
+          customerInfoJson(NonMTDfB.value, isInsolvent = false).as[CustomerInformation] shouldBe customerInfoModel(NonMTDfB,
+            isInsolvent = false, continueToTrade = Some(true))
         }
 
       }
@@ -50,7 +53,7 @@ class CustomerInformationSpec extends TestUtils {
       }
 
       "there is a mandation status that is not recognised" in {
-        intercept[Exception](customerInfoJson("VATDEC Mandatory").as[CustomerInformation])
+        intercept[Exception](customerInfoJson("VATDEC Mandatory", isInsolvent = false).as[CustomerInformation])
       }
     }
   }

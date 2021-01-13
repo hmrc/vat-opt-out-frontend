@@ -36,7 +36,7 @@ class VatSubscriptionServiceSpec extends TestUtils with MockVatSubscriptionConne
         mockGetVatSubscriptionSuccess()
 
         val result = await(service.getCustomerInfo(testVrn))
-        result shouldBe Right(customerInfoModel(MTDfBMandated))
+        result shouldBe Right(customerInfoModel(MTDfBMandated, isInsolvent = false, continueToTrade = Some(true)))
       }
     }
 

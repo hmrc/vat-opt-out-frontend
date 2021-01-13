@@ -28,7 +28,7 @@ import scala.concurrent.Future
 class AuthoriseAsAgentPredicateSpec extends MockAuth {
 
   val target: Action[AnyContent] = mockAuthAsAgentWithClient.async {
-    implicit user => Future.successful(Ok("Test"))
+    _ => Future.successful(Ok("Test"))
   }
 
   "AuthoriseAsAgentWithClient" when {

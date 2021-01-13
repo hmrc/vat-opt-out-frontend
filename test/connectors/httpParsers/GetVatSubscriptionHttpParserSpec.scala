@@ -37,9 +37,9 @@ class GetVatSubscriptionHttpParserSpec extends TestUtils {
       "valid JSON is returned" should {
 
         "return a CustomerInformation model" in {
-          val response = HttpResponse(Status.OK, Some(customerInfoJson("MTDfB Mandated")))
+          val response = HttpResponse(Status.OK, Some(customerInfoJson("MTDfB Mandated", isInsolvent = false)))
           val result = vatSubscriptionResult(response)
-          result shouldBe Right(customerInfoModel(MTDfBMandated))
+          result shouldBe Right(customerInfoModel(MTDfBMandated, false, Some(true)))
         }
       }
 

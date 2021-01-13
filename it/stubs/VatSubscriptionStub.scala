@@ -51,7 +51,9 @@ object VatSubscriptionStub extends WireMockMethods {
     "tradingName" -> "ChoC Services",
     "organisationName" -> "ChoC Services Ltd",
     "firstName" -> "Chocolate",
-    "lastName" -> "Services"
+    "lastName" -> "Services",
+      "isInsolvent" -> false,
+      "continueToTrade" -> true
      ),
     "mandationStatus" -> "MTDfB Mandated"
   )

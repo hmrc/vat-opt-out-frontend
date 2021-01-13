@@ -22,11 +22,14 @@ import play.api.libs.json.{JsObject, Json}
 object CustomerInformationConstants {
 
 
-  def customerInfoJson(mandationStatus: String): JsObject = Json.obj(
-    "mandationStatus" -> mandationStatus
-  )
+  def customerInfoJson(mandationStatus: String, isInsolvent: Boolean): JsObject = Json.obj(
+    "mandationStatus" -> mandationStatus,
+    "customerDetails" -> Json.obj(
+    "isInsolvent" -> isInsolvent,
+    "continueToTrade" -> true
+  ))
 
-  val customerInfoJsonPending: JsObject = customerInfoJson("MTDfB Mandated") ++ Json.obj(
+  val customerInfoJsonPending: JsObject = customerInfoJson("MTDfB Mandated", false) ++ Json.obj(
     "pendingChanges" -> Json.obj(
       "mandationStatus" -> "Non MTDfB"
     )
@@ -37,9 +40,12 @@ object CustomerInformationConstants {
     "mandationStatusInvalid" -> "MTDfB Mandated"
   )
 
-  def customerInfoModel(mandationStatus: MandationStatus): CustomerInformation =
-    CustomerInformation(  mandationStatus, inflightMandationStatus = false)
+  def customerInfoModel(mandationStatus: MandationStatus, isInsolvent: Boolean, continueToTrade: Option[Boolean]): CustomerInformation =
+    CustomerInformation(  mandationStatus, isInsolvent, continueToTrade, inflightMandationStatus = false)
 
   val customerInfoModelPending =
-    CustomerInformation( MTDfBMandated, inflightMandationStatus = true)
+    CustomerInformation( MTDfBMandated, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = true)
+
+  val customerInfoModelInsolvent =
+    CustomerInformation( MTDfBMandated, isInsolvent = true, continueToTrade = Some(false), inflightMandationStatus = false)
 }

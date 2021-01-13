@@ -44,7 +44,7 @@ trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
   implicit val appConfig: MockAppConfig = new MockAppConfig(app.configuration)
   implicit val system: ActorSystem = ActorSystem("Sys")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
-  implicit val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
+  implicit val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest().withSession(SessionKeys.insolventWithoutAccessKey -> "false")
   val clientUser: User[AnyContentAsEmpty.type] = User("999999999")(request)
   val agentUser: User[AnyContentAsEmpty.type] = User("999999999", arn = Some("XARN1234567"))(request)
 
@@ -57,7 +57,8 @@ trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
 
   lazy val requestPredicatedClient: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest().withSession(
-      SessionKeys.mandationStatus -> MTDfBMandated.value, SessionKeys.inflightMandationStatus -> "false")
+      SessionKeys.mandationStatus -> MTDfBMandated.value, SessionKeys.insolventWithoutAccessKey -> "false",
+      SessionKeys.inflightMandationStatus -> "false")
 
   lazy val agentUserWithClient: User[AnyContentAsEmpty.type] = User("999999999", arn = Some("XARN1234567"))(requestWithClientVRN)
 
