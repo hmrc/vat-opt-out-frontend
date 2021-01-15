@@ -43,9 +43,12 @@ object CustomerInformationConstants {
   def customerInfoModel(mandationStatus: MandationStatus, isInsolvent: Boolean, continueToTrade: Option[Boolean]): CustomerInformation =
     CustomerInformation(  mandationStatus, isInsolvent, continueToTrade, inflightMandationStatus = false)
 
-  val customerInfoModelPending =
+  val customerInfoModelPending: CustomerInformation =
     CustomerInformation( MTDfBMandated, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = true)
 
-  val customerInfoModelInsolvent =
+  val customerInfoModelInsolvent: CustomerInformation =
     CustomerInformation( MTDfBMandated, isInsolvent = true, continueToTrade = Some(false), inflightMandationStatus = false)
+
+  val customerNotInsolvent: CustomerInformation =
+    CustomerInformation( MTDfBMandated, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = false)
 }

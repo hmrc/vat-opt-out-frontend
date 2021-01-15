@@ -16,6 +16,7 @@
 
 package controllers
 
+import org.jsoup.Jsoup
 import play.api.http.Status
 import play.api.test.Helpers._
 import utils.MockAuth
@@ -27,18 +28,35 @@ class CannotOptOutControllerSpec extends MockAuth {
 
   val controller = new CannotOptOutController(mockAuthPredicate, mockOptOutPredicate, cannotOptOutView)
 
-  ".show() for an individual fulfilling predicate sessions checks" should {
+  "Calling .show() for an individual" when {
 
-    lazy val result = controller.show()(requestPredicatedClient)
+    "an individual is insolvent and not continuing to trade" should {
 
-    "return 200" in {
-      mockIndividualAuthorised()
-      status(result) shouldBe Status.OK
+      lazy val result = controller.show()(requestInsolvent)
+
+      "return 403" in {
+        mockIndividualAuthorised()
+        status(result) shouldBe Status.FORBIDDEN
+      }
+
+      "render the Standard Error page" in {
+        messages(Jsoup.parse(bodyOf(result)).select("h1").text) shouldBe "You are not authorised to use this service"
+      }
     }
 
-    "return HTML" in {
-      contentType(result) shouldBe Some("text/html")
-      charset(result) shouldBe Some("utf-8")
+    "an individual fulfilling predicate sessions checks" should {
+
+      lazy val result = controller.show()(requestPredicatedClient)
+
+      "return 200" in {
+        mockIndividualAuthorised()
+        status(result) shouldBe Status.OK
+      }
+
+      "return HTML" in {
+        contentType(result) shouldBe Some("text/html")
+        charset(result) shouldBe Some("utf-8")
+      }
     }
   }
 

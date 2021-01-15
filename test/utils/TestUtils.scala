@@ -31,6 +31,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.test.UnitSpec
 import views.html.errors.ErrorTemplate
 import uk.gov.hmrc.play.bootstrap.tools.Stubs.stubMessagesControllerComponents
+
 import scala.concurrent.ExecutionContext
 
 trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
@@ -60,7 +61,13 @@ trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
       SessionKeys.mandationStatus -> MTDfBMandated.value, SessionKeys.insolventWithoutAccessKey -> "false",
       SessionKeys.inflightMandationStatus -> "false")
 
+  lazy val requestInsolvent: FakeRequest[AnyContentAsEmpty.type] =
+    FakeRequest().withSession(SessionKeys.insolventWithoutAccessKey -> "true")
+
+  lazy val requestNoInsolventSessionKey: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
+
   lazy val agentUserWithClient: User[AnyContentAsEmpty.type] = User("999999999", arn = Some("XARN1234567"))(requestWithClientVRN)
 
   lazy val mockErrorHandler: ErrorHandler = new ErrorHandler(messagesApi, appConfig, injector.instanceOf[ErrorTemplate])
+
 }

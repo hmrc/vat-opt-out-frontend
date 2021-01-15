@@ -21,12 +21,27 @@ import play.api.http.Status
 import play.api.test.Helpers._
 import utils.MockAuth
 import common.Constants.{optionNo, optionYes}
+import org.jsoup.Jsoup
 import views.html.TurnoverThresholdView
 
 class TurnoverThresholdControllerSpec extends MockAuth {
 
   implicit val turnoverThresholdView: TurnoverThresholdView = injector.instanceOf[TurnoverThresholdView]
   val controller = new TurnoverThresholdController(mockAuthPredicate, mockOptOutPredicate, turnoverThresholdView)
+
+  ".show() whn the user is insolvent and not continuing to trad" should {
+
+    lazy val result = controller.show()(requestInsolvent)
+
+    "return 403" in {
+      mockIndividualAuthorised()
+      status(result) shouldBe Status.FORBIDDEN
+    }
+
+    "render the Standard Error page" in {
+      messages(Jsoup.parse(bodyOf(result)).select("h1").text) shouldBe "You are not authorised to use this service"
+    }
+  }
 
   ".show() with no turnover value in session" should {
 
@@ -61,6 +76,20 @@ class TurnoverThresholdControllerSpec extends MockAuth {
   "Calling the submit action" when {
 
     "a user is enrolled with a valid enrolment" when {
+
+      "an individual is insolvent and not continuing to trade" should {
+
+        lazy val result = controller.show()(requestInsolvent)
+
+        "return 403" in {
+          mockIndividualAuthorised()
+          status(result) shouldBe Status.FORBIDDEN
+        }
+
+        "render the Standard Error page" in {
+          messages(Jsoup.parse(bodyOf(result)).select("h1").text) shouldBe "You are not authorised to use this service"
+        }
+      }
 
       "the form is successfully submitted with option yes" should {
 

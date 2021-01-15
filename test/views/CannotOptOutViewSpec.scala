@@ -25,7 +25,7 @@ class CannotOptOutViewSpec extends ViewBaseSpec {
   val injectedView: CannotOptOutView = injector.instanceOf[CannotOptOutView]
 
   "The cannot opt-out page for a client" should {
-    lazy val view = injectedView()(request, messages, appConfig, clientUser)
+    lazy val view = injectedView()(messages, appConfig, clientUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct title" in {
@@ -70,7 +70,7 @@ class CannotOptOutViewSpec extends ViewBaseSpec {
 
   "The cannot opt-out page for an agent" should {
 
-    lazy val view = injectedView()(request, messages, appConfig, agentUser)
+    lazy val view = injectedView()(messages, appConfig, agentUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {

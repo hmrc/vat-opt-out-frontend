@@ -25,7 +25,8 @@ import org.scalatestplus.mockito.MockitoSugar
 import services.{EnrolmentsAuthService, VatSubscriptionService}
 import uk.gov.hmrc.auth.core.retrieve.{Retrieval, ~}
 import uk.gov.hmrc.auth.core._
-import views.html.errors.{SessionTimeoutView, UnauthorisedView, UnauthorisedAgentView}
+import views.html.errors.{SessionTimeoutView, UnauthorisedAgentView, UnauthorisedView}
+
 import scala.concurrent.Future
 
 trait MockAuth extends TestUtils with MockitoSugar {
@@ -141,4 +142,5 @@ trait MockAuth extends TestUtils with MockitoSugar {
 
   def mockUnauthorised()(): OngoingStubbing[Future[~[Option[AffinityGroup], Enrolments]]] =
     setupAuthResponse(Future.failed(InsufficientEnrolments()))
+
 }

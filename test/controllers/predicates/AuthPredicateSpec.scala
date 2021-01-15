@@ -16,15 +16,28 @@
 
 package controllers.predicates
 
+import common.SessionKeys
+import connectors.httpParsers.GetVatSubscriptionHttpParser.GetVatSubscriptionResponse
+import models.{CustomerInformation, ErrorModel, MTDfBMandated}
 import org.jsoup.Jsoup
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.{reset, when}
 import play.api.http.Status
 import play.api.mvc.Results.Ok
 import play.api.mvc.{Action, AnyContent}
+import play.api.test.Helpers._
 import utils.MockAuth
 
 import scala.concurrent.Future
 
 class AuthPredicateSpec extends MockAuth {
+
+  def setup(result: GetVatSubscriptionResponse): Unit = {
+    reset(mockVatSubscriptionService)
+    reset(mockAuditService)
+    when(mockVatSubscriptionService.getCustomerInfo(any())(any(), any()))
+      .thenReturn(Future.successful(result))
+  }
 
   val target: Action[AnyContent] = mockAuthPredicate.async {
     _ => Future.successful(Ok("test"))
@@ -90,13 +103,96 @@ class AuthPredicateSpec extends MockAuth {
 
     "the user is an Individual (Principle Entity)" when {
 
-      "they have an active HMRC-MTD-VAT enrolment" should {
+      "they have an active HMRC-MTD-VAT enrolment" when {
 
-        "return OK (200)" in {
-          mockIndividualAuthorised()
-          status(target(request)) shouldBe Status.OK
+        "they have a session value for their insolvency status" when {
+
+          "the user is not insolvent and is continuing to trade (status false)" should {
+
+            "return OK (200)" in {
+              mockIndividualAuthorised()
+              status(target(request)) shouldBe Status.OK
+            }
+          }
+
+          "the user is insolvent and not continuing to trade (status true)" should {
+
+            lazy val result = await(target(requestInsolvent))
+
+            "return Forbidden (403)" in {
+              mockIndividualAuthorised()
+              status(result) shouldBe Status.FORBIDDEN
+            }
+
+            "render the Standard Error page" in {
+              messages(Jsoup.parse(bodyOf(result)).select("h1").text) shouldBe "You are not authorised to use this service"
+          }
+
+        }
+
+        "they do not have a insolvency status value in session" when {
+
+          "they are insolvent and not continuing to trade" should {
+
+            lazy val result = {
+              mockIndividualAuthorised()
+              setup(Right(CustomerInformation(MTDfBMandated, isInsolvent = true,
+                continueToTrade = Some(false), inflightMandationStatus = false)))
+              await(target(requestNoInsolventSessionKey))
+            }
+
+            "return Forbidden (403)" in {
+              status(result) shouldBe Status.FORBIDDEN
+            }
+
+            "add the insolvent flag to the session" in {
+              session(result).get(SessionKeys.insolventWithoutAccessKey) shouldBe Some("true")
+            }
+
+            "render the Standard Error page" in {
+              messages(Jsoup.parse(bodyOf(result)).select("h1").text) shouldBe "You are not authorised to use this service"
+            }
+          }
+
+          "they are permitted to trade" should {
+
+            lazy val result = {
+              mockIndividualAuthorised()
+              setup(Right(CustomerInformation(MTDfBMandated, isInsolvent = false,
+                continueToTrade = Some(true), inflightMandationStatus = false)))
+              await(target(requestNoInsolventSessionKey))
+            }
+
+            "return OK (200)" in {
+              status(result) shouldBe Status.OK
+            }
+
+            "add the insolvent flag to the session" in {
+              session(result).get(SessionKeys.insolventWithoutAccessKey) shouldBe Some("false")
+            }
+          }
+
+          "there is an error returned from the customer information API" should {
+
+            lazy val result = {
+              mockUnauthorised()
+              setup(Left(ErrorModel(Status.BAD_REQUEST, "Error")))
+              await(target(requestNoInsolventSessionKey))
+            }
+
+            lazy val document = Jsoup.parse(bodyOf(result))
+
+            "return 500" in {
+              status(result) shouldBe Status.INTERNAL_SERVER_ERROR
+            }
+
+            "show the generic error page" in {
+              document.title shouldBe "There is a problem with the service - VAT - GOV.UK"
+            }
+          }
         }
       }
+    }
 
       "they do NOT have an active HMRC-MTD-VAT enrolment" should {
 

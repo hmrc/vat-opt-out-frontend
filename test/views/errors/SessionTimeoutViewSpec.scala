@@ -27,7 +27,7 @@ class SessionTimeoutViewSpec extends ViewBaseSpec {
 
   "Rendering the session timeout page" should {
 
-    lazy val view = injectedView()(agentUser, messages, appConfig)
+    lazy val view = injectedView()(messages, appConfig)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {

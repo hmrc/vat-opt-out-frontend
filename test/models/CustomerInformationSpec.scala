@@ -46,6 +46,20 @@ class CustomerInformationSpec extends TestUtils {
         customerInfoJsonPending.as[CustomerInformation] shouldBe customerInfoModelPending
     }
 
+    "the user is insolvent and not continuing to trade" in {
+      customerInfoModelInsolvent.isInsolventWithoutAccess shouldBe true
+    }
+
+    "the user is insolvent but is continuing to trade" in {
+      customerInfoModelInsolvent.copy(continueToTrade = Some(true)).isInsolventWithoutAccess shouldBe false
+    }
+
+    "the user is not insolvent, regardless of the continueToTrade flag" in {
+      customerNotInsolvent.isInsolventWithoutAccess shouldBe false
+      customerNotInsolvent.copy(continueToTrade = Some(false)).isInsolventWithoutAccess shouldBe false
+      customerNotInsolvent.copy(continueToTrade = None).isInsolventWithoutAccess shouldBe false
+    }
+
     "fail to parse from JSON" when {
 
       "the JSON is in an invalid format" in {
@@ -56,5 +70,6 @@ class CustomerInformationSpec extends TestUtils {
         intercept[Exception](customerInfoJson("VATDEC Mandatory", isInsolvent = false).as[CustomerInformation])
       }
     }
+
   }
 }
