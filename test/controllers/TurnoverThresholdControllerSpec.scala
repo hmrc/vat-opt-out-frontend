@@ -21,7 +21,6 @@ import play.api.http.Status
 import play.api.test.Helpers._
 import utils.MockAuth
 import common.Constants.{optionNo, optionYes}
-import org.jsoup.Jsoup
 import views.html.TurnoverThresholdView
 
 class TurnoverThresholdControllerSpec extends MockAuth {
@@ -29,47 +28,38 @@ class TurnoverThresholdControllerSpec extends MockAuth {
   implicit val turnoverThresholdView: TurnoverThresholdView = injector.instanceOf[TurnoverThresholdView]
   val controller = new TurnoverThresholdController(mockAuthPredicate, mockOptOutPredicate, turnoverThresholdView)
 
-  ".show() whn the user is insolvent and not continuing to trad" should {
+  "Calling the show action" when {
 
-    lazy val result = controller.show()(requestInsolvent)
+    insolvencyCheck(controller.show())
 
-    "return 403" in {
-      mockIndividualAuthorised()
-      status(result) shouldBe Status.FORBIDDEN
+    ".show() with no turnover value in session" should {
+
+      lazy val result = controller.show()(requestPredicatedClient)
+
+      "return 200" in {
+        mockIndividualAuthorised()
+        status(result) shouldBe Status.OK
+      }
+
+      "return HTML" in {
+        contentType(result) shouldBe Some("text/html")
+        charset(result) shouldBe Some("utf-8")
+      }
     }
 
-    "render the Standard Error page" in {
-      messages(Jsoup.parse(bodyOf(result)).select("h1").text) shouldBe "You are not authorised to use this service"
-    }
-  }
+    ".show() with a turnover value in session" should {
 
-  ".show() with no turnover value in session" should {
+      lazy val result = controller.show()(requestPredicatedClient.withSession(common.SessionKeys.turnoverThreshold -> optionYes))
 
-    lazy val result = controller.show()(requestPredicatedClient)
+      "return 200" in {
+        mockIndividualAuthorised()
+        status(result) shouldBe Status.OK
+      }
 
-    "return 200" in {
-      mockIndividualAuthorised()
-      status(result) shouldBe Status.OK
-    }
-
-    "return HTML" in {
-      contentType(result) shouldBe Some("text/html")
-      charset(result) shouldBe Some("utf-8")
-    }
-  }
-
-  ".show() with a turnover value in session" should {
-
-    lazy val result = controller.show()(requestPredicatedClient.withSession(common.SessionKeys.turnoverThreshold -> optionYes))
-
-    "return 200" in {
-      mockIndividualAuthorised()
-      status(result) shouldBe Status.OK
-    }
-
-    "return HTML" in {
-      contentType(result) shouldBe Some("text/html")
-      charset(result) shouldBe Some("utf-8")
+      "return HTML" in {
+        contentType(result) shouldBe Some("text/html")
+        charset(result) shouldBe Some("utf-8")
+      }
     }
   }
 
@@ -77,19 +67,7 @@ class TurnoverThresholdControllerSpec extends MockAuth {
 
     "a user is enrolled with a valid enrolment" when {
 
-      "an individual is insolvent and not continuing to trade" should {
-
-        lazy val result = controller.show()(requestInsolvent)
-
-        "return 403" in {
-          mockIndividualAuthorised()
-          status(result) shouldBe Status.FORBIDDEN
-        }
-
-        "render the Standard Error page" in {
-          messages(Jsoup.parse(bodyOf(result)).select("h1").text) shouldBe "You are not authorised to use this service"
-        }
-      }
+      insolvencyCheck(controller.submit())
 
       "the form is successfully submitted with option yes" should {
 

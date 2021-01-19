@@ -18,10 +18,13 @@ package utils
 
 import audit.AuditService
 import controllers.predicates.{AuthPredicate, AuthoriseAsAgentWithClient, OptOutPredicate}
+import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.mockito.stubbing.OngoingStubbing
 import org.scalatestplus.mockito.MockitoSugar
+import play.api.http.Status
+import play.api.mvc.{Action, AnyContent}
 import services.{EnrolmentsAuthService, VatSubscriptionService}
 import uk.gov.hmrc.auth.core.retrieve.{Retrieval, ~}
 import uk.gov.hmrc.auth.core._
@@ -143,4 +146,20 @@ trait MockAuth extends TestUtils with MockitoSugar {
   def mockUnauthorised()(): OngoingStubbing[Future[~[Option[AffinityGroup], Enrolments]]] =
     setupAuthResponse(Future.failed(InsufficientEnrolments()))
 
+  def insolvencyCheck(controllerAction: Action[AnyContent]): Unit = {
+
+    "the user is insolvent and not continuing to trade" should {
+
+      lazy val result = controllerAction(requestInsolvent)
+
+      "return 403" in {
+        mockIndividualAuthorised()
+        status(result) shouldBe Status.FORBIDDEN
+      }
+
+      "render the Standard Error page" in {
+        messages(Jsoup.parse(bodyOf(result)).select("h1").text) shouldBe "You are not authorised to use this service"
+      }
+    }
+  }
 }

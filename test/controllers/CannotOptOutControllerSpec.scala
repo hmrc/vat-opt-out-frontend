@@ -16,7 +16,6 @@
 
 package controllers
 
-import org.jsoup.Jsoup
 import play.api.http.Status
 import play.api.test.Helpers._
 import utils.MockAuth
@@ -30,19 +29,7 @@ class CannotOptOutControllerSpec extends MockAuth {
 
   "Calling .show() for an individual" when {
 
-    "an individual is insolvent and not continuing to trade" should {
-
-      lazy val result = controller.show()(requestInsolvent)
-
-      "return 403" in {
-        mockIndividualAuthorised()
-        status(result) shouldBe Status.FORBIDDEN
-      }
-
-      "render the Standard Error page" in {
-        messages(Jsoup.parse(bodyOf(result)).select("h1").text) shouldBe "You are not authorised to use this service"
-      }
-    }
+    insolvencyCheck(controller.show())
 
     "an individual fulfilling predicate sessions checks" should {
 

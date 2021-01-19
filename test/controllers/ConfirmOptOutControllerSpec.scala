@@ -20,7 +20,6 @@ import assets.BaseTestConstants.{errorModel, updateVatSubscriptionModel}
 import common.SessionKeys._
 import connectors.httpParsers.UpdateVatSubscriptionHttpParser.UpdateVatSubscriptionResponse
 import models.{ErrorModel, MTDfBMandated, NonMTDfB}
-import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{reset, verify, when}
 import org.mockito.stubbing.OngoingStubbing
@@ -49,19 +48,7 @@ class ConfirmOptOutControllerSpec extends MockAuth {
 
   "Calling .show() for an individual" when {
 
-    "an individual is insolvent and not continuing to trade" should {
-
-      lazy val result = controller.show()(requestInsolvent)
-
-      "return 403" in {
-        mockIndividualAuthorised()
-        status(result) shouldBe Status.FORBIDDEN
-      }
-
-      "render the Standard Error page" in {
-        messages(Jsoup.parse(bodyOf(result)).select("h1").text) shouldBe "You are not authorised to use this service"
-      }
-    }
+    insolvencyCheck(controller.show())
 
     ".show() for an individual fulfilling predicate sessions checks" should {
 
@@ -96,19 +83,7 @@ class ConfirmOptOutControllerSpec extends MockAuth {
 
   "calling .updateMandationStatus()" when {
 
-    "an individual is insolvent and not continuing to trade" should {
-
-      lazy val result = controller.show()(requestInsolvent)
-
-      "return 403" in {
-        mockIndividualAuthorised()
-        status(result) shouldBe Status.FORBIDDEN
-      }
-
-      "render the Standard Error page" in {
-        messages(Jsoup.parse(bodyOf(result)).select("h1").text) shouldBe "You are not authorised to use this service"
-      }
-    }
+    insolvencyCheck(controller.updateMandationStatus())
 
     "the mandation status has been updated successfully" should {
 

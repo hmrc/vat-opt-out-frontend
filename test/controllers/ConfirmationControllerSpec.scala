@@ -17,7 +17,6 @@
 package controllers
 
 import common.SessionKeys
-import org.jsoup.Jsoup
 import play.api.http.Status
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
@@ -35,20 +34,7 @@ class ConfirmationControllerSpec extends MockAuth {
 
   ".show()" when {
 
-    "an individual is insolvent and not continuing to trade" should {
-
-      lazy val result = controller.show()(requestInsolvent)
-
-      "return 403" in {
-        mockIndividualAuthorised()
-        status(result) shouldBe Status.FORBIDDEN
-      }
-
-      "render the Standard Error page" in {
-        messages(Jsoup.parse(bodyOf(result)).select("h1").text) shouldBe "You are not authorised to use this service"
-      }
-    }
-  }
+    insolvencyCheck(controller.show())
 
     "the user has opted out successfully" should {
 
@@ -84,5 +70,5 @@ class ConfirmationControllerSpec extends MockAuth {
         charset(result) shouldBe Some("utf-8")
       }
     }
-
+  }
 }
