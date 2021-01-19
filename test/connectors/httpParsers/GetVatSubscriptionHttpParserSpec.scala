@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,16 +37,16 @@ class GetVatSubscriptionHttpParserSpec extends TestUtils {
       "valid JSON is returned" should {
 
         "return a CustomerInformation model" in {
-          val response = HttpResponse(Status.OK, Some(customerInfoJson("MTDfB Mandated")))
+          val response = HttpResponse(Status.OK, customerInfoJson(mandationStatus = "MTDfB Mandated", isInsolvent = false).toString)
           val result = vatSubscriptionResult(response)
-          result shouldBe Right(customerInfoModel(MTDfBMandated))
+          result shouldBe Right(customerInfoModel(MTDfBMandated, isInsolvent = false, Some(true)))
         }
       }
 
       "invalid JSON is returned" should {
 
         "return an Error model with status code of 500 (INTERNAL_SERVER_ERROR)" in {
-          val response = HttpResponse(Status.OK, Some(Json.obj("mandationStatus" -> true)))
+          val response = HttpResponse(Status.OK, Json.obj("mandationStatus" -> true).toString)
           val result = vatSubscriptionResult(response)
           result shouldBe Left(errorModel.copy(body = "The endpoint returned invalid JSON."))
         }
@@ -57,9 +57,9 @@ class GetVatSubscriptionHttpParserSpec extends TestUtils {
 
       "return an error model" in {
         val jsonResponse = Json.obj("fail" -> "nope")
-        val response = HttpResponse(Status.NOT_FOUND, Some(jsonResponse))
+        val response = HttpResponse(Status.NOT_FOUND, jsonResponse.toString)
         val result = vatSubscriptionResult(response)
-        result shouldBe Left(ErrorModel(Status.NOT_FOUND, Json.prettyPrint(jsonResponse)))
+        result shouldBe Left(ErrorModel(Status.NOT_FOUND, Json.stringify(jsonResponse)))
       }
     }
   }

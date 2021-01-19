@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ class MainTemplateSpec extends ViewBaseSpec {
 
     "the user is an individual or organisation" should {
 
-      lazy val view = injectedView(pageTitle = "", user = Some(clientUser))(Html("Test"))(request, messages, appConfig)
+      lazy val view = injectedView(pageTitle = "", user = Some(clientUser))(Html("Test"))(messages, appConfig)
       lazy implicit val document: Document = Jsoup.parse(view.body)
 
       "have the client nav title" in {
@@ -43,7 +43,7 @@ class MainTemplateSpec extends ViewBaseSpec {
 
     "the user is an agent" should {
 
-      lazy val view = injectedView(pageTitle = "", user = Some(agentUser))(Html("Test"))(request, messages, appConfig)
+      lazy val view = injectedView(pageTitle = "", user = Some(agentUser))(Html("Test"))(messages, appConfig)
       lazy implicit val document: Document = Jsoup.parse(view.body)
 
       "have the agent nav title" in {
@@ -53,7 +53,7 @@ class MainTemplateSpec extends ViewBaseSpec {
 
     "the user is not known" should {
 
-      lazy val view = injectedView(pageTitle = "", user = None)(Html("Test"))(request, messages, appConfig)
+      lazy val view = injectedView(pageTitle = "", user = None)(Html("Test"))(messages, appConfig)
       lazy implicit val document: Document = Jsoup.parse(view.body)
 
       "have no nav title" in {

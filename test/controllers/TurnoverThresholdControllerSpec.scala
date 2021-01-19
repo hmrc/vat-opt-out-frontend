@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,39 +28,46 @@ class TurnoverThresholdControllerSpec extends MockAuth {
   implicit val turnoverThresholdView: TurnoverThresholdView = injector.instanceOf[TurnoverThresholdView]
   val controller = new TurnoverThresholdController(mockAuthPredicate, mockOptOutPredicate, turnoverThresholdView)
 
-  ".show() with no turnover value in session" should {
+  "Calling the show action" when {
 
-    lazy val result = controller.show()(requestPredicatedClient)
+    insolvencyCheck(controller.show())
 
-    "return 200" in {
-      mockIndividualAuthorised()
-      status(result) shouldBe Status.OK
+    ".show() with no turnover value in session" should {
+
+      lazy val result = controller.show()(requestPredicatedClient)
+
+      "return 200" in {
+        mockIndividualAuthorised()
+        status(result) shouldBe Status.OK
+      }
+
+      "return HTML" in {
+        contentType(result) shouldBe Some("text/html")
+        charset(result) shouldBe Some("utf-8")
+      }
     }
 
-    "return HTML" in {
-      contentType(result) shouldBe Some("text/html")
-      charset(result) shouldBe Some("utf-8")
-    }
-  }
+    ".show() with a turnover value in session" should {
 
-  ".show() with a turnover value in session" should {
+      lazy val result = controller.show()(requestPredicatedClient.withSession(common.SessionKeys.turnoverThreshold -> optionYes))
 
-    lazy val result = controller.show()(requestPredicatedClient.withSession(common.SessionKeys.turnoverThreshold -> optionYes))
+      "return 200" in {
+        mockIndividualAuthorised()
+        status(result) shouldBe Status.OK
+      }
 
-    "return 200" in {
-      mockIndividualAuthorised()
-      status(result) shouldBe Status.OK
-    }
-
-    "return HTML" in {
-      contentType(result) shouldBe Some("text/html")
-      charset(result) shouldBe Some("utf-8")
+      "return HTML" in {
+        contentType(result) shouldBe Some("text/html")
+        charset(result) shouldBe Some("utf-8")
+      }
     }
   }
 
   "Calling the submit action" when {
 
     "a user is enrolled with a valid enrolment" when {
+
+      insolvencyCheck(controller.submit())
 
       "the form is successfully submitted with option yes" should {
 

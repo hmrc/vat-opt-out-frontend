@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ trait MockVatSubscriptionConnector extends MockitoSugar {
     when(connector.getCustomerInfo(any())(any(), any())).thenReturn(result)
 
   def mockGetVatSubscriptionSuccess(): VatGetStub =
-    mockGetVatSubscriptionResponse(Future.successful(Right(customerInfoModel(MTDfBMandated))))
+    mockGetVatSubscriptionResponse(Future.successful(Right(customerInfoModel(MTDfBMandated, isInsolvent = false, continueToTrade = Some(true)))))
 
   def mockGetVatSubscriptionFailure(): VatGetStub =
     mockGetVatSubscriptionResponse(Future.successful(Left(errorModel)))

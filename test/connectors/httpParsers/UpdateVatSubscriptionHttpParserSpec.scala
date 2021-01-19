@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ class UpdateVatSubscriptionHttpParserSpec extends TestUtils {
       "valid JSON is returned" should {
 
         "return a UpdateVatSubscription model" in {
-          val response = HttpResponse(Status.OK, Some(Json.obj("formBundle" -> "0123456789")))
+          val response = HttpResponse(Status.OK, Json.obj("formBundle" -> "0123456789").toString)
           val result = parserResult(response)
           result shouldBe Right(UpdateVatSubscription("0123456789"))
         }
@@ -44,7 +44,7 @@ class UpdateVatSubscriptionHttpParserSpec extends TestUtils {
       "invalid JSON is returned" should {
 
         "return an Error Model with a status code of INTERNAL_SERVER_ERROR (500)" in {
-          val response = HttpResponse(Status.OK, Some(Json.obj("formBundle" -> true)))
+          val response = HttpResponse(Status.OK, Json.obj("formBundle" -> true).toString)
           val result = parserResult(response)
           result shouldBe Left(ErrorModel(Status.INTERNAL_SERVER_ERROR, "The endpoint returned invalid JSON."))
         }
@@ -55,9 +55,9 @@ class UpdateVatSubscriptionHttpParserSpec extends TestUtils {
 
       "return an Error Model with the status code and message of the error" in {
         val jsonResponse = Json.obj("CONFLICT" -> "There has been a conflict!")
-        val response = HttpResponse(Status.CONFLICT, Some(jsonResponse))
+        val response = HttpResponse(Status.CONFLICT, jsonResponse.toString)
         val result = parserResult(response)
-        result shouldBe Left(ErrorModel(Status.CONFLICT, Json.prettyPrint(jsonResponse)))
+        result shouldBe Left(ErrorModel(Status.CONFLICT, Json.stringify(jsonResponse)))
       }
     }
   }

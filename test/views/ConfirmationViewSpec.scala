@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
 
   "The confirmation page for a client" should {
 
-    lazy val view = injectedView()(request, messages, appConfig, clientUser)
+    lazy val view = injectedView()(messages, appConfig, clientUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct title" in {
@@ -88,7 +88,7 @@ class ConfirmationViewSpec extends ViewBaseSpec {
 
   "The confirmation page for an agent" should {
 
-    lazy val view = injectedView()(request, messages, appConfig, agentUser)
+    lazy val view = injectedView()(messages, appConfig, agentUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct title" in {

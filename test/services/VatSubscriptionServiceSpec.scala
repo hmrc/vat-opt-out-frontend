@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ class VatSubscriptionServiceSpec extends TestUtils with MockVatSubscriptionConne
         mockGetVatSubscriptionSuccess()
 
         val result = await(service.getCustomerInfo(testVrn))
-        result shouldBe Right(customerInfoModel(MTDfBMandated))
+        result shouldBe Right(customerInfoModel(MTDfBMandated, isInsolvent = false, continueToTrade = Some(true)))
       }
     }
 

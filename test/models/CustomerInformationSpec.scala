@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,21 +26,38 @@ class CustomerInformationSpec extends TestUtils {
     "successfully parse from JSON" when {
 
       "all expected fields are present and mandation status of MTDfBMandated" in {
-        customerInfoJson(MTDfBMandated.value).as[CustomerInformation] shouldBe customerInfoModel(MTDfBMandated)
+        customerInfoJson(MTDfBMandated.value, isInsolvent = false).as[CustomerInformation] shouldBe customerInfoModel(MTDfBMandated,
+          isInsolvent = false, continueToTrade = Some(true))
       }
 
       "there is a mandation status of MTDfB Voluntary" in {
-          customerInfoJson(MTDfBVoluntary.value).as[CustomerInformation] shouldBe customerInfoModel(MTDfBVoluntary)
+          customerInfoJson(MTDfBVoluntary.value, isInsolvent = false).as[CustomerInformation] shouldBe customerInfoModel(MTDfBVoluntary,
+            isInsolvent = false, continueToTrade = Some(true))
         }
 
       "there is a mandation status of Non MTDfB" in {
-          customerInfoJson(NonMTDfB.value).as[CustomerInformation] shouldBe customerInfoModel(NonMTDfB)
+          customerInfoJson(NonMTDfB.value, isInsolvent = false).as[CustomerInformation] shouldBe customerInfoModel(NonMTDfB,
+            isInsolvent = false, continueToTrade = Some(true))
         }
 
       }
 
     "there is a pending mandation status" in {
         customerInfoJsonPending.as[CustomerInformation] shouldBe customerInfoModelPending
+    }
+
+    "the user is insolvent and not continuing to trade" in {
+      customerInfoModelInsolvent.isInsolventWithoutAccess shouldBe true
+    }
+
+    "the user is insolvent but is continuing to trade" in {
+      customerInfoModelInsolvent.copy(continueToTrade = Some(true)).isInsolventWithoutAccess shouldBe false
+    }
+
+    "the user is not insolvent, regardless of the continueToTrade flag" in {
+      customerNotInsolvent.isInsolventWithoutAccess shouldBe false
+      customerNotInsolvent.copy(continueToTrade = Some(false)).isInsolventWithoutAccess shouldBe false
+      customerNotInsolvent.copy(continueToTrade = None).isInsolventWithoutAccess shouldBe false
     }
 
     "fail to parse from JSON" when {
@@ -50,8 +67,9 @@ class CustomerInformationSpec extends TestUtils {
       }
 
       "there is a mandation status that is not recognised" in {
-        intercept[Exception](customerInfoJson("VATDEC Mandatory").as[CustomerInformation])
+        intercept[Exception](customerInfoJson("VATDEC Mandatory", isInsolvent = false).as[CustomerInformation])
       }
     }
+
   }
 }

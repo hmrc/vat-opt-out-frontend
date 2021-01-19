@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,18 +46,23 @@ class ConfirmOptOutControllerSpec extends MockAuth {
     mockAuthPredicate, mockOptOutPredicate, mockErrorHandler, mockVatSubscriptionService, mockAuditService, confirmOptOutView
   )
 
-  ".show() for an individual fulfilling predicate sessions checks" should {
+  "Calling .show() for an individual" when {
 
-    lazy val result = controller.show()(requestPredicatedClient)
+    insolvencyCheck(controller.show())
 
-    "return 200" in {
-      mockIndividualAuthorised()
-      status(result) shouldBe Status.OK
-    }
+    ".show() for an individual fulfilling predicate sessions checks" should {
 
-    "return HTML" in {
-      contentType(result) shouldBe Some("text/html")
-      charset(result) shouldBe Some("utf-8")
+      lazy val result = controller.show()(requestPredicatedClient)
+
+      "return 200" in {
+        mockIndividualAuthorised()
+        status(result) shouldBe Status.OK
+      }
+
+      "return HTML" in {
+        contentType(result) shouldBe Some("text/html")
+        charset(result) shouldBe Some("utf-8")
+      }
     }
   }
 
@@ -78,10 +83,13 @@ class ConfirmOptOutControllerSpec extends MockAuth {
 
   "calling .updateMandationStatus()" when {
 
+    insolvencyCheck(controller.updateMandationStatus())
+
     "the mandation status has been updated successfully" should {
 
       lazy val request = FakeRequest().withSession(
         mandationStatus -> MTDfBMandated.value,
+        insolventWithoutAccessKey -> "false",
         inflightMandationStatus -> "false",
         turnoverThreshold -> "no"
       )

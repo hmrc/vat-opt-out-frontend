@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,11 +34,14 @@ class ConfirmationControllerSpec extends MockAuth {
 
   ".show()" when {
 
+    insolvencyCheck(controller.show())
+
     "the user has opted out successfully" should {
 
       lazy val optedOutRequest: FakeRequest[AnyContentAsEmpty.type] = FakeRequest().withSession(
         SessionKeys.inflightMandationStatus -> "true",
-        SessionKeys.optOutSuccessful -> "true"
+        SessionKeys.optOutSuccessful -> "true",
+        SessionKeys.insolventWithoutAccessKey -> "false"
       )
       lazy val result = controller.show()(optedOutRequest)
 

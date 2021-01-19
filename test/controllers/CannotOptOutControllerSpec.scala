@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,18 +27,23 @@ class CannotOptOutControllerSpec extends MockAuth {
 
   val controller = new CannotOptOutController(mockAuthPredicate, mockOptOutPredicate, cannotOptOutView)
 
-  ".show() for an individual fulfilling predicate sessions checks" should {
+  "Calling .show() for an individual" when {
 
-    lazy val result = controller.show()(requestPredicatedClient)
+    insolvencyCheck(controller.show())
 
-    "return 200" in {
-      mockIndividualAuthorised()
-      status(result) shouldBe Status.OK
-    }
+    "an individual fulfilling predicate sessions checks" should {
 
-    "return HTML" in {
-      contentType(result) shouldBe Some("text/html")
-      charset(result) shouldBe Some("utf-8")
+      lazy val result = controller.show()(requestPredicatedClient)
+
+      "return 200" in {
+        mockIndividualAuthorised()
+        status(result) shouldBe Status.OK
+      }
+
+      "return HTML" in {
+        contentType(result) shouldBe Some("text/html")
+        charset(result) shouldBe Some("utf-8")
+      }
     }
   }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,4 +23,5 @@ object SessionKeys {
   val inflightMandationStatus: String = "inflightMandationStatus"
   val optOutSuccessful: String = "vatOptOutSuccessful"
   val verifiedAgentEmail: String = "verifiedAgentEmail"
+  val insolventWithoutAccessKey: String = "insolventWithoutAccess"
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,18 @@ package utils
 
 import audit.AuditService
 import controllers.predicates.{AuthPredicate, AuthoriseAsAgentWithClient, OptOutPredicate}
+import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.mockito.stubbing.OngoingStubbing
 import org.scalatestplus.mockito.MockitoSugar
+import play.api.http.Status
+import play.api.mvc.{Action, AnyContent}
 import services.{EnrolmentsAuthService, VatSubscriptionService}
 import uk.gov.hmrc.auth.core.retrieve.{Retrieval, ~}
 import uk.gov.hmrc.auth.core._
-import views.html.errors.{SessionTimeoutView, UnauthorisedView, UnauthorisedAgentView}
+import views.html.errors.{SessionTimeoutView, UnauthorisedAgentView, UnauthorisedView}
+
 import scala.concurrent.Future
 
 trait MockAuth extends TestUtils with MockitoSugar {
@@ -49,6 +53,7 @@ trait MockAuth extends TestUtils with MockitoSugar {
 
   val mockAuthPredicate = new AuthPredicate(
     mockEnrolmentsAuthService,
+    mockVatSubscriptionService,
     mockErrorHandler,
     sessionTimeoutView,
     unauthorisedAgentView,
@@ -140,4 +145,21 @@ trait MockAuth extends TestUtils with MockitoSugar {
 
   def mockUnauthorised()(): OngoingStubbing[Future[~[Option[AffinityGroup], Enrolments]]] =
     setupAuthResponse(Future.failed(InsufficientEnrolments()))
+
+  def insolvencyCheck(controllerAction: Action[AnyContent]): Unit = {
+
+    "the user is insolvent and not continuing to trade" should {
+
+      lazy val result = controllerAction(requestInsolvent)
+
+      "return 403" in {
+        mockIndividualAuthorised()
+        status(result) shouldBe Status.FORBIDDEN
+      }
+
+      "render the Standard Error page" in {
+        messages(Jsoup.parse(bodyOf(result)).select("h1").text) shouldBe "You are not authorised to use this service"
+      }
+    }
+  }
 }

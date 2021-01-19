@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,9 @@ object VatSubscriptionStub extends WireMockMethods {
     "tradingName" -> "ChoC Services",
     "organisationName" -> "ChoC Services Ltd",
     "firstName" -> "Chocolate",
-    "lastName" -> "Services"
+    "lastName" -> "Services",
+      "isInsolvent" -> false,
+      "continueToTrade" -> true
      ),
     "mandationStatus" -> "MTDfB Mandated"
   )

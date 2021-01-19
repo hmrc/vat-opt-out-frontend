@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ class UnauthorisedAgentViewSpec extends ViewBaseSpec {
 
   "Rendering the unauthorised agent page" should {
 
-    lazy val view = injectedView()(agentUser, messages, appConfig)
+    lazy val view = injectedView()(messages, appConfig)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have the correct document title" in {

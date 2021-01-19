@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.test.UnitSpec
 import views.html.errors.ErrorTemplate
 import uk.gov.hmrc.play.bootstrap.tools.Stubs.stubMessagesControllerComponents
+
 import scala.concurrent.ExecutionContext
 
 trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
@@ -44,7 +45,7 @@ trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
   implicit val appConfig: MockAppConfig = new MockAppConfig(app.configuration)
   implicit val system: ActorSystem = ActorSystem("Sys")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
-  implicit val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
+  implicit val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest().withSession(SessionKeys.insolventWithoutAccessKey -> "false")
   val clientUser: User[AnyContentAsEmpty.type] = User("999999999")(request)
   val agentUser: User[AnyContentAsEmpty.type] = User("999999999", arn = Some("XARN1234567"))(request)
 
@@ -57,9 +58,16 @@ trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
 
   lazy val requestPredicatedClient: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest().withSession(
-      SessionKeys.mandationStatus -> MTDfBMandated.value, SessionKeys.inflightMandationStatus -> "false")
+      SessionKeys.mandationStatus -> MTDfBMandated.value, SessionKeys.insolventWithoutAccessKey -> "false",
+      SessionKeys.inflightMandationStatus -> "false")
+
+  lazy val requestInsolvent: FakeRequest[AnyContentAsEmpty.type] =
+    FakeRequest().withSession(SessionKeys.insolventWithoutAccessKey -> "true")
+
+  lazy val requestNoInsolventSessionKey: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
 
   lazy val agentUserWithClient: User[AnyContentAsEmpty.type] = User("999999999", arn = Some("XARN1234567"))(requestWithClientVRN)
 
   lazy val mockErrorHandler: ErrorHandler = new ErrorHandler(messagesApi, appConfig, injector.instanceOf[ErrorTemplate])
+
 }
