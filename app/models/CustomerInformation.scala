@@ -22,11 +22,22 @@ import play.api.libs.json._
 case class CustomerInformation(mandationStatus: MandationStatus,
                                isInsolvent: Boolean,
                                continueToTrade: Option[Boolean],
-                               inflightMandationStatus: Boolean) {
+                               inflightMandationStatus: Boolean,
+                               insolvencyType: Option[String]) {
 
-  val isInsolventWithoutAccess: Boolean = continueToTrade match {
-    case Some(false) => isInsolvent
-    case _ => false
+  val allowedInsolvencyTypes: Seq[String] = Seq("07", "12", "13", "14")
+  val blockedInsolvencyTypes: Seq[String] = Seq("08", "09", "10", "15")
+
+  val isInsolventWithoutAccess: Boolean = {
+    if(isInsolvent) {
+      insolvencyType match {
+        case Some(iType) if allowedInsolvencyTypes.contains(iType) => false
+        case Some(iType) if blockedInsolvencyTypes.contains(iType) => true
+        case _ => !continueToTrade.getOrElse(true)
+      }
+    } else {
+      false
+    }
   }
 }
 
@@ -35,16 +46,18 @@ object CustomerInformation {
   def construct(mandationStatus: MandationStatus,
                 isInsolvent: Boolean,
                 continueToTrade: Option[Boolean],
-                inflightMandationStatus: Option[String]): CustomerInformation = {
+                inflightMandationStatus: Option[String],
+                insolvencyType: Option[String]): CustomerInformation = {
 
     val isMandationStatusPending = inflightMandationStatus.fold(false)(_ => true)
-    CustomerInformation( mandationStatus, isInsolvent, continueToTrade, isMandationStatusPending)
+    CustomerInformation( mandationStatus, isInsolvent, continueToTrade, isMandationStatusPending, insolvencyType)
   }
 
   implicit val reads: Reads[CustomerInformation] = (
     (JsPath \ "mandationStatus").read[MandationStatus] and
     (JsPath \ "customerDetails" \ "isInsolvent").read[Boolean] and
     (JsPath \ "customerDetails" \ "continueToTrade").readNullable[Boolean].orElse(Reads.pure(None)) and
-    (JsPath \ "pendingChanges" \ "mandationStatus").readNullable[String].orElse(Reads.pure(None))
+    (JsPath \ "pendingChanges" \ "mandationStatus").readNullable[String].orElse(Reads.pure(None)) and
+    (JsPath \ "customerDetails" \ "insolvencyType").readNullable[String].orElse(Reads.pure(None))
   )(construct _)
 }

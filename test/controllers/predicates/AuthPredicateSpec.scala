@@ -137,7 +137,7 @@ class AuthPredicateSpec extends MockAuth {
             lazy val result = {
               mockIndividualAuthorised()
               setup(Right(CustomerInformation(MTDfBMandated, isInsolvent = true,
-                continueToTrade = Some(false), inflightMandationStatus = false)))
+                continueToTrade = Some(false), inflightMandationStatus = false, None)))
               await(target(requestNoInsolventSessionKey))
             }
 
@@ -159,7 +159,7 @@ class AuthPredicateSpec extends MockAuth {
             lazy val result = {
               mockIndividualAuthorised()
               setup(Right(CustomerInformation(MTDfBMandated, isInsolvent = false,
-                continueToTrade = Some(true), inflightMandationStatus = false)))
+                continueToTrade = Some(true), inflightMandationStatus = false, None)))
               await(target(requestNoInsolventSessionKey))
             }
 

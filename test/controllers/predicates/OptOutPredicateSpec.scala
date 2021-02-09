@@ -240,7 +240,7 @@ class OptOutPredicateSpec extends MockAuth {
         "the inflightMandationStatus is `false`" should {
 
           lazy val result = {
-            setup(Right(CustomerInformation(MTDfBVoluntary, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = false)))
+            setup(Right(CustomerInformation(MTDfBVoluntary, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = false, None)))
             await(mockOptOutPredicate.refine(clientUser)).left.get
           }
 
@@ -263,7 +263,7 @@ class OptOutPredicateSpec extends MockAuth {
           "the user is an agent" should {
 
             lazy val result = {
-              setup(Right(CustomerInformation(MTDfBVoluntary, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = true)))
+              setup(Right(CustomerInformation(MTDfBVoluntary, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = true, None)))
               await(mockOptOutPredicate.refine(agentUser)).left.get
             }
 
@@ -287,7 +287,7 @@ class OptOutPredicateSpec extends MockAuth {
           "the user is an individual or organisation" should {
 
             lazy val result = {
-              setup(Right(CustomerInformation(MTDfBVoluntary, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = true)))
+              setup(Right(CustomerInformation(MTDfBVoluntary, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = true, None)))
               await(mockOptOutPredicate.refine(clientUser)).left.get
             }
 
@@ -315,7 +315,7 @@ class OptOutPredicateSpec extends MockAuth {
         "the user is an agent" should {
 
           lazy val result = {
-            setup(Right(CustomerInformation(NonMTDfB, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = false)))
+            setup(Right(CustomerInformation(NonMTDfB, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = false, None)))
             await(mockOptOutPredicate.refine(agentUser)).left.get
           }
 
@@ -343,7 +343,7 @@ class OptOutPredicateSpec extends MockAuth {
         "the user is an individual or organisation" should {
 
           lazy val result = {
-            setup(Right(CustomerInformation(NonMTDfB,isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = false)))
+            setup(Right(CustomerInformation(NonMTDfB,isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = false, None)))
             await(mockOptOutPredicate.refine(clientUser)).left.get
           }
 
@@ -374,7 +374,7 @@ class OptOutPredicateSpec extends MockAuth {
         "the user is an agent" should {
 
           lazy val result = {
-            setup(Right(CustomerInformation(NonDigital, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = false)))
+            setup(Right(CustomerInformation(NonDigital, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = false, None)))
             await(mockOptOutPredicate.refine(agentUser)).left.get
           }
 
@@ -402,7 +402,7 @@ class OptOutPredicateSpec extends MockAuth {
         "the user is an individual or organisation" should {
 
           lazy val result = {
-            setup(Right(CustomerInformation(NonDigital, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = false)))
+            setup(Right(CustomerInformation(NonDigital, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = false, None)))
             await(mockOptOutPredicate.refine(clientUser)).left.get
           }
 
@@ -433,7 +433,7 @@ class OptOutPredicateSpec extends MockAuth {
         "the user is an agent" should {
 
           lazy val result = {
-            setup(Right(CustomerInformation(MTDfBExempt, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = false)))
+            setup(Right(CustomerInformation(MTDfBExempt, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = false, None)))
             await(mockOptOutPredicate.refine(agentUser)).left.get
           }
 
@@ -461,7 +461,7 @@ class OptOutPredicateSpec extends MockAuth {
         "the user is an individual or organisation" should {
 
           lazy val result = {
-            setup(Right(CustomerInformation(MTDfBExempt, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = false)))
+            setup(Right(CustomerInformation(MTDfBExempt, isInsolvent = false, continueToTrade = Some(true), inflightMandationStatus = false, None)))
             await(mockOptOutPredicate.refine(clientUser)).left.get
           }
 
