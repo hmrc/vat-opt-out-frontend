@@ -46,12 +46,34 @@ class CustomerInformationSpec extends TestUtils {
         customerInfoJsonPending.as[CustomerInformation] shouldBe customerInfoModelPending
     }
 
-    "the user is insolvent and not continuing to trade" in {
-      customerInfoModelInsolvent.isInsolventWithoutAccess shouldBe true
+    "the user is insolvent and not continuing to trade" should {
+
+      "return true for a user with no insolvency type" in {
+        customerInfoModelInsolvent.isInsolventWithoutAccess shouldBe true
+      }
+
+      "return true for a user with a blocked insolvency type" in {
+        customerInfoModelInsolvent.copy(insolvencyType = Some("09")).isInsolventWithoutAccess shouldBe true
+      }
+
+      "return false for a user with an allowed insolvency type" in {
+        customerInfoModelInsolvent.copy(insolvencyType = Some("12")).isInsolventWithoutAccess shouldBe false
+      }
     }
 
-    "the user is insolvent but is continuing to trade" in {
-      customerInfoModelInsolvent.copy(continueToTrade = Some(true)).isInsolventWithoutAccess shouldBe false
+    "the user is insolvent but is continuing to trade" should {
+
+      "return false for a user with no insolvency type" in {
+        customerInfoModelInsolvent.copy(continueToTrade = Some(true)).isInsolventWithoutAccess shouldBe false
+      }
+
+      "return true for a user with a blocked insolvency type" in {
+        customerInfoModelInsolvent.copy(continueToTrade = Some(true), insolvencyType = Some("10")).isInsolventWithoutAccess shouldBe true
+      }
+
+      "return false for a user with an allowed insolvency type" in {
+        customerInfoModelInsolvent.copy(continueToTrade = Some(true), insolvencyType = Some("14")).isInsolventWithoutAccess shouldBe false
+      }
     }
 
     "the user is not insolvent, regardless of the continueToTrade flag" in {
