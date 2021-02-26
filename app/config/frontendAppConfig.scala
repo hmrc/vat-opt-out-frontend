@@ -50,11 +50,7 @@ trait AppConfig {
   val thresholdAmount: String
   val vatSummaryServicePath: String
   val gtmContainer: String
-  val footerCookiesUrl: String
   val footerAccessibilityUrl: String
-  val footerPrivacyUrl: String
-  val footerTermsConditionsUrl: String
-  val footerHelpUrl: String
 }
 
 @Singleton
@@ -124,10 +120,6 @@ class FrontendAppConfig @Inject()(sc: ServicesConfig) extends AppConfig {
 
   override val gtmContainer: String = sc.getString(Keys.gtmContainer)
 
-  override val footerCookiesUrl: String = sc.getString(ConfigKeys.footerCookiesUrl)
   override val footerAccessibilityUrl: String =
     sc.getString(ConfigKeys.vatSummaryServiceUrl) + sc.getString(ConfigKeys.vatSummaryAccessibilityUrl)
-  override val footerPrivacyUrl: String = sc.getString(ConfigKeys.footerPrivacyUrl)
-  override val footerTermsConditionsUrl: String = sc.getString(ConfigKeys.footerTermsConditionsUrl)
-  override val footerHelpUrl: String = sc.getString(ConfigKeys.footerHelpUrl)
 }

@@ -16,7 +16,7 @@
 
 @this(mainTemplate: MainTemplate)
 
-@()(implicit messages: Messages, appConfig: config.AppConfig)
+@()(implicit messages: Messages, appConfig: config.AppConfig, request: Request[_])
 
 @mainTemplate(pageTitle = messages("sessionTimeout.title"), showLogout = false) {
 

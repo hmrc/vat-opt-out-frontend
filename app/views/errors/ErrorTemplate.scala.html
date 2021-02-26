@@ -18,7 +18,7 @@
 
 @this(mainTemplate: MainTemplate)
 
-@(pageTitle: String, heading: String, message: String)(implicit messages: Messages, appConfig: AppConfig)
+@(pageTitle: String, heading: String, message: String)(implicit messages: Messages, appConfig: AppConfig, request: Request[_])
 
 @mainTemplate(pageTitle = messages(pageTitle), feedbackRedirect = Some(appConfig.manageVatSubscriptionServicePath)) {
   <h1 class="govuk-heading-xl">@messages(heading)</h1>

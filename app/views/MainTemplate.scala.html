@@ -16,7 +16,6 @@
 
 @import config.AppConfig
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.header.Header
-@import views.components.FooterLinks
 @import uk.gov.hmrc.play.views.html.layouts.TrackingConsentSnippet
 
 @this(govukLayout: GovukLayout,
@@ -25,15 +24,15 @@
       hmrcReportTechnicalIssue: HmrcReportTechnicalIssue,
       hmrcLanguageSelect: HmrcLanguageSelect,
       hmrcTimeoutDialog: HmrcTimeoutDialog,
-      footerLinks: FooterLinks,
-      trackingConsentSnippet: TrackingConsentSnippet)
+      trackingConsentSnippet: TrackingConsentSnippet,
+      hmrcStandardFooter: HmrcStandardFooter)
 
 @(pageTitle: String,
   showLogout: Boolean = true,
   feedbackRedirect: Option[String] = None,
   feedbackOnSignOut: Boolean = true,
   user: Option[User[_]] = None)(contentBlock: Html)(
-  implicit messages: Messages, appConfig: AppConfig)
+  implicit messages: Messages, appConfig: AppConfig, request: Request[_])
 
 @head = {
   @trackingConsentSnippet(nonce = None)
@@ -98,7 +97,7 @@
 
 @getHelpHtml = @{hmrcReportTechnicalIssue(ReportTechnicalIssue(
   serviceCode = appConfig.contactFormServiceIdentifier,
-  language = Some(messages.lang.language)
+  language = if (messages.lang.language == "en") En else Cy
 ))}
 
 @fullContent = {
@@ -113,6 +112,6 @@
   headBlock = Some(head),
   headerBlock = Some(header),
   beforeContentBlock = Some(beforeContentHtml),
-  footerItems = footerLinks.items,
+  footerBlock = Some(hmrcStandardFooter(accessibilityStatementUrl = Some(appConfig.footerAccessibilityUrl))),
   scriptsBlock = Some(scripts)
 )(fullContent)
