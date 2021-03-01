@@ -24,25 +24,25 @@ val appName = "vat-opt-out-frontend"
 RoutesKeys.routesImport := Seq.empty
 
 val compile = Seq(
-  "uk.gov.hmrc"             %% "govuk-template"           % "5.60.0-play-26",
-  "uk.gov.hmrc"             %% "play-ui"                  % "8.18.0-play-26",
-  "uk.gov.hmrc"             %% "bootstrap-play-26"        % "2.1.0",
-  "uk.gov.hmrc"             %% "play-language"            % "4.4.0-play-26",
-  "com.typesafe.play"       %% "play-json-joda"           % "2.6.14",
-  "uk.gov.hmrc"             %% "play-frontend-govuk"      % "0.55.0-play-26",
-  "uk.gov.hmrc"             %% "play-frontend-hmrc"       % "0.49.0-play-26"
+  "uk.gov.hmrc"             %% "govuk-template"             % "5.63.0-play-26",
+  "uk.gov.hmrc"             %% "play-ui"                    % "8.21.0-play-26",
+  "uk.gov.hmrc"             %% "bootstrap-frontend-play-26" % "3.4.0",
+  "uk.gov.hmrc"             %% "play-language"              % "4.10.0-play-26",
+  "com.typesafe.play"       %% "play-json-joda"             % "2.6.14",
+  "uk.gov.hmrc"             %% "play-frontend-govuk"        % "0.63.0-play-26",
+  "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "0.49.0-play-26"
 )
 
 def test(scope:String = "test,it"): Seq[ModuleID] = Seq(
   "uk.gov.hmrc"             %% "bootstrap-play-26"           % "2.1.0"                 % scope classifier "tests",
-  "org.scalatest"           %% "scalatest"                   % "3.0.8"                 % scope,
-  "org.jsoup"               %  "jsoup"                       % "1.12.1"                % scope,
+  "org.scalatest"           %% "scalatest"                   % "3.0.9"                 % scope,
+  "org.jsoup"               %  "jsoup"                       % "1.13.1"                % scope,
   "com.typesafe.play"       %% "play-test"                   % current                 % scope,
   "org.pegdown"             %  "pegdown"                     % "1.6.0"                 % scope,
-  "org.scalatestplus.play"  %% "scalatestplus-play"          % "3.1.2"                 % scope,
-  "uk.gov.hmrc"             %% "hmrctest"                    % "3.9.0-play-26"         % scope,
+  "org.scalatestplus.play"  %% "scalatestplus-play"          % "3.1.3"                 % scope,
+  "uk.gov.hmrc"             %% "hmrctest"                    % "3.10.0-play-26"        % scope,
   "org.mockito"             %  "mockito-core"                % "2.28.2"                % scope,
-  "com.github.tomakehurst"  %  "wiremock-jre8"               % "2.25.1"                % scope
+  "com.github.tomakehurst"  %  "wiremock-jre8"               % "2.27.2"                % scope
 )
 
 lazy val appDependencies:Seq[ModuleID] = compile ++ test()
