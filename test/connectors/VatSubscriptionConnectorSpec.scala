@@ -17,7 +17,7 @@
 package connectors
 
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.bootstrap.http.HttpClient
+import uk.gov.hmrc.http.HttpClient
 import utils.TestUtils
 
 class VatSubscriptionConnectorSpec extends TestUtils with MockitoSugar {

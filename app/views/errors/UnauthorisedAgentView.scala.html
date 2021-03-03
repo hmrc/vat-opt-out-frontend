@@ -17,7 +17,7 @@
 @this(mainTemplate: MainTemplate,
       govukButton: GovukButton)
 
-@()(implicit messages: Messages, appConfig: config.AppConfig)
+@()(implicit messages: Messages, appConfig: config.AppConfig, request: Request[_])
 
 @mainTemplate(pageTitle = messages("unauthorisedAgent.title"), feedbackOnSignOut = false) {
 
