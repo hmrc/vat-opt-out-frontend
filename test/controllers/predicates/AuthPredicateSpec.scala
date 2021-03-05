@@ -175,7 +175,6 @@ class AuthPredicateSpec extends MockAuth {
           "there is an error returned from the customer information API" should {
 
             lazy val result = {
-              mockUnauthorised()
               setup(Left(ErrorModel(Status.BAD_REQUEST, "Error")))
               await(target(requestNoInsolventSessionKey))
             }
