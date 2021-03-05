@@ -93,7 +93,7 @@ class AuthPredicate @Inject()(enrolmentsAuthService: EnrolmentsAuthService,
             block(user).map(result => result.addingToSession(SessionKeys.insolventWithoutAccessKey -> "false"))
           case _ =>
             Logger.warn("[AuthPredicate][checkVatEnrolment] - Failure obtaining insolvency status from Customer Info API")
-            Future.successful(InternalServerError)
+            Future.successful(errorHandler.showInternalServerError)
         }
       }
     } else {
