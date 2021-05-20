@@ -109,29 +109,33 @@ class ConfirmationViewSpec extends ViewBaseSpec {
     }
 
     "have the correct second paragraph" in {
-      elementText("#content > p:nth-of-type(2)") shouldBe "For your client’s current return period, you " +
+      elementText("#content > p:nth-of-type(2)") shouldBe "We will inform your client of this change."
+    }
+
+    "have the correct third paragraph" in {
+      elementText("#content > p:nth-of-type(3)") shouldBe "For your client’s current return period, you " +
         "must continue to submit their VAT Returns using software compatible with Making Tax Digital."
     }
 
-    "have a third paragraph" which {
+    "have a forth paragraph" which {
 
       "has the correct text" in {
-        elementText("#content > p:nth-of-type(3)") shouldBe
+        elementText("#content > p:nth-of-type(4)") shouldBe
           "Future VAT Returns must be submitted online, starting from your client’s next " +
             "return period. This change can take 2 days to come into effect."
       }
 
       "has the correct link text" in {
-        elementText("#content > p:nth-of-type(3) > a") shouldBe "online"
+        elementText("#content > p:nth-of-type(4) > a") shouldBe "online"
       }
 
       "has the correct link location" in {
-        element("#content > p:nth-of-type(3) > a").attr("href") shouldBe appConfig.agentClientHubPath
+        element("#content > p:nth-of-type(4) > a").attr("href") shouldBe appConfig.agentClientHubPath
       }
     }
 
-    "have the correct fourth paragraph" in {
-      elementText("#content > p:nth-of-type(4)") shouldBe "If your client’s taxable turnover goes above " +
+    "have the correct fifth paragraph" in {
+      elementText("#content > p:nth-of-type(5)") shouldBe "If your client’s taxable turnover goes above " +
         "£85,000, you must sign them up again for Making Tax Digital."
     }
 

@@ -57,6 +57,7 @@ confirmation.title.agent = Rydych wedi optio’ch cleient allan o’r cynllun Tr
 confirmation.subheading = Yr hyn sy’n digwydd nesaf
 confirmation.cancel = Nid yw hyn yn canslo’ch cofrestriad TAW.
 confirmation.cancel.agent = Nid yw hyn yn canslo cofrestriad TAW eich cleient.
+confirmation.inform.agent = Byddwn yn rhoi gwybod i’ch cleient am y newid hwn.
 confirmation.useSoftware = Ar gyfer eich cyfnod Ffurflen TAW presennol, mae’n rhaid i chi barhau i gyflwyno’ch Ffurflenni TAW gan ddefnyddio meddalwedd sy’n cydweddu â’r cynllun Troi Treth yn Ddigidol.
 confirmation.useSoftware.agent = Ar gyfer cyfnod Ffurflen TAW presennol eich cleient, mae’n rhaid i chi barhau i gyflwyno’i Ffurflenni TAW gan ddefnyddio meddalwedd sy’n cydweddu â’r cynllun Troi Treth yn Ddigidol.
 confirmation.submitOnline1 = Mae’n rhaid i Ffurflenni TAW yn y dyfodol gael eu cyflwyno gan ddefnyddio’ch
