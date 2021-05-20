@@ -38,27 +38,27 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
     }
 
     "have the correct initial paragraph" in {
-      elementText("#content > p:nth-of-type(1)") shouldBe "If you choose to opt out, you must:"
+      elementText("#content > p:nth-of-type(1)") shouldBe "If you choose to opt out you will:"
     }
 
     "have the correct first bullet point" in {
       elementText("#content li:nth-of-type(1)") shouldBe
-        "continue to use software compatible with Making Tax Digital for your current return period"
+        "remain VAT registered"
     }
 
     "have the correct second bullet point" in {
       elementText("#content li:nth-of-type(2)") shouldBe
-        "use your online account to submit VAT Returns from your next return period"
+        "have to submit your VAT returns using your online account"
     }
 
     "have the correct third bullet point" in {
       elementText("#content li:nth-of-type(3)") shouldBe
-        "sign up for Making Tax Digital if your taxable turnover goes above £85,000"
+        "be required to use compatible software again if your taxable turnover goes over the VAT threshold"
     }
 
-    "have the correct final paragraph" in {
-      elementText("#content > p:nth-of-type(2)") shouldBe
-        "By opting out you will not be cancelling your VAT registration."
+    "have the correct warning message" in {
+      elementText("#content > div > strong") shouldBe
+        "You are legally obliged to submit your VAT returns using compatible software as soon as your taxable turnover goes above £85,000"
     }
 
     "have a button" which {
@@ -99,27 +99,26 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
     }
 
     "have the correct initial paragraph" in {
-      elementText("#content > p:nth-of-type(1)") shouldBe "If you choose to opt your client out, you must:"
+      elementText("#content > p:nth-of-type(1)") shouldBe "If you choose to opt your client out they will:"
     }
 
     "have the correct first bullet point" in {
-      elementText("#content li:nth-of-type(1)") shouldBe "continue to use software compatible with Making " +
-        "Tax Digital to submit your client’s VAT Returns for their current return period"
+      elementText("#content li:nth-of-type(1)") shouldBe "remain VAT registered"
     }
 
     "have the correct second bullet point" in {
       elementText("#content li:nth-of-type(2)") shouldBe
-        "submit your client’s VAT Returns online from their next return period"
+        "have to submit VAT returns using their online account"
     }
 
     "have the correct third bullet point" in {
       elementText("#content li:nth-of-type(3)") shouldBe
-        "sign your client up for Making Tax Digital again if their taxable turnover goes above £85,000"
+        "be required to use compatible software again if their taxable turnover goes over the VAT threshold"
     }
 
-    "have the correct final paragraph" in {
-      elementText("#content > p:nth-of-type(2)") shouldBe
-        "By opting your client out of Making Tax Digital, you will not be cancelling their VAT registration."
+    "have the correct warning message" in {
+      elementText("#content > div > strong") shouldBe
+        "Your client is legally obliged to submit VAT returns using compatible software as soon as their taxable turnover goes above £85,000"
     }
   }
 }

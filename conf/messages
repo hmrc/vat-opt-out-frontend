@@ -39,16 +39,16 @@ unauthorisedAgent.setUpAccount = set up an agent services account
 
 confirmOptOut.title = Are you sure you want to opt out of Making Tax Digital for VAT?
 confirmOptOut.title.agent = Are you sure you want to opt your client out of Making Tax Digital for VAT?
-confirmOptOut.chooseToOptOut = If you choose to opt out, you must:
-confirmOptOut.chooseToOptOut.agent = If you choose to opt your client out, you must:
-confirmOptOut.bullet1 = continue to use software compatible with Making Tax Digital for your current return period
-confirmOptOut.bullet1.agent = continue to use software compatible with Making Tax Digital to submit your client’s VAT Returns for their current return period
-confirmOptOut.bullet2 = use your online account to submit VAT Returns from your next return period
-confirmOptOut.bullet2.agent = submit your client’s VAT Returns online from their next return period
-confirmOptOut.bullet3 = sign up for Making Tax Digital if your taxable turnover goes above {0}
-confirmOptOut.bullet3.agent = sign your client up for Making Tax Digital again if their taxable turnover goes above {0}
-confirmOptOut.notCancellingRegistration = By opting out you will not be cancelling your VAT registration.
-confirmOptOut.notCancellingRegistration.agent = By opting your client out of Making Tax Digital, you will not be cancelling their VAT registration.
+confirmOptOut.chooseToOptOut = If you choose to opt out you will:
+confirmOptOut.chooseToOptOut.agent = If you choose to opt your client out they will:
+confirmOptOut.bullet1 = remain VAT registered
+confirmOptOut.bullet1.agent = remain VAT registered
+confirmOptOut.bullet2 = have to submit your VAT returns using your online account
+confirmOptOut.bullet2.agent = have to submit VAT returns using their online account
+confirmOptOut.bullet3 = be required to use compatible software again if your taxable turnover goes over the VAT threshold
+confirmOptOut.bullet3.agent = be required to use compatible software again if their taxable turnover goes over the VAT threshold
+confirmOptOut.warning = You are legally obliged to submit your VAT returns using compatible software as soon as your taxable turnover goes above £85,000
+confirmOptOut.warning.agent = Your client is legally obliged to submit VAT returns using compatible software as soon as their taxable turnover goes above £85,000
 confirmOptOut.confirm = Confirm and opt out
 
 confirmation.title = You have opted out of Making Tax Digital for VAT

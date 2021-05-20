@@ -39,16 +39,16 @@ unauthorised.agent.setUpAccount = agor cyfrif gwasanaethau asiantau
 
 confirmOptOut.title = A ydych yn sicr eich bod am optio allan o’r cynllun Troi Treth yn Ddigidol ar gyfer TAW?
 confirmOptOut.title.agent = A ydych yn sicr eich bod am optio’ch cleient allan o’r cynllun Troi Treth yn Ddigidol ar gyfer TAW?
-confirmOptOut.chooseToOptOut = Os ydych yn dewis optio allan, mae’n rhaid i chi wneud y canlynol:
-confirmOptOut.chooseToOptOut.agent = Os ydych yn dewis optio’ch cleient allan, mae’n rhaid i chi wneud y canlynol:
-confirmOptOut.bullet1 = parhau i ddefnyddio meddalwedd sy’n cydweddu â’r cynllun Troi Treth yn Ddigidol ar gyfer eich cyfnod Ffurflen TAW bresennol
-confirmOptOut.bullet1.agent = parhau i ddefnyddio meddalwedd sy’n cydweddu â’r cynllun Troi Treth yn Ddigidol er mwyn cyflwyno Ffurflenni TAW eich cleient ar gyfer ei gyfnod Ffurflen TAW bresennol
-confirmOptOut.bullet2 = defnyddio’ch cyfrif ar-lein i gyflwyno Ffurflenni TAW o’ch cyfnod Ffurflen TAW nesaf ymlaen
-confirmOptOut.bullet2.agent = cyflwyno Ffurflenni TAW eich cleient ar-lein o’i gyfnod Ffurflen TAW nesaf ymlaen
-confirmOptOut.bullet3 = cofrestru ar gyfer y cynllun Troi Treth yn Ddigidol os yw’ch trosiant trethadwy yn mynd dros {0}
-confirmOptOut.bullet3.agent = cofrestru’ch cleient ar gyfer y cynllun Troi Treth yn Ddigidol eto os yw ei drosiant trethadwy’n mynd dros {0}
-confirmOptOut.notCancellingRegistration = Drwy optio allan ni fyddwch yn canslo’ch cofrestriad TAW.
-confirmOptOut.notCancellingRegistration.agent = Drwy optio’ch cleient allan o’r cynllun Troi Treth yn Ddigidol, ni fyddwch yn dileu ei gofrestriad TAW.
+confirmOptOut.chooseToOptOut = Os ydych yn dewis optio allan, bydd y canlynol yn berthnasol:
+confirmOptOut.chooseToOptOut.agent = Os ydych yn dewis optio’ch cleient allan, bydd y canlynol yn berthnasol iddo:
+confirmOptOut.bullet1 = byddwch yn parhau i fod wedi’ch cofrestru ar gyfer TAW
+confirmOptOut.bullet1.agent = bydd yn parhau i fod wedi ei gofrestru ar gyfer TAW
+confirmOptOut.bullet2 = bydd yn rhaid i chi gyflwyno’ch Ffurflenni TAW drwy ddefnyddio’ch cyfrif ar-lein
+confirmOptOut.bullet2.agent = bydd yn rhaid iddo gyflwyno Ffurflenni TAW drwy ddefnyddio’i gyfrif ar-lein
+confirmOptOut.bullet3 = bydd angen i chi defnyddio meddalwedd sy’n cydweddu eto os yw’ch trosiant trethadwy yn mynd dros y trothwy TAW
+confirmOptOut.bullet3.agent = bydd angen iddo ddefnyddio meddalwedd sy’n cydweddu eto os yw ei drosiant trethadwy yn mynd dros y trothwy TAW
+confirmOptOut.warning = Mae’n ofynnol yn ôl y gyfraith i chi gyflwyno’ch Ffurflenni TAW drwy ddefnyddio meddalwedd sy’n cydweddu cyn gynted â bod eich trosiant trethadwy yn mynd dros £85,000
+confirmOptOut.warning.agent = Mae’n ofynnol yn ôl y gyfraith i’ch cleient gyflwyno Ffurflenni TAW drwy ddefnyddio meddalwedd sy’n cydweddu cyn gynted â bod ei drosiant trethadwy yn mynd dros £85,000
 confirmOptOut.confirm = Cadarnhau ac optio allan
 
 confirmation.title = Rydych wedi optio allan o’r cynllun Troi Treth yn Ddigidol ar gyfer TAW

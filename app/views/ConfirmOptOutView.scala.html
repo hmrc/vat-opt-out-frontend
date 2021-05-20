@@ -45,7 +45,12 @@
     <li>@messages(s"confirmOptOut.bullet3$agentMessageAffix",appConfig.thresholdAmount)</li>
   </ul>
 
-  <p class="govuk-body">@messages(s"confirmOptOut.notCancellingRegistration$agentMessageAffix")</p>
+  <div class="govuk-warning-text">
+      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+      <strong class="govuk-warning-text__text">
+          @messages(s"confirmOptOut.warning$agentMessageAffix")
+      </strong>
+  </div>
 
   @govukButton(Button(
     href = Some(routes.ConfirmOptOutController.updateMandationStatus().url),
