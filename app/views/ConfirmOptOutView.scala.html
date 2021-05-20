@@ -16,7 +16,8 @@
 
 @this(mainTemplate: MainTemplate,
       govukBackLink: GovukBackLink,
-      govukButton: GovukButton)
+      govukButton: GovukButton,
+      govukWarningText:GovukWarningText)
 
 @()(implicit messages: Messages, appConfig: config.AppConfig, user: User[_])
 
@@ -45,12 +46,11 @@
     <li>@messages(s"confirmOptOut.bullet3$agentMessageAffix",appConfig.thresholdAmount)</li>
   </ul>
 
-  <div class="govuk-warning-text">
-      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-      <strong class="govuk-warning-text__text">
-          @messages(s"confirmOptOut.warning$agentMessageAffix")
-      </strong>
-  </div>
+
+  @govukWarningText(WarningText(
+    iconFallbackText = "Warning:",
+    content = Text(messages(s"confirmOptOut.warning$agentMessageAffix"))
+  ))
 
   @govukButton(Button(
     href = Some(routes.ConfirmOptOutController.updateMandationStatus().url),

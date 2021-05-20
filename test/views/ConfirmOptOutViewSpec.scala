@@ -58,7 +58,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
 
     "have the correct warning message" in {
       elementText("#content > div > strong") shouldBe
-        "You are legally obliged to submit your VAT returns using compatible software as soon as your taxable turnover goes above £85,000"
+        "Warning: You are legally obliged to submit your VAT returns using compatible software as soon as your taxable turnover goes above £85,000"
     }
 
     "have a button" which {
@@ -118,7 +118,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
 
     "have the correct warning message" in {
       elementText("#content > div > strong") shouldBe
-        "Your client is legally obliged to submit VAT returns using compatible software as soon as their taxable turnover goes above £85,000"
+        "Warning: Your client is legally obliged to submit VAT returns using compatible software as soon as their taxable turnover goes above £85,000"
     }
   }
 }
