@@ -10,6 +10,7 @@ base.signOut = Sign out
 base.fullStop = .
 base.errorPrefix = Error: {0}
 base.pageTitle = {0} - {1} - GOV.UK
+base.warning = Warning
 
 betaBanner.phaseName = BETA
 betaBanner.newService = This is a new service – your

@@ -23,6 +23,7 @@ import views.html.ConfirmOptOutView
 class ConfirmOptOutViewSpec extends ViewBaseSpec {
 
   val injectedView: ConfirmOptOutView = injector.instanceOf[ConfirmOptOutView]
+  val assistiveWarning = "Warning "
 
   "The Confirm Opt Out page for a client" should {
 
@@ -58,7 +59,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
 
     "have the correct warning message" in {
       elementText("#content > div > strong") shouldBe
-        "Warning: You are legally obliged to submit your VAT returns using compatible software as soon as your taxable turnover goes above £85,000"
+        assistiveWarning + "You are legally obliged to submit your VAT returns using compatible software as soon as your taxable turnover goes above £85,000"
     }
 
     "have a button" which {
@@ -118,7 +119,7 @@ class ConfirmOptOutViewSpec extends ViewBaseSpec {
 
     "have the correct warning message" in {
       elementText("#content > div > strong") shouldBe
-        "Warning: Your client is legally obliged to submit VAT returns using compatible software as soon as their taxable turnover goes above £85,000"
+        assistiveWarning + "Your client is legally obliged to submit VAT returns using compatible software as soon as their taxable turnover goes above £85,000"
     }
   }
 }

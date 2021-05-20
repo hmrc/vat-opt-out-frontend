@@ -10,6 +10,7 @@ base.signOut = Allgofnodi
 base.fullStop = .
 base.errorPrefix = Gwall: {0}
 base.pageTitle = {0} - {1} - GOV.UK
+base.warning = Rhybudd
 
 betaBanner.phaseName = BETA
 betaBanner.newService = Gwasanaeth newydd yw hwn – bydd eich
