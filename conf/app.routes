@@ -7,8 +7,6 @@ GET        /confirm-opt-out           controllers.ConfirmOptOutController.show()
 
 GET        /opt-out-confirmation      controllers.ConfirmationController.show()
 
-GET        /over-turnover-threshold   controllers.CannotOptOutController.show()
-
 GET        /sign-out                  controllers.SignOutController.signOut(authorised: Boolean)
 GET        /time-out                  controllers.SignOutController.timeout
 GET        /language/:lang            controllers.LanguageController.switchToLanguage(lang: String)

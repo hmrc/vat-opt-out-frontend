@@ -71,11 +71,6 @@ confirmation.aboveThreshold.agent = Os yw trosiant trethadwy eich cleient yn myn
 confirmation.finish = Gorffen
 confirmation.agentBack = Yn ôl i fanylion y cleient
 
-cannotOptOut.title = Nid yw’r busnes yn gallu optio allan o’r cynllun Troi Treth yn Ddigidol ar gyfer TAW
-cannotOptOut.explanation = Mae hyn oherwydd bod trosiant trethadwy’r busnes dros y trothwy TAW, neu wedi bod dros y trothwy ar un adeg.
-cannotOptOut.return = Yn ôl i’ch cyfrif TAW
-cannotOptOut.return.agent = Bwrw golwg dros opsiynau eich cleient
-
 turnoverThreshold.agent.error = Dewiswch ‘Iawn’ os yw'ch cleient yn gymwys i optio allan o’r cynllun Troi Treth yn Ddigidol
 turnoverThreshold.agent.title = A yw’ch cleient yn gymwys i optio allan o’r cynllun Troi Treth yn Ddigidol?
 turnoverThreshold.agent.p1 = Mae’n ofynnol yn ôl y gyfraith i’ch cleient aros o fewn y cynllun Troi Treth yn Ddigidol
