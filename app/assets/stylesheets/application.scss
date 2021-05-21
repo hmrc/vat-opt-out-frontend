@@ -33,3 +33,7 @@ $hmrc-assets-path: "/vat-through-software/account/opt-out/assets/lib/hmrc-fronte
 .js-enabled .govuk-header__navigation {
   display: block;
 }
+
+.not-hint {
+  color: $govuk-text-colour;
+}

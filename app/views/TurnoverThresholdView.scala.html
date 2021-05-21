@@ -17,6 +17,7 @@
 @import common.Constants
 @import config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
+@import models.viewModels.TurnoverThresholdViewModel
 
 @this(mainTemplate: MainTemplate,
       form: FormWithCSRF,
@@ -25,31 +26,27 @@
       govukErrorSummary: GovukErrorSummary,
       govukButton: GovukButton)
 
-@(turnoverThresholdForm: Form[String])(implicit messages: Messages, appConfig: AppConfig, user: User[_])
-
-@linkBack = @{
-  if(user.isAgent) appConfig.agentClientHubPath else appConfig.vatSummaryServicePath
-}
+@(model: TurnoverThresholdViewModel)(implicit messages: Messages, appConfig: AppConfig, user: User[_])
 
 @mainTemplate(
-  pageTitle = if(turnoverThresholdForm.errors.nonEmpty) {
-    messages("base.errorPrefix", messages("turnoverThreshold.title",appConfig.thresholdAmount))
-  } else {
-    messages("turnoverThreshold.title",appConfig.thresholdAmount)
-  },
+  pageTitle = if(model.turnoverThresholdForm.errors.nonEmpty) {
+      messages("base.errorPrefix", messages(model.titleMessage))
+    } else {
+      messages(model.titleMessage)
+    },
   feedbackRedirect = Some(routes.TurnoverThresholdController.show().url),
   user = Some(user)
 ) {
 
   @govukBackLink(BackLink(
     content = Text(messages("base.back")),
-    href = linkBack
+    href = model.backLinkHref
   ))
 
-  @if(turnoverThresholdForm.hasErrors) {
+  @if(model.turnoverThresholdForm.hasErrors) {
     @govukErrorSummary(ErrorSummary(
       title = Text(messages("base.error.heading")),
-      errorList = turnoverThresholdForm.errors.map { error =>
+      errorList = model.turnoverThresholdForm.errors.map { error =>
         ErrorLink(
           href = Some(s"#threshold-${Constants.optionYes}"),
           content = Text(messages(error.message, error.args: _*))
@@ -60,31 +57,39 @@
 
   @form(action = controllers.routes.TurnoverThresholdController.submit) {
     @govukRadios(Radios(
-      idPrefix = Some(turnoverThresholdForm("threshold").id),
+      idPrefix = Some(model.turnoverThresholdForm("threshold").id),
       classes = "govuk-radios--inline",
       name = "threshold",
       fieldset = Some(Fieldset(
         legend = Some(Legend(
-          content = Text(messages("turnoverThreshold.title", appConfig.thresholdAmount)),
+          content = Text(messages(model.titleMessage)),
           isPageHeading = true,
           classes = "govuk-fieldset__legend--l"
         ))
+      )),
+      hint = Some(Hint(
+        content = Text(
+          messages(model.p1Message) + " " +
+          messages(model.p2Message, appConfig.thresholdAmount)
+        ),
+        classes = "not-hint"
       )),
       items = Seq(
         RadioItem(
           id = Some(s"threshold-${Constants.optionYes}"),
           value = Some(Constants.optionYes),
-          content = Text(messages("base.yes")),
-          checked = turnoverThresholdForm("threshold").value.contains(Constants.optionYes)
+          content = Text(messages(model.yesMessage)),
+          checked = model.turnoverThresholdForm("threshold").value.contains(Constants.optionYes),
+          hint = Some(Hint(content = Text(messages(model.yesHint, appConfig.thresholdAmount))))
         ),
         RadioItem(
           id = Some(s"threshold-${Constants.optionNo}"),
           value = Some(Constants.optionNo),
-          content = Text(messages("base.no")),
-          checked = turnoverThresholdForm("threshold").value.contains(Constants.optionNo)
+          content = Text(messages(model.noMessage)),
+          checked = model.turnoverThresholdForm("threshold").value.contains(Constants.optionNo)
         )
       ),
-      errorMessage = turnoverThresholdForm("threshold").error.map { err =>
+      errorMessage = model.turnoverThresholdForm("threshold").error.map { err =>
         ErrorMessage(content = Text(messages(err.message, err.args: _*)))
       }
     ))

@@ -23,6 +23,7 @@ import org.jsoup.nodes.Document
 import play.api.data.Form
 import play.twirl.api.Html
 import views.html.TurnoverThresholdView
+import models.viewModels.TurnoverThresholdViewModel
 
 class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
@@ -32,7 +33,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
     val pageHeading = "#content h1"
     val backLink = ".govuk-back-link"
     val backLinkPreviousYears = "#content > div > a"
-    val hintText = "#label-email-hint"
+    val hintText = ".not-hint"
     val form = "form"
     val radioYesField = "#threshold-yes"
     val radioNoField = "#threshold-no"
@@ -44,17 +45,19 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
     val errorRadioText = "#threshold-error"
   }
 
-  val emptyForm: Form[String] = turnoverThresholdForm(appConfig.thresholdAmount)
+  lazy val emptyForm: Form[String] = turnoverThresholdForm(appConfig.thresholdAmount)(clientUser)
+  def viewModelAgent(form: Form[String]): TurnoverThresholdViewModel = TurnoverThresholdViewModel.constructModel(form)(appConfig, agentUser)
+  def viewModelClient(form: Form[String]): TurnoverThresholdViewModel = TurnoverThresholdViewModel.constructModel(form)(appConfig, clientUser)
 
   "Rendering the turnover threshold page with an empty form for a client" when {
 
     "the form has no errors" should {
 
-      lazy val view: Html = injectedView(emptyForm)(messages, appConfig, clientUser)
+      lazy val view: Html = injectedView(viewModelClient(emptyForm))(messages, appConfig, clientUser)
       lazy implicit val document: Document = Jsoup.parse(view.body)
 
       "have the correct document title" in {
-        document.title shouldBe "Has the business’s taxable turnover been above £85,000 since 1 April 2019? - Business tax account - GOV.UK"
+        document.title shouldBe "Are you eligible to opt out of Making Tax Digital? - Business tax account - GOV.UK"
       }
 
       "have a back link" which {
@@ -71,8 +74,13 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
       "have a page heading" which {
 
         "has the correct text" in {
-          elementText(Selectors.pageHeading) shouldBe "Has the business’s taxable turnover been above £85,000 since 1 April 2019?"
+          elementText(Selectors.pageHeading) shouldBe "Are you eligible to opt out of Making Tax Digital?"
         }
+      }
+
+      "have the correct hint text" in {
+        elementText(Selectors.hintText) shouldBe "You are legally required to remain within Making Tax Digital if " +
+          "your taxable turnover has been above £85,000 at any time since 1 April 2019."
       }
 
       "have the turnover threshold form with the correct form action" in {
@@ -88,11 +96,11 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
       }
 
       "have the correct radio button yes text" in {
-        elementText(Selectors.radioYesLabel) shouldBe "Yes"
+        elementText(Selectors.radioYesLabel) shouldBe "Yes, I am eligible"
       }
 
       "have the correct radio button no text" in {
-        elementText(Selectors.radioNoLabel) shouldBe "No"
+        elementText(Selectors.radioNoLabel) shouldBe "No, I am not eligible and want to return to the VAT account"
       }
 
       "have a continue button" which {
@@ -105,13 +113,12 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
 
     "the form has errors" should {
 
-      lazy val view = injectedView(
-        turnoverThresholdForm(appConfig.thresholdAmount).bind(Map[String,String]())
-      )(messages, appConfig, clientUser)
+      lazy val errorForm: Form[String] = turnoverThresholdForm(appConfig.thresholdAmount)(clientUser).bind(Map[String, String]())
+      lazy val view = injectedView(viewModelClient(errorForm))(messages, appConfig, clientUser)
       lazy implicit val document: Document = Jsoup.parse(view.body)
 
       "have the correct title" in {
-        document.title shouldBe "Error: Has the business’s taxable turnover been above £85,000 since 1 April 2019? - Business tax account - GOV.UK"
+        document.title shouldBe "Error: Are you eligible to opt out of Making Tax Digital? - Business tax account - GOV.UK"
       }
 
       "display the error summary" in {
@@ -121,7 +128,7 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
       "display the error summary link" which {
 
         "has the correct text" in {
-          elementText(Selectors.errorSummaryLink) shouldBe "Select yes if the business’s taxable turnover is above £85,000"
+          elementText(Selectors.errorSummaryLink) shouldBe "Select ’yes’ if you are eligible to opt out of Making Tax Digital"
         }
 
         "has the correct href" in {
@@ -130,54 +137,97 @@ class TurnoverThresholdViewSpec extends ViewBaseSpec {
       }
 
       "display the radio button error text" in {
-        elementText(Selectors.errorRadioText) shouldBe "Error: Select yes if the business’s taxable turnover is above £85,000"
+        elementText(Selectors.errorRadioText) shouldBe "Error: Select ’yes’ if you are eligible to opt out of Making Tax Digital"
       }
     }
   }
 
   "Rendering the turnover threshold page for a client with a populated yes option" should {
 
-    lazy val view = injectedView(
-      turnoverThresholdForm(appConfig.thresholdAmount).bind(Map("threshold" -> optionYes))
-    )(messages, appConfig, clientUser)
+    lazy val yesForm = turnoverThresholdForm(appConfig.thresholdAmount)(clientUser).bind(Map("threshold" -> optionYes))
+    lazy val view = injectedView(viewModelClient(yesForm))(messages, appConfig, clientUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have a checked 'Yes' radio option" in {
-      elementAttributes(Selectors.radioYesField).get("checked").isDefined
+      elementAttributes(Selectors.radioYesField).contains("checked")
     }
 
     "have an unchecked 'No' radio option" in {
-      elementAttributes(Selectors.radioNoField).get("checked").isEmpty
+      !elementAttributes(Selectors.radioNoField).contains("checked")
     }
   }
 
   "Rendering the turnover threshold page for a client with a populated no option" should {
 
-    lazy val view = injectedView(
-      turnoverThresholdForm(appConfig.thresholdAmount).bind(Map("threshold" -> optionNo))
-    )(messages, appConfig, clientUser)
+    lazy val noForm = turnoverThresholdForm(appConfig.thresholdAmount)(clientUser).bind(Map("threshold" -> optionNo))
+    lazy val view = injectedView(viewModelClient(noForm))(messages, appConfig, clientUser)
     lazy implicit val document: Document = Jsoup.parse(view.body)
 
     "have a checked 'No' radio option" in {
-      elementAttributes(Selectors.radioNoField).get("checked").isDefined
+      elementAttributes(Selectors.radioNoField).contains("checked")
     }
 
     "have an unchecked 'Yes' radio option" in {
-      elementAttributes(Selectors.radioYesField).get("checked").isEmpty
+      !elementAttributes(Selectors.radioYesField).contains("checked")
     }
   }
 
-  "Rendering the turnover threshold page for an agent" should {
+  "Rendering the turnover threshold page for an agent" when {
 
-    lazy val view: Html = injectedView(emptyForm)(messages, appConfig, agentUser)
-    lazy implicit val document: Document = Jsoup.parse(view.body)
+    "the form has no errors" should {
 
-    "have the correct document title" in {
-      document.title shouldBe "Has the business’s taxable turnover been above £85,000 since 1 April 2019? - Your client’s VAT details - GOV.UK"
+      lazy val view: Html = injectedView(viewModelAgent(emptyForm))(messages, appConfig, agentUser)
+      lazy implicit val document: Document = Jsoup.parse(view.body)
+
+      "have the correct document title" in {
+        document.title shouldBe "Is your client eligible to opt out of Making Tax Digital? - Your client’s VAT details - GOV.UK"
+      }
+
+      "have a page heading" which {
+
+        "has the correct text" in {
+          elementText(Selectors.pageHeading) shouldBe "Is your client eligible to opt out of Making Tax Digital?"
+        }
+      }
+
+      "have a back link with the correct link location" in {
+        element(Selectors.backLink).attr("href") shouldBe appConfig.agentClientHubPath
+      }
+
+      "have the correct radio button yes text" in {
+        elementText(Selectors.radioYesLabel) shouldBe "Yes, my client is eligible"
+      }
+
+      "have the correct radio button no text" in {
+        elementText(Selectors.radioNoLabel) shouldBe "No, my client is not eligible and I want to return to the VAT account"
+      }
+
+      "have the correct hint text" in {
+        elementText(Selectors.hintText) shouldBe "Your client is legally required to remain within Making Tax Digital if " +
+          "their taxable turnover has been above £85,000 at any time since 1 April 2019."
+      }
     }
 
-    "have a back link with the correct link location" in {
-      element(Selectors.backLink).attr("href") shouldBe appConfig.agentClientHubPath
+    "the form has errors" should {
+
+      lazy val errorForm: Form[String] = turnoverThresholdForm(appConfig.thresholdAmount)(agentUser).bind(Map[String, String]())
+      lazy val view = injectedView(viewModelAgent(errorForm))(messages, appConfig, agentUser)
+      lazy implicit val document: Document = Jsoup.parse(view.body)
+
+      "have the correct title" in {
+        document.title shouldBe "Error: Is your client eligible to opt out of Making Tax Digital? - Your client’s VAT details - GOV.UK"
+      }
+
+      "display the error summary link" which {
+
+        "has the correct text" in {
+          elementText(Selectors.errorSummaryLink) shouldBe "Select ’yes’ if your client is eligible to opt out of Making Tax Digital"
+        }
+      }
+
+      "display the radio button error text" in {
+        elementText(Selectors.errorRadioText) shouldBe "Error: Select ’yes’ if your client is eligible to opt out of Making Tax Digital"
+      }
     }
   }
 }

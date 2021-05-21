@@ -75,7 +75,7 @@ class TurnoverThresholdControllerSpec extends MockAuth {
 
         "redirect to the correct view" in {
           status(result) shouldBe Status.SEE_OTHER
-          redirectLocation(result) shouldBe Some(routes.CannotOptOutController.show().url)
+          redirectLocation(result) shouldBe Some(routes.ConfirmOptOutController.show().url)
         }
 
         "add the threshold to the session" in {
@@ -83,31 +83,45 @@ class TurnoverThresholdControllerSpec extends MockAuth {
         }
       }
 
-      "the form is successfully submitted with option no" should {
+      "the form is successfully submitted with option no" when {
 
-        lazy val result = controller.submit(requestPredicatedClient.withFormUrlEncodedBody("threshold" -> optionNo))
+        "the user is a principal" should {
 
-        "redirect to the correct view" in {
-          status(result) shouldBe Status.SEE_OTHER
-          redirectLocation(result) shouldBe Some(routes.ConfirmOptOutController.show().url)
+          lazy val result = controller.submit(requestPredicatedClient.withFormUrlEncodedBody("threshold" -> optionNo))
+
+          "redirect to the correct view" in {
+            status(result) shouldBe Status.SEE_OTHER
+            redirectLocation(result) shouldBe Some(appConfig.vatSummaryServicePath)
+          }
+
+          "add the new threshold value to session" in {
+            session(result).get(SessionKeys.turnoverThreshold) shouldBe Some(optionNo)
+          }
         }
 
-        "add the new threshold value to session" in {
-          session(result).get(SessionKeys.turnoverThreshold) shouldBe Some(optionNo)
+        "the form is successfully submitted with no option selected" should {
+
+          lazy val result = controller.submit(requestPredicatedClient.withFormUrlEncodedBody())
+
+          "return to the view with a bad request" in {
+            status(result) shouldBe Status.BAD_REQUEST
+          }
+
+          "return HTML" in {
+            contentType(result) shouldBe Some("text/html")
+            charset(result) shouldBe Some("utf-8")
+          }
         }
-      }
 
-      "the form is successfully submitted with no option selected" should {
+        "the user is an agent" should {
 
-        lazy val result = controller.submit(requestPredicatedClient.withFormUrlEncodedBody())
+          lazy val result = controller.submit(requestPredicatedAgent.withFormUrlEncodedBody("threshold" -> optionNo))
 
-        "return to the view with a bad request" in {
-          status(result) shouldBe Status.BAD_REQUEST
-        }
-
-        "return HTML" in {
-          contentType(result) shouldBe Some("text/html")
-          charset(result) shouldBe Some("utf-8")
+          "redirect to the correct view" in {
+            mockAgentAuthorised()
+            status(result) shouldBe Status.SEE_OTHER
+            redirectLocation(result) shouldBe Some(appConfig.agentClientHubPath)
+          }
         }
       }
     }
