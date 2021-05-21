@@ -57,6 +57,7 @@ confirmation.title.agent = You have opted your client out of Making Tax Digital 
 confirmation.subheading = What happens next
 confirmation.cancel = This does not cancel your VAT registration.
 confirmation.cancel.agent = This does not cancel your client’s VAT registration.
+confirmation.inform.agent = We will inform your client of this change.
 confirmation.useSoftware = For your current return period, you must continue to submit your VAT Returns using software compatible with Making Tax Digital.
 confirmation.useSoftware.agent = For your client’s current return period, you must continue to submit their VAT Returns using software compatible with Making Tax Digital.
 confirmation.submitOnline1 = Future VAT Returns must be submitted using your
