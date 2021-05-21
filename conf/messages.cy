@@ -75,8 +75,20 @@ cannotOptOut.explanation = Mae hyn oherwydd bod trosiant trethadwy’r busnes dr
 cannotOptOut.return = Yn ôl i’ch cyfrif TAW
 cannotOptOut.return.agent = Bwrw golwg dros opsiynau eich cleient
 
-turnoverThreshold.error.empty = Dewiswch ‘Iawn’ os yw trosiant trethadwy’r busnes dros {0}
-turnoverThreshold.title = A yw trosiant trethadwy’r busnes wedi bod dros {0} ar unrhyw adeg ers 1 Ebrill 2019?
+turnoverThreshold.agent.error = Dewiswch ‘Iawn’ os yw'ch cleient yn gymwys i optio allan o’r cynllun Troi Treth yn Ddigidol
+turnoverThreshold.agent.title = A yw’ch cleient yn gymwys i optio allan o’r cynllun Troi Treth yn Ddigidol?
+turnoverThreshold.agent.p1 = Mae’n ofynnol yn ôl y gyfraith i’ch cleient aros o fewn y cynllun Troi Treth yn Ddigidol
+turnoverThreshold.agent.p2 = os yw ei drosiant trethadwy wedi bod dros {0} ar unrhyw adeg ers 1 Ebrill 2019.
+turnoverThreshold.agent.yes = Iawn, mae fy nghleient yn gymwys
+turnoverThreshold.agent.yesHint = Drwy ddewis ‘Iawn’ rydych yn cadarnhau nad yw trosiant trethadwy eich cleient wedi bod yn fwy na {0} ers 1 Ebrill 2019
+turnoverThreshold.agent.no = Na, nid yw fy nghleient yn gymwys ac rwyf am ddychwelyd i’r cyfrif TAW
+turnoverThreshold.client.error = Dewiswch ‘Iawn’ os ydych yn gymwys i optio allan o’r cynllun Troi Treth yn Ddigidol
+turnoverThreshold.client.title = A ydych yn gymwys i optio allan o’r cynllun Troi Treth yn Ddigidol?
+turnoverThreshold.client.p1 = Mae’n ofynnol yn ôl y gyfraith i chi aros o fewn y cynllun Troi Treth yn Ddigidol os yw’ch
+turnoverThreshold.client.p2 = trosiant trethadwy wedi bod dros {0} ar unrhyw adeg ers 1 Ebrill 2019.
+turnoverThreshold.client.yes = Iawn, rwy’n gymwys
+turnoverThreshold.client.yesHint = Drwy ddewis ‘Iawn’ rydych yn cadarnhau nad yw’ch trosiant trethadwy wedi bod yn fwy na {0} ers 1 Ebrill 2019
+turnoverThreshold.client.no = Na, nid wyf yn gymwys ac rwyf am ddychwelyd i’r cyfrif TAW
 
 footerLinks.cookies = Cwcis
 footerLinks.accessibility = Hygyrchedd

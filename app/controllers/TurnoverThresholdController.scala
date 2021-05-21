@@ -22,6 +22,7 @@ import config.AppConfig
 import controllers.predicates.{AuthPredicate, OptOutPredicate}
 import forms.TurnoverThresholdForm._
 import javax.inject.{Inject, Singleton}
+import models.viewModels.TurnoverThresholdViewModel
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import views.html.TurnoverThresholdView
 
@@ -37,24 +38,35 @@ class TurnoverThresholdController @Inject()(authenticate: AuthPredicate,
   implicit val ec: ExecutionContext = mcc.executionContext
 
   val show: Action[AnyContent] = (authenticate andThen optOutPredicate).async { implicit user =>
-    user.session.get(turnoverThreshold) match {
-      case Some(turnoverOption) =>
-        Future.successful(Ok(turnoverThresholdView(turnoverThresholdForm(appConfig.thresholdAmount).fill(turnoverOption))))
-      case _ =>
-        Future.successful(Ok(turnoverThresholdView(turnoverThresholdForm(appConfig.thresholdAmount))))
+
+    val form = user.session.get(turnoverThreshold) match {
+      case Some(turnoverOption) => turnoverThresholdForm(appConfig.thresholdAmount).fill(turnoverOption)
+      case _                    => turnoverThresholdForm(appConfig.thresholdAmount)
     }
+
+    Future.successful(Ok(turnoverThresholdView(TurnoverThresholdViewModel.constructModel(form))))
+
   }
 
   def submit: Action[AnyContent] = (authenticate andThen optOutPredicate) { implicit user =>
+
+    val noRedirect: String = {
+      if (user.isAgent) {
+        appConfig.agentClientHubPath
+      } else {
+        appConfig.vatSummaryServicePath
+      }
+    }
+
     turnoverThresholdForm(appConfig.thresholdAmount).bindFromRequest().fold(
       error => {
-              BadRequest(turnoverThresholdView(error))
+        BadRequest(turnoverThresholdView(TurnoverThresholdViewModel.constructModel(error)))
       },
       {
-        case formData@Constants.optionYes => Redirect(controllers.routes.CannotOptOutController.show())
+        case formData@Constants.optionYes => Redirect(controllers.routes.ConfirmOptOutController.show())
           .addingToSession(SessionKeys.turnoverThreshold -> formData)
-        case formData@Constants.optionNo => Redirect(controllers.routes.ConfirmOptOutController.show())
-          .addingToSession(SessionKeys.turnoverThreshold -> formData)
+        case formData@Constants.optionNo => Redirect(noRedirect)
+              .addingToSession(SessionKeys.turnoverThreshold -> formData)
       }
     )
   }
