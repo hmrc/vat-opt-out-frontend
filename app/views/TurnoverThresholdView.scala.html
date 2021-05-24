@@ -79,14 +79,12 @@
           id = Some(s"threshold-${Constants.optionYes}"),
           value = Some(Constants.optionYes),
           content = Text(messages(model.yesMessage)),
-          checked = model.turnoverThresholdForm("threshold").value.contains(Constants.optionYes),
           hint = Some(Hint(content = Text(messages(model.yesHint, appConfig.thresholdAmount))))
         ),
         RadioItem(
           id = Some(s"threshold-${Constants.optionNo}"),
           value = Some(Constants.optionNo),
-          content = Text(messages(model.noMessage)),
-          checked = model.turnoverThresholdForm("threshold").value.contains(Constants.optionNo)
+          content = Text(messages(model.noMessage))
         )
       ),
       errorMessage = model.turnoverThresholdForm("threshold").error.map { err =>
