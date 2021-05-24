@@ -71,11 +71,6 @@ confirmation.aboveThreshold.agent = If your client’s taxable turnover goes abo
 confirmation.finish = Finish
 confirmation.agentBack = Back to client’s details
 
-cannotOptOut.title = The business cannot opt out of Making Tax Digital for VAT
-cannotOptOut.explanation = This is because the business’s taxable turnover is, or has been, over the VAT threshold.
-cannotOptOut.return = Return to your VAT account
-cannotOptOut.return.agent = View your client options
-
 turnoverThreshold.agent.error = Select ’yes’ if your client is eligible to opt out of Making Tax Digital
 turnoverThreshold.agent.title = Is your client eligible to opt out of Making Tax Digital?
 turnoverThreshold.agent.p1 = Your client is legally required to remain within Making Tax Digital if their taxable
