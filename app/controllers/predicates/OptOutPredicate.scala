@@ -28,8 +28,7 @@ import play.api.mvc.Results.Redirect
 import play.api.mvc.{ActionRefiner, MessagesControllerComponents, Result}
 import services.VatSubscriptionService
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.HeaderCarrierConverter
-
+import uk.gov.hmrc.play.http.HeaderCarrierConverter
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
@@ -44,7 +43,7 @@ class OptOutPredicate @Inject()(vatSubscriptionService: VatSubscriptionService,
   override implicit val executionContext: ExecutionContext = mcc.executionContext
   override def refine[A](request: User[A]): Future[Either[Result, User[A]]] = {
 
-    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
+    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
     implicit val req: User[A] = request
 
     val getSessionAttribute: String => Option[String] = req.session.get
