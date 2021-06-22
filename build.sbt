@@ -26,7 +26,7 @@ RoutesKeys.routesImport := Seq.empty
 val compile = Seq(
   "uk.gov.hmrc"             %% "govuk-template"             % "5.63.0-play-26",
   "uk.gov.hmrc"             %% "play-ui"                    % "9.0.0-play-26",
-  "uk.gov.hmrc"             %% "bootstrap-frontend-play-26" % "3.4.0",
+  "uk.gov.hmrc"             %% "bootstrap-frontend-play-26" % "5.4.0",
   "uk.gov.hmrc"             %% "play-language"              % "4.10.0-play-26",
   "com.typesafe.play"       %% "play-json-joda"             % "2.6.14",
   "uk.gov.hmrc"             %% "play-frontend-govuk"        % "0.64.0-play-26",
@@ -88,13 +88,13 @@ lazy val coverageSettings: Seq[Setting[_]] = {
 }
 
 lazy val microservice = Project(appName, file("."))
-  .enablePlugins(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin)
+  .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
   .disablePlugins(JUnitXmlReportPlugin)
   .settings(
     majorVersion                     := 0,
     libraryDependencies              ++= appDependencies,
     PlayKeys.playDefaultPort         := 9166,
-    scalaVersion                     := "2.12.11"
+    scalaVersion                     := "2.12.12"
   )
   .settings(publishingSettings: _*)
   .settings(coverageSettings: _*)
@@ -106,4 +106,3 @@ lazy val microservice = Project(appName, file("."))
     addTestReportOption(IntegrationTest, "int-test-reports"),
     testGrouping in IntegrationTest := oneForkedJvmPerTest((definedTests in IntegrationTest).value),
     parallelExecution in IntegrationTest := false)
-  .settings(resolvers += Resolver.jcenterRepo)
