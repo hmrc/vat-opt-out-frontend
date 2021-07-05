@@ -30,6 +30,7 @@
 
 @(pageTitle: String,
   showLogout: Boolean = true,
+  backLinkContent: Option[Html] = None,
   feedbackRedirect: Option[String] = None,
   feedbackOnSignOut: Boolean = true,
   user: Option[User[_]] = None)(contentBlock: Html)(
@@ -94,12 +95,15 @@
       En -> appConfig.routeToSwitchLanguage("english").url,
       Cy -> appConfig.routeToSwitchLanguage("cymraeg").url
   ))
+  @backLinkContent
 }
 
-@getHelpHtml = @{hmrcReportTechnicalIssue(ReportTechnicalIssue(
-  serviceCode = appConfig.contactFormServiceIdentifier,
-  language = if (messages.lang.language == "en") En else Cy
-))}
+@getHelpHtml = @{
+  hmrcReportTechnicalIssue(ReportTechnicalIssue(
+    serviceCode = appConfig.contactFormServiceIdentifier,
+    language = if (messages.lang.language == "en") En else Cy
+  ))
+}
 
 @fullContent = {
   <div id="content" class="govuk-!-margin-bottom-6">
