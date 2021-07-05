@@ -30,14 +30,13 @@ import play.api.test.FakeRequest
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.test.UnitSpec
 import views.html.errors.ErrorTemplate
-import uk.gov.hmrc.play.bootstrap.tools.Stubs.stubMessagesControllerComponents
 
 import scala.concurrent.ExecutionContext
 
 trait TestUtils extends UnitSpec with GuiceOneAppPerSuite {
 
   lazy val injector: Injector = app.injector
-  implicit lazy val mcc: MessagesControllerComponents = stubMessagesControllerComponents()
+  implicit lazy val mcc: MessagesControllerComponents = injector.instanceOf[MessagesControllerComponents]
   implicit lazy val messagesApi: MessagesApi = injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = MessagesImpl(Lang("en-GB"), messagesApi)
   implicit val hc: HeaderCarrier = HeaderCarrier()
