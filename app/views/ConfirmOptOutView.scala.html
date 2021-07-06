@@ -25,16 +25,19 @@
   if(user.isAgent) ".agent" else ""
 }
 
-@mainTemplate(
-  pageTitle = messages(s"confirmOptOut.title$agentMessageAffix"),
-  feedbackRedirect = Some(routes.ConfirmOptOutController.show().url),
-  user = Some(user)
-) {
-
+@backLink = {
   @govukBackLink(BackLink(
     content = Text(messages("base.back")),
     href = routes.TurnoverThresholdController.show().url
   ))
+}
+
+@mainTemplate(
+  pageTitle = messages(s"confirmOptOut.title$agentMessageAffix"),
+  backLinkContent = Some(backLink),
+  feedbackRedirect = Some(routes.ConfirmOptOutController.show().url),
+  user = Some(user)
+) {
 
   <h1 class="govuk-heading-l">@messages(s"confirmOptOut.title$agentMessageAffix")</h1>
 
@@ -45,7 +48,6 @@
     <li>@messages(s"confirmOptOut.bullet2$agentMessageAffix")</li>
     <li>@messages(s"confirmOptOut.bullet3$agentMessageAffix",appConfig.thresholdAmount)</li>
   </ul>
-
 
   @govukWarningText(WarningText(
     iconFallbackText = messages("base.warning"),

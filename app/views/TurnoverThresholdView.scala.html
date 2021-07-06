@@ -28,20 +28,23 @@
 
 @(model: TurnoverThresholdViewModel)(implicit messages: Messages, appConfig: AppConfig, user: User[_])
 
+@backLink = {
+  @govukBackLink(BackLink(
+    content = Text(messages("base.back")),
+    href = model.backLinkHref
+  ))
+}
+
 @mainTemplate(
   pageTitle = if(model.turnoverThresholdForm.errors.nonEmpty) {
       messages("base.errorPrefix", messages(model.titleMessage))
     } else {
       messages(model.titleMessage)
     },
+  backLinkContent = Some(backLink),
   feedbackRedirect = Some(routes.TurnoverThresholdController.show().url),
   user = Some(user)
 ) {
-
-  @govukBackLink(BackLink(
-    content = Text(messages("base.back")),
-    href = model.backLinkHref
-  ))
 
   @if(model.turnoverThresholdForm.hasErrors) {
     @govukErrorSummary(ErrorSummary(

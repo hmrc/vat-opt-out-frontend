@@ -34,17 +34,17 @@
   user = Some(user)
 ) {
 
-    @govukPanel(Panel(
-        title = Text(messages(s"confirmation.title$agentMessageAffix"))
-    ))
+  @govukPanel(Panel(
+    title = Text(messages(s"confirmation.title$agentMessageAffix"))
+  ))
 
   <h2 class="govuk-heading-m">@messages("confirmation.subheading")</h2>
 
   <p class="govuk-body">@messages(s"confirmation.cancel$agentMessageAffix")</p>
 
-    @if(user.isAgent) {
-        <p class="govuk-body">@messages(s"confirmation.inform$agentMessageAffix")</p>
-    }
+  @if(user.isAgent) {
+    <p class="govuk-body">@messages(s"confirmation.inform$agentMessageAffix")</p>
+  }
 
   <p class="govuk-body">@messages(s"confirmation.useSoftware$agentMessageAffix")</p>
 
@@ -62,15 +62,15 @@
 
   <p class="govuk-body">@messages(s"confirmation.aboveThreshold$agentMessageAffix", appConfig.thresholdAmount)</p>
 
-        @if(user.isAgent){
-            @govukButton(Button(
-            href = Some(linkOut),
-            content = Text(messages("confirmation.agentBack"))
-            ))
-        } else {
-            @govukButton(Button(
-            href = Some(linkOut),
-            content = Text(messages("confirmation.finish"))
-            ))
-        }
+  @if(user.isAgent){
+    @govukButton(Button(
+      href = Some(linkOut),
+      content = Text(messages("confirmation.agentBack"))
+    ))
+  } else {
+    @govukButton(Button(
+      href = Some(linkOut),
+      content = Text(messages("confirmation.finish"))
+    ))
+  }
 }
