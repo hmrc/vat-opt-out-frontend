@@ -15,18 +15,18 @@
  *@
 
 @import config.AppConfig
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.header.Header
-@import uk.gov.hmrc.play.views.html.layouts.TrackingConsentSnippet
-@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcStandardFooter
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers._
+@import uk.gov.hmrc.hmrcfrontend.views.config.StandardBetaBanner
 
 @this(govukLayout: GovukLayout,
       govukHeader: GovukHeader,
-      govukPhaseBanner: GovukPhaseBanner,
+      standardBetaBanner: StandardBetaBanner,
       hmrcReportTechnicalIssue: HmrcReportTechnicalIssue,
       hmrcLanguageSelect: HmrcLanguageSelect,
       hmrcTimeoutDialog: HmrcTimeoutDialog,
-      trackingConsentSnippet: TrackingConsentSnippet,
-      hmrcStandardFooter: HmrcStandardFooter)
+      hmrcStandardHeader: HmrcStandardHeader,
+      hmrcStandardFooter: HmrcStandardFooter,
+      hmrcTrackingConsentSnippet: HmrcTrackingConsentSnippet)
 
 @(pageTitle: String,
   showLogout: Boolean = true,
@@ -37,7 +37,7 @@
   implicit messages: Messages, appConfig: AppConfig, request: Request[_])
 
 @head = {
-  @trackingConsentSnippet(nonce = None)
+  @hmrcTrackingConsentSnippet()
 
   <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/application.css")' media="screen">
 
@@ -58,37 +58,20 @@
 }
 
 @header = @{
-  govukHeader(Header(
-    serviceName = Some(dynamicNavTitle),
-    serviceUrl = Some("#"),
-    navigation =
-      if(showLogout)
-        Some(Seq(HeaderNavigation(
-          text = Some(messages("base.signOut")),
-          href = Some(routes.SignOutController.signOut(feedbackOnSignOut).url)
-        )))
-      else None
-    ))
+    hmrcStandardHeader(
+        serviceName = Some(dynamicNavTitle),
+        signOutUrl = if(showLogout)
+    Some(routes.SignOutController.signOut(feedbackOnSignOut).url) else None,
+        phaseBanner = Some(standardBetaBanner(url = appConfig.feedbackUrl(request.uri))),
+        displayHmrcBanner = false
+    )
 }
 
 @dynamicNavTitle = @{
   user.fold(messages("base.vatNavTitle"))(u => if(u.isAgent) messages("base.agentNavTitle") else messages("base.bta"))
 }
 
-@afterFeedbackRedirect = @{feedbackRedirect.getOrElse(appConfig.manageVatSubscriptionServicePath)}
-
-@phaseBannerContent = {
-  @messages("betaBanner.newService")
-  <a id="beta-banner-feedback" class="govuk-link" href="@appConfig.feedbackUrl(afterFeedbackRedirect)">
-    @messages("betaBanner.feedback")</a>
-  @messages("betaBanner.feedbackImprove")
-}
-
 @beforeContentHtml = {
-  @govukPhaseBanner(PhaseBanner(
-    tag = Some(Tag(content = Text(messages("betaBanner.phaseName")))),
-    content = HtmlContent(phaseBannerContent)
-  ))
   @hmrcLanguageSelect(LanguageSelect(
     language = if (messages.lang.language == "en") En else Cy,
     languageLinks =
