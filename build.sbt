@@ -25,7 +25,6 @@ RoutesKeys.routesImport := Seq.empty
 
 val compile = Seq(
   "uk.gov.hmrc"             %% "govuk-template"             % "5.69.0-play-26",
-  "uk.gov.hmrc"             %% "play-ui"                    % "9.6.0-play-26",
   "uk.gov.hmrc"             %% "bootstrap-frontend-play-26" % "5.7.0",
   "uk.gov.hmrc"             %% "play-language"              % "5.1.0-play-26",
   "com.typesafe.play"       %% "play-json-joda"             % "2.6.14",
